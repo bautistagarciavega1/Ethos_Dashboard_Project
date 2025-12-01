@@ -7,7 +7,7 @@ import Notes from "./components/Notes";
 export default function Home() {
   return (
     <main className="main">
-      <h1>Equipamientos Tecnológicos Dashboard</h1>
+      <h1>Equipamiento Tecnológico Dashboard</h1>
 
       {/* Top section: Progress + Budget + Risks */}
       <section className="grid-3">
