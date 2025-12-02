@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Dashboard from "./components/Dashboard";
 
-export default function Home() {
+export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   const programs = [
@@ -31,52 +31,36 @@ export default function Home() {
 
   return (
     <div className="min-h-screen p-10 bg-gray-50">
-      
-      {/* Título principal */}
+
       <h1 className="text-center text-4xl font-bold mb-2 text-blue-900">
         Universidad de Buenos Aires
       </h1>
+
       <p className="text-center text-gray-600 mb-10">
         Programas y líneas de donación disponibles dentro de la UBA.
       </p>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
 
-        {/* PANEL IZQUIERDO – Tarjetas */}
+        {/* IZQUIERDA: TARJETAS */}
         <div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-
             {programs.map((p) => (
               <div
                 key={p.id}
-                className={`bg-white shadow-md rounded-2xl p-6 text-center transition-all
-                ${selected === p.id ? "scale-105 border border-blue-500" : "hover:scale-[1.02]"}
-              `}
+                className="program-card"
               >
-                {/* Botón rojo Ayudar */}
-                <button className="bg-red-500 text-white font-semibold px-5 py-1 rounded-lg mb-3">
-                  Ayudar ▼
-                </button>
+                <button className="program-button-red">Ayudar ▼</button>
 
-                {/* Imagen (puedes reemplazar el src) */}
-                <div className="mb-4 flex justify-center">
-                  <div className="w-20 h-20 bg-gray-200 rounded-lg"></div>
-                </div>
+                <div className="program-img-placeholder"></div>
 
-                {/* Título */}
-                <h3 className="text-lg font-semibold mb-2">
-                  {p.title}
-                </h3>
+                <h3 className="program-title">{p.title}</h3>
 
-                {/* Descripción */}
-                <p className="text-gray-600 text-sm mb-4">
-                  {p.desc}
-                </p>
+                <p className="program-desc">{p.desc}</p>
 
-                {/* Botón Información */}
                 <button
                   onClick={() => setSelected(p.id)}
-                  className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                  className="program-button-info"
                 >
                   Información
                 </button>
@@ -85,7 +69,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* PANEL DERECHO – Dashboard al seleccionar */}
+        {/* DERECHA: DASHBOARD */}
         <div>
           {selected ? (
             <div className="p-4 bg-white shadow-xl rounded-2xl">
@@ -102,36 +86,3 @@ export default function Home() {
     </div>
   );
 }
-
-<div className="program-grid">
-
-  {programs.map((p) => (
-    <div
-      key={p.id}
-      className="program-card"
-    >
-      {/* BOTÓN AYUDAR */}
-      <button className="program-button-red">
-        Ayudar ▼
-      </button>
-
-      {/* IMAGEN */}
-      <div className="program-img-placeholder"></div>
-
-      {/* TÍTULO */}
-      <h3 className="program-title">{p.title}</h3>
-
-      {/* DESCRIPCIÓN */}
-      <p className="program-desc">{p.desc}</p>
-
-      {/* BOTÓN INFORMACIÓN */}
-      <button
-        className="program-button-info"
-        onClick={() => setSelected(p.id)}
-      >
-        Información
-      </button>
-    </div>
-  ))}
-
-</div>
