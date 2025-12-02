@@ -80,3 +80,15 @@ body {
 .notes-list li {
   margin-bottom: 0.4rem;
 }
+
+/* Bullet list — cuadrados más corporativos */
+ul {
+  list-style-type: square;
+  padding-left: 1.2rem;
+}
+
+li::marker {
+  color: #111;
+  font-size: 14px;
+  font-weight: bold;
+}
