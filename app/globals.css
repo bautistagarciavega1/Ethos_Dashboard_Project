@@ -161,15 +161,52 @@ li::marker {
   gap: 32px;
 }
 
+/* ---- BANNER SUPERIOR (SELECCIÓN) ---- */
 .program-selected-banner {
   width: 100%;
   background: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 22px 24px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   animation: fade-down 0.4s ease-out;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
 }
 
+/* ---- BOTONES DEL BANNER ---- */
+
+.program-button-back,
+.program-button-help {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  border: none;
+}
+
+/* VOLVER — Azul */
+.program-button-back {
+  background: #2563eb;
+  color: white;
+}
+.program-button-back:hover {
+  background: #1e4fcf;
+}
+
+/* AYUDAR — Rojo */
+.program-button-help {
+  background: #ef4444;
+  color: white;
+}
+.program-button-help:hover {
+  background: #d73131;
+}
+
+/* ANIMACIÓN */
 @keyframes fade-down {
   from {
     opacity: 0;
