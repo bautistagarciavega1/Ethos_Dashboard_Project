@@ -40,15 +40,21 @@ export default function HomePage() {
         Programas y líneas de donación disponibles dentro de la UBA.
       </p>
 
+      {/* CONTENEDOR DE 2 COLUMNAS */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
 
-        {/* IZQUIERDA: TARJETAS */}
-        <div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {/* IZQUIERDA — TARJETAS */}
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+
             {programs.map((p) => (
               <div
                 key={p.id}
-                className="program-card"
+                className={`
+                  program-card transition-all duration-500
+                  ${selected && selected !== p.id ? "opacity-0 scale-90 pointer-events-none" : ""}
+                  ${selected === p.id ? "translate-x-[-120px]" : ""}
+                `}
               >
                 <button className="program-button-red">Ayudar ▼</button>
 
@@ -66,13 +72,14 @@ export default function HomePage() {
                 </button>
               </div>
             ))}
+
           </div>
         </div>
 
-        {/* DERECHA: DASHBOARD */}
-        <div>
+        {/* DERECHA — DASHBOARD */}
+        <div className="relative flex items-start justify-center mt-10">
           {selected ? (
-            <div className="p-4 bg-white shadow-xl rounded-2xl">
+            <div className="p-4 bg-white shadow-xl rounded-2xl animate-fade-in">
               <Dashboard />
             </div>
           ) : (
