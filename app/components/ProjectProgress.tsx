@@ -1,17 +1,28 @@
-'use client';
+"use client";
 
-import { Doughnut } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function ProjectProgress() {
+export default function ProjectProgress({
+  onTrack,
+  delayed,
+  concern,
+}: {
+  onTrack: number;
+  delayed: number;
+  concern: number;
+}) {
+  const total = onTrack + delayed + concern;
+  const percentage = Math.round((onTrack / total) * 100);
+
   const data = {
-    labels: ['On Track', 'Delayed', 'Concern'],
+    labels: ["On Track", "Delayed", "Concern"],
     datasets: [
       {
-        data: [25, 15, 10],
-        backgroundColor: ['#1e3a8a', '#ef4444', '#facc15'],
+        data: [onTrack, delayed, concern],
+        backgroundColor: ["#1e3a8a", "#ef4444", "#facc15"],
       },
     ],
   };
@@ -19,28 +30,22 @@ export default function ProjectProgress() {
   const options = {
     plugins: {
       legend: {
-        position: 'bottom' as const,
+        position: "bottom" as const,
       },
     },
-    cutout: '60%',
+    cutout: "60%",
   };
 
   return (
     <div>
-      <h2>Project Progress &amp; Task Status</h2>
-      <div style={{ maxWidth: 230, margin: '0 auto' }}>
+      <h2 className="text-xl font-semibold mb-3">Project Progress & Task Status</h2>
+
+      <div style={{ maxWidth: 230, margin: "0 auto" }}>
         <Doughnut data={data} options={options} />
       </div>
-      <p
-        style={{
-          textAlign: 'center',
-          fontSize: '2.5rem',
-          fontWeight: 700,
-          marginTop: '1rem',
-        }}
-      >
-        50%
-      </p>
+
+      <p className="text-center text-4xl font-bold mt-4">{percentage}%</p>
     </div>
   );
 }
+
