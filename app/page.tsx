@@ -6,7 +6,56 @@ import Dashboard from "./components/Dashboard";
 export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
 
-  // 🔹 Programas disponibles
+  // 🔷 DATOS REALES DEL DASHBOARD POR PROGRAMA
+  const projectData: any = {
+    becas: {
+      progress: 70,
+      budget: { planned: 20000, spent: 14000, remaining: 6000 },
+      risks: { high: 1, medium: 3, low: 4 },
+      timeline: [
+        { label: "Inicio", percent: 100 },
+        { label: "Proceso", percent: 70 },
+        { label: "Asignación", percent: 40 },
+        { label: "Entrega", percent: 20 },
+      ],
+      notes: ["Fondos asignados", "Falta entrega final"],
+    },
+
+    bibliotecas: {
+      progress: 50,
+      budget: { planned: 30000, spent: 12000, remaining: 18000 },
+      risks: { high: 2, medium: 1, low: 3 },
+      timeline: [
+        { label: "Compra libros", percent: 60 },
+        { label: "Refacción", percent: 40 },
+      ],
+      notes: ["En proceso de compra", "Planificación edilicia"],
+    },
+
+    equipamiento: {
+      progress: 80,
+      budget: { planned: 50000, spent: 42000, remaining: 8000 },
+      risks: { high: 0, medium: 2, low: 5 },
+      timeline: [
+        { label: "Compra", percent: 90 },
+        { label: "Instalación", percent: 70 },
+        { label: "Capacitación", percent: 40 },
+      ],
+      notes: ["Equipos comprados", "Capacitación pendiente"],
+    },
+
+    investigacion: {
+      progress: 40,
+      budget: { planned: 60000, spent: 20000, remaining: 40000 },
+      risks: { high: 3, medium: 2, low: 2 },
+      timeline: [
+        { label: "Convocatoria", percent: 100 },
+        { label: "Evaluación", percent: 30 },
+      ],
+      notes: ["Proyectos recibidos", "Falta evaluación final"],
+    },
+  };
+
   const programs = [
     {
       id: "becas",
@@ -30,81 +79,6 @@ export default function HomePage() {
     },
   ];
 
-  // 🔹 Datos reales para cada programa
-  const projectData: any = {
-    becas: {
-      progress: { onTrack: 25, delayed: 15, concern: 10 },
-      budget: { planned: 30000, spent: 12000, remaining: 18000 },
-      risks: { high: 3, medium: 5, low: 7 },
-      timeline: [
-        { label: "Analysis", months: 1 },
-        { label: "Design", months: 2 },
-        { label: "Development", months: 3 },
-        { label: "Testing", months: 1 },
-        { label: "Implement", months: 2 },
-      ],
-      notes: [
-        "Revisión de becarios aprobada.",
-        "Fondos asignados correctamente.",
-        "Sin riesgos significativos.",
-      ],
-    },
-
-    bibliotecas: {
-      progress: { onTrack: 40, delayed: 10, concern: 5 },
-      budget: { planned: 50000, spent: 30000, remaining: 20000 },
-      risks: { high: 1, medium: 3, low: 10 },
-      timeline: [
-        { label: "Analysis", months: 1 },
-        { label: "Design", months: 1 },
-        { label: "Development", months: 2 },
-        { label: "Testing", months: 1 },
-        { label: "Implement", months: 3 },
-      ],
-      notes: [
-        "Avance estable.",
-        "Pendiente compra de libros.",
-        "Sin bloqueos críticos.",
-      ],
-    },
-
-    equipamiento: {
-      progress: { onTrack: 20, delayed: 20, concern: 10 },
-      budget: { planned: 80000, spent: 50000, remaining: 30000 },
-      risks: { high: 4, medium: 6, low: 5 },
-      timeline: [
-        { label: "Analysis", months: 2 },
-        { label: "Design", months: 2 },
-        { label: "Development", months: 3 },
-        { label: "Testing", months: 2 },
-        { label: "Implement", months: 3 },
-      ],
-      notes: [
-        "Compra de notebooks en proceso.",
-        "Falta aprobación de proveedores.",
-        "Riesgo de demoras logísticas.",
-      ],
-    },
-
-    investigacion: {
-      progress: { onTrack: 45, delayed: 5, concern: 3 },
-      budget: { planned: 60000, spent: 20000, remaining: 40000 },
-      risks: { high: 1, medium: 2, low: 8 },
-      timeline: [
-        { label: "Analysis", months: 1 },
-        { label: "Design", months: 2 },
-        { label: "Development", months: 3 },
-        { label: "Testing", months: 1 },
-        { label: "Implement", months: 2 },
-      ],
-      notes: [
-        "Fondos bien asignados.",
-        "Sin bloqueos.",
-        "Actualización mensual recomendada.",
-      ],
-    },
-  };
-
   const selectedProgram = programs.find((p) => p.id === selected);
 
   return (
@@ -120,14 +94,14 @@ export default function HomePage() {
 
       <div className="w-full">
 
-        {/* Si hay un programa seleccionado → Banner + Dashboard */}
+        {/* 🔷 SI HAY SELECCIÓN — MOSTRAR PANEL + DASHBOARD */}
         {selected && (
           <div className="w-full flex flex-col gap-6 animate-fade-in">
 
-            {/* 🔷 BANNER SUPERIOR */}
+            {/* BANNER SUPERIOR */}
             <div className="program-selected-banner flex items-center justify-between">
 
-              {/* Botón Volver */}
+              {/* VOLVER */}
               <button
                 onClick={() => setSelected(null)}
                 className="program-button-back"
@@ -135,7 +109,7 @@ export default function HomePage() {
                 ← Volver
               </button>
 
-              {/* Título y descripción */}
+              {/* TÍTULO */}
               <div className="text-center flex-1 px-6">
                 <h2 className="text-2xl font-semibold text-gray-800">
                   {selectedProgram?.title}
@@ -145,27 +119,26 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Botón AYUDAR */}
+              {/* AYUDAR */}
               <button className="program-button-help">
                 Ayudar ▼
               </button>
             </div>
 
-            {/* 📊 Dashboard */}
+            {/* DASHBOARD */}
             <div className="w-full bg-white shadow-xl rounded-2xl p-6">
               <Dashboard data={projectData[selected]} />
             </div>
-
           </div>
         )}
 
-        {/* Si NO hay selección → Mostrar tarjetas */}
+        {/* 🔷 SI NO HAY SELECCIÓN — MOSTRAR TARJETAS */}
         {!selected && (
           <div className="flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
               {programs.map((p) => (
-                <div key={p.id} className="program-card transition-all duration-500">
+                <div key={p.id} className="program-card">
                   <button className="program-button-red">Ayudar ▼</button>
 
                   <div className="program-img-placeholder"></div>
