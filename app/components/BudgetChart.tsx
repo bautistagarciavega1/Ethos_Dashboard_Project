@@ -3,51 +3,49 @@
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  BarElement,
   CategoryScale,
   LinearScale,
+  BarElement,
   Tooltip,
   Legend,
 } from "chart.js";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-export default function BudgetChart() {
+export default function BudgetChart({ budget }: any) {
+
+  const chart = budget ?? {
+    labels: ["Resources", "Software"],
+    planned: [20000, 15000],
+    spent: [12000, 9000],
+    remaining: [8000, 6000],
+  };
+
   const data = {
-    labels: ["Resources", "Hardware", "Software", "Others"],
+    labels: chart.labels,
     datasets: [
       {
         label: "Planned",
-        data: [20000, 10000, 30000, 10000],
-        backgroundColor: "#1e40af",
+        data: chart.planned,
+        backgroundColor: "#1e3a8a",
       },
       {
         label: "Spent",
-        data: [10000, 5000, 10000, 6000],
+        data: chart.spent,
         backgroundColor: "#ef4444",
       },
       {
         label: "Remaining",
-        data: [10000, 5000, 20000, 4000],
+        data: chart.remaining,
         backgroundColor: "#3b82f6",
       },
     ],
   };
 
-  const options = {
-    plugins: {
-      legend: {
-        position: "bottom" as const,
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-  };
-
   return (
-    <div style={{ height: 270 }}>
+    <div>
       <h2>Budget</h2>
-      <Bar data={data} options={options} />
+      <Bar data={data} />
     </div>
   );
 }
