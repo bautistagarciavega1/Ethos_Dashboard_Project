@@ -200,11 +200,11 @@ li::marker {
 
 /* AYUDAR — Rojo */
 .program-button-help {
-  background: #ef4444;
+  background: #ef4444; /* rojo principal */
   color: white;
 }
 .program-button-help:hover {
-  background: #d73131;
+  background: #d73131; /* rojo más fuerte en hover */
 }
 
 /* ANIMACIÓN */
