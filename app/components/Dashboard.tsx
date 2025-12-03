@@ -6,7 +6,7 @@ import RiskIssuesChart from "./RiskIssuesChart";
 import Timeline from "./Timeline";
 import Notes from "./Notes";
 
-export default function Dashboard({ data }) {
+export default function Dashboard({ data }: any) {
   return (
     <div className="space-y-10">
       {/* TOP: progreso + presupuesto + riesgos */}
