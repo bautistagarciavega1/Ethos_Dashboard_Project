@@ -5,7 +5,10 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function ProjectProgress() {
+export default function ProjectProgress({ value }: any) {
+
+  const progressValue = value ?? 50;
+
   const data = {
     labels: ['On Track', 'Delayed', 'Concern'],
     datasets: [
@@ -39,7 +42,7 @@ export default function ProjectProgress() {
           marginTop: '1rem',
         }}
       >
-        50%
+        {progressValue}%
       </p>
     </div>
   );
