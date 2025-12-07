@@ -16,7 +16,13 @@ export const projectData = {
       "Evaluación socioeconómica en curso",
       "Aprobación final estimada en 3 semanas",
     ],
-    timeline: [2, 4, 6, 8, 10],
+    timeline: [
+      { label: "Inicio", months: 2 },
+      { label: "Evaluación", months: 4 },
+      { label: "Asignación", months: 6 },
+      { label: "Entrega", months: 8 },
+      { label: "Cierre", months: 10 },
+    ],
   },
 
   bibliotecas: {
@@ -36,7 +42,13 @@ export const projectData = {
       "Compra de libros en proceso",
       "Nuevo sistema digital implementado",
     ],
-    timeline: [1, 3, 7, 9, 11],
+    timeline: [
+      { label: "Planificación", months: 1 },
+      { label: "Renovación", months: 3 },
+      { label: "Compra libros", months: 7 },
+      { label: "Implementación digital", months: 9 },
+      { label: "Cierre", months: 11 },
+    ],
   },
 
   equipamiento: {
@@ -56,7 +68,13 @@ export const projectData = {
       "Instalación de software completada",
       "Capacitación docente en curso",
     ],
-    timeline: [3, 5, 6, 9, 12],
+    timeline: [
+      { label: "Compra", months: 3 },
+      { label: "Instalación", months: 5 },
+      { label: "Capacitación", months: 6 },
+      { label: "Despliegue", months: 9 },
+      { label: "Cierre", months: 12 },
+    ],
   },
 
   investigacion: {
@@ -76,6 +94,12 @@ export const projectData = {
       "Laboratorios actualizando instrumental",
       "Convocatoria nueva abre en junio",
     ],
-    timeline: [1, 2, 5, 7, 10],
+    timeline: [
+      { label: "Convocatoria", months: 1 },
+      { label: "Revisión", months: 2 },
+      { label: "Evaluación", months: 5 },
+      { label: "Ejecución", months: 7 },
+      { label: "Informe final", months: 10 },
+    ],
   },
 };
