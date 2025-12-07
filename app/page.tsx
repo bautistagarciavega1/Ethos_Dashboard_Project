@@ -6,7 +6,7 @@ import Dashboard from "./components/Dashboard";
 export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
 
-  // 🔷 DATOS DEL DASHBOARD POR PROGRAMA — AHORA CORRECTOS (months)
+  // 🔷 DATOS DEL DASHBOARD POR PROGRAMA
   const projectData: any = {
     becas: {
       progress: 70,
@@ -58,26 +58,31 @@ export default function HomePage() {
     },
   };
 
+  // 🔷 PROGRAMAS + IMÁGENES
   const programs = [
     {
       id: "becas",
       title: "Becas para estudiantes",
       desc: "Apoyo económico para alumnos en situación de vulnerabilidad.",
+      img: "https://img.icons8.com/ios-filled/100/1A2A6C/graduation-cap.png",
     },
     {
       id: "bibliotecas",
       title: "Bibliotecas y materiales",
       desc: "Compra de libros, renovación de espacios y acceso a recursos.",
+      img: "https://img.icons8.com/ios-filled/100/1A2A6C/books.png",
     },
     {
       id: "equipamiento",
       title: "Equipamiento tecnológico",
       desc: "Computadoras, software y aulas digitales para mejorar el aprendizaje.",
+      img: "https://img.icons8.com/ios-filled/100/1A2A6C/laptop.png",
     },
     {
       id: "investigacion",
       title: "Fondo de investigación",
       desc: "Apoyo a proyectos científicos en diversas facultades.",
+      img: "https://img.icons8.com/ios-filled/100/1A2A6C/microscope.png",
     },
   ];
 
@@ -100,10 +105,7 @@ export default function HomePage() {
         {selected && (
           <div className="w-full flex flex-col gap-6 animate-fade-in">
 
-            {/* BANNER SUPERIOR */}
             <div className="program-selected-banner flex items-center justify-between">
-
-              {/* VOLVER */}
               <button
                 onClick={() => setSelected(null)}
                 className="program-button-back"
@@ -111,23 +113,16 @@ export default function HomePage() {
                 ← Volver
               </button>
 
-              {/* TÍTULO */}
               <div className="text-center flex-1 px-6">
                 <h2 className="text-2xl font-semibold text-gray-800">
                   {selectedProgram?.title}
                 </h2>
-                <p className="text-gray-600 mt-1">
-                  {selectedProgram?.desc}
-                </p>
+                <p className="text-gray-600 mt-1">{selectedProgram?.desc}</p>
               </div>
 
-              {/* AYUDAR */}
-              <button className="program-button-help">
-                Ayudar ▼
-              </button>
+              <button className="program-button-help">Ayudar ▼</button>
             </div>
 
-            {/* DASHBOARD */}
             <div className="w-full bg-white shadow-xl rounded-2xl p-6">
               <Dashboard data={projectData[selected]} />
             </div>
@@ -141,9 +136,15 @@ export default function HomePage() {
 
               {programs.map((p) => (
                 <div key={p.id} className="program-card">
+                  
                   <button className="program-button-red">Ayudar ▼</button>
 
-                  <div className="program-img-placeholder"></div>
+                  {/* 🔵 IMAGEN AGREGADA */}
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    className="w-full h-32 object-contain mb-4 mt-2"
+                  />
 
                   <h3 className="program-title">{p.title}</h3>
                   <p className="program-desc">{p.desc}</p>
