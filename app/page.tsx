@@ -89,13 +89,17 @@ export default function HomePage() {
   return (
     <div className="min-h-screen p-10 bg-gray-50">
 
-      {/* 🔵 BOTÓN VOLVER FIJO – SOLO CUANDO NO HAY SELECCIÓN */}
-{!selected && (
-  <button onClick={() => window.history.back()} className="back-button">
-    ← Volver
-  </button>
-)}
+      {/* BOTÓN VOLVER — SOLO CUANDO NO HAY SELECCIÓN */}
+      {!selected && (
+        <button
+          onClick={() => window.history.back()}
+          className="back-button"
+        >
+          ← Volver
+        </button>
+      )}
 
+      {/* TÍTULO PRINCIPAL */}
       <h1 className="text-center text-4xl font-bold mb-2 text-blue-900">
         Universidad de Buenos Aires
       </h1>
@@ -106,26 +110,43 @@ export default function HomePage() {
 
       <div className="w-full">
 
-        {/* 🔷 SI HAY SELECCIÓN */}
+        {/* SI HAY PROGRAMA SELECCIONADO */}
         {selected && (
           <div className="w-full flex flex-col gap-6 animate-fade-in">
 
-            <div className="program-selected-banner flex items-center justify-between">
-
-              <button onClick={() => setSelected(null)} className="program-button-back">
+            {/* 🔥 BANNER RESPONSIVO ARREGLADO */}
+            <div
+              className="
+                program-selected-banner 
+                flex flex-col gap-4 
+                sm:flex-row sm:items-center sm:justify-between
+              "
+            >
+              {/* VOLVER */}
+              <button
+                onClick={() => setSelected(null)}
+                className="program-button-back"
+              >
                 ← Volver
               </button>
 
+              {/* TÍTULO */}
               <div className="text-center flex-1 px-6">
                 <h2 className="text-2xl font-semibold text-gray-800">
                   {selectedProgram?.title}
                 </h2>
-                <p className="text-gray-600 mt-1">{selectedProgram?.desc}</p>
+                <p className="text-gray-600 mt-1">
+                  {selectedProgram?.desc}
+                </p>
               </div>
 
-              <button className="program-button-help">Ayudar ▼</button>
+              {/* AYUDAR */}
+              <button className="program-button-help self-center sm:self-auto">
+                Ayudar ▼
+              </button>
             </div>
 
+            {/* DASHBOARD */}
             <div className="w-full bg-white shadow-xl rounded-2xl p-6">
               <Dashboard data={projectData[selected]} />
             </div>
@@ -133,10 +154,9 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* 🔷 SI NO HAY SELECCIÓN */}
+        {/* SI NO HAY SELECCIÓN MUESTRA LAS TARJETAS */}
         {!selected && (
           <div className="flex justify-center">
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
               {programs.map((p) => (
