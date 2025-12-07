@@ -2,18 +2,22 @@
 
 export default function Timeline({ points }: any) {
   
-  // Datos con valores diferentes para cada paso (puedes editarlos)
+  // Datos con valores y colores (podés editar los valores)
   const timeline = points ?? [
-    { label: "Inicio del Proyecto", color: "#3b82f6", value: 20 },
-    { label: "Primer Hito", color: "#10b981", value: 40 },
-    { label: "Etapa Intermedia", color: "#f59e0b", value: 70 },
-    { label: "Cierre", color: "#ef4444", value: 90 }
+    { label: "Inicio", color: "#3b82f6", value: 20 },
+    { label: "Proceso", color: "#3b82f6", value: 45 },
+    { label: "Asignación", color: "#3b82f6", value: 70 },
+    { label: "Entrega", color: "#3b82f6", value: 95 }
   ];
 
   return (
     <div>
       {timeline.map((step: any, i: number) => (
-        <div key={i} className="timeline-step" style={{ marginBottom: "12px" }}>
+        <div 
+          key={i} 
+          className="timeline-step" 
+          style={{ marginBottom: "14px" }}
+        >
           
           {/* Etiqueta */}
           <span
@@ -23,8 +27,9 @@ export default function Timeline({ points }: any) {
               padding: "6px 12px",
               borderRadius: "6px",
               display: "inline-block",
-              color: "white",
-              fontWeight: "bold"
+              color: "white",  // 🔥 Texto visible siempre
+              fontWeight: "bold",
+              fontSize: "14px"
             }}
           >
             {step.label}
@@ -35,7 +40,7 @@ export default function Timeline({ points }: any) {
             className="timeline-bar"
             style={{
               height: "8px",
-              width: `${step.value}%`,
+              width: `${step.value}%`,   // ← Largo dinámico
               backgroundColor: step.color,
               marginTop: "6px",
               borderRadius: "4px",
