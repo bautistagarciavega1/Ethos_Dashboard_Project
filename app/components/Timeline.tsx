@@ -2,22 +2,21 @@
 
 type Step = {
   label: string;
-  months: number; // tiempo en meses
+  months: number;
+  color?: string;
 };
 
 export default function Timeline({ points }: { points: Step[] }) {
-  // Colores armoniosos rotativos
   const colors = ["#3B82F6", "#10B981", "#F59E0B"];
 
-  // Para calcular porcentaje de la barra
   const maxMonths = Math.max(...points.map(p => p.months));
 
   return (
     <div style={{ padding: "10px" }}>
       {points.map((step, i) => {
         const color = colors[i % colors.length];
-        
-        // largo proporcional (máximo = 100%)
+
+        // ancho proporcional a la cantidad de meses
         const width = (step.months / maxMonths) * 100;
 
         return (
@@ -35,7 +34,7 @@ export default function Timeline({ points }: { points: Step[] }) {
                 marginBottom: "6px",
               }}
             >
-              {step.label} — +{step.months} months
+              {step.label} — +{step.months} month{step.months > 1 ? "s" : ""}
             </span>
 
             {/* BARRA */}
