@@ -203,3 +203,26 @@ li::marker {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ---- BOTÓN VOLVER (Formato Ethos, fijo arriba a la izquierda) ---- */
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: #1A2A6C; /* var(--azul-profundo) convertido a hex directo */
+  background: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  font-weight: bold;
+  z-index: 9999;
+  transition: 0.15s ease;
+}
+
+.back-button:hover {
+  background: #f0f0f0;
+  transform: scale(1.03);
+}
