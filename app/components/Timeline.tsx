@@ -2,32 +2,29 @@
 
 export default function Timeline({ points }: any) {
   
-  // Datos con valores y colores (podés editar los valores)
-  const timeline = points ?? [
-    { label: "Inicio", color: "#3b82f6", value: 20 },
-    { label: "Proceso", color: "#3b82f6", value: 45 },
-    { label: "Asignación", color: "#3b82f6", value: 70 },
-    { label: "Entrega", color: "#3b82f6", value: 95 }
-  ];
+  // Fallback correcto ✔
+  const timeline = Array.isArray(points) && points.length > 0 
+    ? points 
+    : [
+        { label: "Inicio", color: "#3b82f6", value: 20 },
+        { label: "Proceso", color: "#3b82f6", value: 45 },
+        { label: "Asignación", color: "#3b82f6", value: 70 },
+        { label: "Entrega", color: "#3b82f6", value: 95 }
+      ];
 
   return (
-    <div>
+    <div style={{ padding: "10px" }}>
       {timeline.map((step: any, i: number) => (
-        <div 
-          key={i} 
-          className="timeline-step" 
-          style={{ marginBottom: "14px" }}
-        >
+        <div key={i} style={{ marginBottom: "16px" }}>
           
           {/* Etiqueta */}
           <span
-            className="timeline-label"
             style={{
               backgroundColor: step.color,
               padding: "6px 12px",
               borderRadius: "6px",
               display: "inline-block",
-              color: "white",  // 🔥 Texto visible siempre
+              color: "white",
               fontWeight: "bold",
               fontSize: "14px"
             }}
@@ -37,17 +34,14 @@ export default function Timeline({ points }: any) {
 
           {/* Barra dinámica */}
           <div
-            className="timeline-bar"
             style={{
-              height: "8px",
-              width: `${step.value}%`,   // ← Largo dinámico
+              height: "10px",
+              width: `${step.value}%`,
               backgroundColor: step.color,
               marginTop: "6px",
-              borderRadius: "4px",
-              transition: "width 0.3s ease"
+              borderRadius: "4px"
             }}
           ></div>
-
         </div>
       ))}
     </div>
