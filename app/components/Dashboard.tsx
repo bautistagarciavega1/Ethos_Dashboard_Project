@@ -6,7 +6,7 @@ import RiskIssuesChart from "./RiskIssuesChart";
 import Timeline from "./Timeline";
 import Notes from "./Notes";
 
-export default function Dashboard() {
+export default function Dashboard({ data }: { data: any }) {
   
   // 🔷 DATOS FICTICIOS PARA MOSTRAR DE EJEMPLO
   const data = {
