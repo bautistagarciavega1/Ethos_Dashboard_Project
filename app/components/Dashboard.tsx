@@ -6,10 +6,37 @@ import RiskIssuesChart from "./RiskIssuesChart";
 import Timeline from "./Timeline";
 import Notes from "./Notes";
 
-export default function Dashboard({ data }: any) {
+export default function Dashboard() {
+
+  const data = {
+    progress: 70,
+    budget: {
+      planned: 100000,
+      spent: 45000,
+      remaining: 55000
+    },
+    risks: {
+      high: 1,
+      medium: 2,
+      low: 5
+    },
+    timeline: [
+      { label: "Inicio", color: "#3b82f6", value: 20 },
+      { label: "Proceso", color: "#3b82f6", value: 45 },
+      { label: "Asignación", color: "#3b82f6", value: 70 },
+      { label: "Entrega", color: "#3b82f6", value: 95 }
+    ],
+    notes: [
+      "Fondos asignados",
+      "Revisión interna pendiente",
+      "Entrega final pendiente"
+    ]
+  };
+
   return (
     <div className="space-y-10">
-      {/* TOP: progreso + presupuesto + riesgos */}
+      
+      {/* TOP */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="card">
           <ProjectProgress value={data.progress} />
@@ -24,7 +51,7 @@ export default function Dashboard({ data }: any) {
         </div>
       </div>
 
-      {/* BOTTOM: timeline + notas */}
+      {/* BOTTOM */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="card">
           <Timeline points={data.timeline} />
@@ -34,6 +61,7 @@ export default function Dashboard({ data }: any) {
           <Notes items={data.notes} />
         </div>
       </div>
+
     </div>
   );
 }
