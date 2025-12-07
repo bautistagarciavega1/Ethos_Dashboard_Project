@@ -2,53 +2,41 @@
 
 type TimelineStep = {
   label: string;
-  color: string;
   value: number;
+  color?: string;
 };
 
-export default function Timeline({ points }: { points?: TimelineStep[] }) {
-  
-  // Fallback si no vienen datos
-  const timeline: TimelineStep[] = Array.isArray(points) && points.length > 0 
-    ? points 
-    : [
-        { label: "Inicio", color: "#3b82f6", value: 20 },
-        { label: "Proceso", color: "#10b981", value: 45 },
-        { label: "Asignación", color: "#f59e0b", value: 70 },
-        { label: "Entrega", color: "#ef4444", value: 95 }
-      ];
+export default function Timeline({ points }: { points: TimelineStep[] }) {
 
   return (
     <div style={{ padding: "10px" }}>
-      {timeline.map((step: TimelineStep, index: number) => (
+      {points.map((step, index) => (
         <div key={index} style={{ marginBottom: "16px" }}>
           
-          {/* Etiqueta */}
+          {/* LABEL */}
           <span
             style={{
-              backgroundColor: step.color,
+              backgroundColor: step.color ?? "#3b82f6",
               padding: "6px 12px",
               borderRadius: "6px",
               display: "inline-block",
               color: "white",
               fontWeight: "bold",
-              fontSize: "14px"
             }}
           >
             {step.label}
           </span>
 
-          {/* Barra */}
+          {/* BAR */}
           <div
             style={{
               height: "10px",
               width: `${step.value}%`,
-              backgroundColor: step.color,
+              backgroundColor: step.color ?? "#3b82f6",
               marginTop: "6px",
-              borderRadius: "4px"
+              borderRadius: "4px",
             }}
           ></div>
-
         </div>
       ))}
     </div>
