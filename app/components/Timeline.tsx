@@ -15,13 +15,11 @@ export default function Timeline({ points }: { points: Step[] }) {
     <div style={{ padding: "10px" }}>
       {points.map((step, i) => {
         const color = colors[i % colors.length];
-
-        // ancho proporcional a la cantidad de meses
         const width = (step.months / maxMonths) * 100;
 
         return (
           <div key={i} style={{ marginBottom: "20px" }}>
-
+            
             {/* LABEL + MESES */}
             <span
               style={{
@@ -44,7 +42,7 @@ export default function Timeline({ points }: { points: Step[] }) {
                 width: `${width}%`,
                 backgroundColor: color,
                 borderRadius: "4px",
-                transition: "width 0.3s ease-in-out",
+                transition: "width 0.3s ease",
               }}
             ></div>
           </div>
