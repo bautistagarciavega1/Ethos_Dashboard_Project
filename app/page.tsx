@@ -87,20 +87,20 @@ export default function HomePage() {
   const selectedProgram = programs.find((p) => p.id === selected);
 
   return (
-    <div className="min-h-screen p-10 bg-gray-50">
+    <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
 
-      {/* BOTÓN VOLVER — SOLO CUANDO NO HAY SELECCIÓN */}
+      {/* ← BOTÓN VOLVER — FIX MOBILE */}
       {!selected && (
         <button
           onClick={() => window.history.back()}
-          className="back-button"
+          className="back-button mb-6 sm:mb-4"
         >
           ← Volver
         </button>
       )}
 
-      {/* TÍTULO PRINCIPAL */}
-      <h1 className="text-center text-4xl font-bold mb-2 text-blue-900">
+      {/* TITULAR */}
+      <h1 className="text-center text-3xl sm:text-4xl font-bold mb-3 text-blue-900">
         Universidad de Buenos Aires
       </h1>
 
@@ -110,19 +110,14 @@ export default function HomePage() {
 
       <div className="w-full">
 
-        {/* SI HAY PROGRAMA SELECCIONADO */}
+        {/* SI HAY UN PROGRAMA SELECCIONADO */}
         {selected && (
-          <div className="w-full flex flex-col gap-6 animate-fade-in">
+          <div className="flex flex-col gap-6 animate-fade-in">
 
-            {/* 🔥 BANNER RESPONSIVO ARREGLADO */}
-            <div
-              className="
-                program-selected-banner 
-                flex flex-col gap-4 
-                sm:flex-row sm:items-center sm:justify-between
-              "
-            >
-              {/* VOLVER */}
+            {/* 🔥 BANNER RESPONSIVE PERFECTO */}
+            <div className="program-selected-banner flex flex-col sm:flex-row items-center justify-between gap-4">
+
+              {/* Botón Volver */}
               <button
                 onClick={() => setSelected(null)}
                 className="program-button-back"
@@ -130,31 +125,29 @@ export default function HomePage() {
                 ← Volver
               </button>
 
-              {/* TÍTULO */}
-              <div className="text-center flex-1 px-6">
+              {/* Título */}
+              <div className="text-center flex-1 px-4">
                 <h2 className="text-2xl font-semibold text-gray-800">
                   {selectedProgram?.title}
                 </h2>
-                <p className="text-gray-600 mt-1">
-                  {selectedProgram?.desc}
-                </p>
+                <p className="text-gray-600 mt-1">{selectedProgram?.desc}</p>
               </div>
 
-              {/* AYUDAR */}
+              {/* Botón Ayudar */}
               <button className="program-button-help self-center sm:self-auto">
                 Ayudar ▼
               </button>
             </div>
 
             {/* DASHBOARD */}
-            <div className="w-full bg-white shadow-xl rounded-2xl p-6">
+            <div className="bg-white shadow-xl rounded-2xl p-6">
               <Dashboard data={projectData[selected]} />
             </div>
 
           </div>
         )}
 
-        {/* SI NO HAY SELECCIÓN MUESTRA LAS TARJETAS */}
+        {/* SI NO HAY SELECCIÓN → TARJETAS */}
         {!selected && (
           <div className="flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -167,7 +160,7 @@ export default function HomePage() {
                   <img
                     src={p.img}
                     alt={p.title}
-                    className="w-full h-32 object-contain mb-4 mt-2"
+                    className="w-full h-32 object-contain my-4"
                   />
 
                   <h3 className="program-title">{p.title}</h3>
