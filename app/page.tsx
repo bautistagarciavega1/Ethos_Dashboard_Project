@@ -106,6 +106,8 @@ export default function HomePage() {
           <div className="w-full flex flex-col gap-6 animate-fade-in">
 
             <div className="program-selected-banner flex items-center justify-between">
+              
+              {/* BOTÓN VOLVER */}
               <button
                 onClick={() => setSelected(null)}
                 className="program-button-back"
@@ -129,9 +131,18 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* 🔷 SI NO HAY SELECCIÓN — MOSTRAR TARJETAS */}
+        {/* 🔷 SI NO HAY SELECCIÓN — MOSTRAR TARJETAS + BOTÓN VOLVER */}
         {!selected && (
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center gap-6">
+            
+            {/* 🔵 BOTÓN VOLVER GENERAL */}
+            <button
+              onClick={() => window.history.back()}
+              className="program-button-back"
+            >
+              ← Volver
+            </button>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
               {programs.map((p) => (
@@ -139,7 +150,6 @@ export default function HomePage() {
                   
                   <button className="program-button-red">Ayudar ▼</button>
 
-                  {/* 🔵 IMAGEN AGREGADA */}
                   <img
                     src={p.img}
                     alt={p.title}
