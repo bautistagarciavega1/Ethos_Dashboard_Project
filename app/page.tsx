@@ -6,7 +6,6 @@ import Dashboard from "./components/Dashboard";
 export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
 
-  // 🔷 DATOS DEL DASHBOARD POR PROGRAMA
   const projectData: any = {
     becas: {
       progress: 70,
@@ -58,7 +57,6 @@ export default function HomePage() {
     },
   };
 
-  // 🔷 PROGRAMAS + IMÁGENES
   const programs = [
     {
       id: "becas",
@@ -91,6 +89,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen p-10 bg-gray-50">
 
+      {/* 🔵 BOTÓN VOLVER (arriba izquierda, vuelve una página atrás) */}
+      <button onClick={() => window.history.back()} className="back-button">
+        ← Volver
+      </button>
+
       <h1 className="text-center text-4xl font-bold mb-2 text-blue-900">
         Universidad de Buenos Aires
       </h1>
@@ -101,17 +104,13 @@ export default function HomePage() {
 
       <div className="w-full">
 
-        {/* 🔷 SI HAY SELECCIÓN — MOSTRAR PANEL + DASHBOARD */}
+        {/* 🔷 SI HAY SELECCIÓN */}
         {selected && (
           <div className="w-full flex flex-col gap-6 animate-fade-in">
 
             <div className="program-selected-banner flex items-center justify-between">
-              
-              {/* BOTÓN VOLVER */}
-              <button
-                onClick={() => setSelected(null)}
-                className="program-button-back"
-              >
+
+              <button onClick={() => setSelected(null)} className="program-button-back">
                 ← Volver
               </button>
 
@@ -128,26 +127,19 @@ export default function HomePage() {
             <div className="w-full bg-white shadow-xl rounded-2xl p-6">
               <Dashboard data={projectData[selected]} />
             </div>
+
           </div>
         )}
 
-        {/* 🔷 SI NO HAY SELECCIÓN — MOSTRAR TARJETAS + BOTÓN VOLVER */}
+        {/* 🔷 SI NO HAY SELECCIÓN */}
         {!selected && (
-          <div className="flex flex-col items-center gap-6">
-            
-            {/* 🔵 BOTÓN VOLVER GENERAL */}
-            <button
-              onClick={() => window.history.back()}
-              className="program-button-back"
-            >
-              ← Volver
-            </button>
+          <div className="flex justify-center">
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
               {programs.map((p) => (
                 <div key={p.id} className="program-card">
-                  
+
                   <button className="program-button-red">Ayudar ▼</button>
 
                   <img
@@ -165,6 +157,7 @@ export default function HomePage() {
                   >
                     Información
                   </button>
+
                 </div>
               ))}
 
