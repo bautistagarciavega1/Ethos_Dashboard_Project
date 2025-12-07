@@ -2,20 +2,18 @@
 
 export default function Timeline({ points }: any) {
   
-  // Fallback correcto ✔
-  const timeline = Array.isArray(points) && points.length > 0 
-    ? points 
-    : [
-        { label: "Inicio", color: "#3b82f6", value: 20 },
-        { label: "Proceso", color: "#3b82f6", value: 45 },
-        { label: "Asignación", color: "#3b82f6", value: 70 },
-        { label: "Entrega", color: "#3b82f6", value: 95 }
-      ];
+  // Si vienen puntos, se usan. Si no, fallback.
+  const timeline = points ?? [
+    { label: "Inicio", color: "#3b82f6", value: 25 },
+    { label: "Proceso", color: "#10b981", value: 50 },
+    { label: "Asignación", color: "#f59e0b", value: 75 },
+    { label: "Entrega", color: "#ef4444", value: 100 }
+  ];
 
   return (
     <div style={{ padding: "10px" }}>
-      {timeline.map((step: any, i: number) => (
-        <div key={i} style={{ marginBottom: "16px" }}>
+      {timeline.map((step, index) => (
+        <div key={index} style={{ marginBottom: "16px" }}>
           
           {/* Etiqueta */}
           <span
@@ -32,7 +30,7 @@ export default function Timeline({ points }: any) {
             {step.label}
           </span>
 
-          {/* Barra dinámica */}
+          {/* Barra */}
           <div
             style={{
               height: "10px",
@@ -42,6 +40,7 @@ export default function Timeline({ points }: any) {
               borderRadius: "4px"
             }}
           ></div>
+
         </div>
       ))}
     </div>
