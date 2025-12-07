@@ -13,13 +13,15 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function RiskIssuesChart({ risks }: any) {
+  
+  // Si vienen números → convertir automáticamente a arrays
+  const r = risks ?? {};
 
-  // Datos dinámicos o fallback si no se pasa nada
-  const riskData = risks ?? {
-    labels: ["Open Risks", "Open Issues"],
-    high: [6, 8],
-    medium: [5, 7],
-    low: [3, 4],
+  const riskData = {
+    labels: ["Risks / Issues"],
+    high: Array.isArray(r.high) ? r.high : [r.high ?? Math.floor(Math.random() * 5 + 1)],
+    medium: Array.isArray(r.medium) ? r.medium : [r.medium ?? Math.floor(Math.random() * 5 + 1)],
+    low: Array.isArray(r.low) ? r.low : [r.low ?? Math.floor(Math.random() * 5 + 1)],
   };
 
   const data = {
