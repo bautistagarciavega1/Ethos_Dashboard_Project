@@ -90,14 +90,16 @@ export default function HomePage() {
     <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
 
       {/* ← BOTÓN VOLVER — FIX MOBILE */}
-      {!selected && (
-        <button
-          onClick={() => window.history.back()}
-          className="back-button mb-6 sm:mb-4"
-        >
-          ← Volver
-        </button>
-      )}
+{!selected && (
+  <div className="mb-10 sm:mb-6">
+    <button
+      onClick={() => window.history.back()}
+      className="back-button"
+    >
+      ← Volver
+    </button>
+  </div>
+)}
 
       {/* TITULAR */}
       <h1 className="text-center text-3xl sm:text-4xl font-bold mb-3 text-blue-900">
