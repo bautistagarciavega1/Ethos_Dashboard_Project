@@ -89,10 +89,12 @@ export default function HomePage() {
   return (
     <div className="min-h-screen p-10 bg-gray-50">
 
-      {/* 🔵 BOTÓN VOLVER (arriba izquierda, vuelve una página atrás) */}
-      <button onClick={() => window.history.back()} className="back-button">
-        ← Volver
-      </button>
+      {/* 🔵 BOTÓN VOLVER FIJO – SOLO CUANDO NO HAY SELECCIÓN */}
+{!selected && (
+  <button onClick={() => window.history.back()} className="back-button">
+    ← Volver
+  </button>
+)}
 
       <h1 className="text-center text-4xl font-bold mb-2 text-blue-900">
         Universidad de Buenos Aires
