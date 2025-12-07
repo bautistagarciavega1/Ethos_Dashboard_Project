@@ -6,17 +6,17 @@ import Dashboard from "./components/Dashboard";
 export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
 
-  // 🔷 DATOS REALES DEL DASHBOARD POR PROGRAMA
+  // 🔷 DATOS DEL DASHBOARD POR PROGRAMA — AHORA CORRECTOS (months)
   const projectData: any = {
     becas: {
       progress: 70,
       budget: { planned: 20000, spent: 14000, remaining: 6000 },
       risks: { high: 1, medium: 3, low: 4 },
       timeline: [
-        { label: "Inicio", percent: 100 },
-        { label: "Proceso", percent: 70 },
-        { label: "Asignación", percent: 40 },
-        { label: "Entrega", percent: 20 },
+        { label: "Inicio", months: 2 },
+        { label: "Proceso", months: 4 },
+        { label: "Asignación", months: 6 },
+        { label: "Entrega", months: 8 },
       ],
       notes: ["Fondos asignados", "Falta entrega final"],
     },
@@ -26,8 +26,9 @@ export default function HomePage() {
       budget: { planned: 30000, spent: 12000, remaining: 18000 },
       risks: { high: 2, medium: 1, low: 3 },
       timeline: [
-        { label: "Compra libros", percent: 60 },
-        { label: "Refacción", percent: 40 },
+        { label: "Compra libros", months: 3 },
+        { label: "Refacción", months: 5 },
+        { label: "Digitalización", months: 7 },
       ],
       notes: ["En proceso de compra", "Planificación edilicia"],
     },
@@ -37,9 +38,9 @@ export default function HomePage() {
       budget: { planned: 50000, spent: 42000, remaining: 8000 },
       risks: { high: 0, medium: 2, low: 5 },
       timeline: [
-        { label: "Compra", percent: 90 },
-        { label: "Instalación", percent: 70 },
-        { label: "Capacitación", percent: 40 },
+        { label: "Compra", months: 3 },
+        { label: "Instalación", months: 5 },
+        { label: "Capacitación", months: 7 },
       ],
       notes: ["Equipos comprados", "Capacitación pendiente"],
     },
@@ -49,8 +50,9 @@ export default function HomePage() {
       budget: { planned: 60000, spent: 20000, remaining: 40000 },
       risks: { high: 3, medium: 2, low: 2 },
       timeline: [
-        { label: "Convocatoria", percent: 100 },
-        { label: "Evaluación", percent: 30 },
+        { label: "Convocatoria", months: 1 },
+        { label: "Evaluación", months: 3 },
+        { label: "Aprobación", months: 5 },
       ],
       notes: ["Proyectos recibidos", "Falta evaluación final"],
     },
