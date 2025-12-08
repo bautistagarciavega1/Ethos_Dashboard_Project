@@ -37,7 +37,7 @@ export default function Dashboard({
       {/* BOTTOM: timeline + notas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="card">
-          <Timeline points={data.timeline} lang={lang} />
+          <Timeline steps={data.timeline} lang={lang} />
         </div>
 
         <div className="card">
