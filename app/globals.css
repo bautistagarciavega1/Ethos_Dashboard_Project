@@ -294,3 +294,12 @@ li::marker {
 .flag-icon:hover {
   transform: scale(1.15);
 }
+
+.lang-switch {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  z-index: 3000;
+}
