@@ -7,11 +7,12 @@ export const projectData = {
       remaining: [4000, 4000, 3000],
     },
 
-    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Convocatoria abierta", status: "done" },
       { name: "Evaluación socioeconómica", status: "in-progress" },
       { name: "Asignación de becas", status: "pending" },
+      { name: "Notificación a candidatos", status: "pending" },
+      { name: "Entrega de becas", status: "pending" }
     ],
 
     notes: [
@@ -37,11 +38,12 @@ export const projectData = {
       remaining: [7000, 6000, 3000],
     },
 
-    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Renovación edilicia", status: "done" },
       { name: "Compra de libros", status: "in-progress" },
       { name: "Implementación digital", status: "pending" },
+      { name: "Capacitación en nuevo sistema", status: "pending" },
+      { name: "Apertura al público", status: "pending" }
     ],
 
     notes: [
@@ -67,11 +69,12 @@ export const projectData = {
       remaining: [4000, 3000, 2000],
     },
 
-    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Compra aprobada", status: "done" },
       { name: "Instalación de equipos", status: "in-progress" },
       { name: "Capacitación docente", status: "pending" },
+      { name: "Pruebas de funcionamiento", status: "pending" },
+      { name: "Despliegue final", status: "pending" }
     ],
 
     notes: [
@@ -97,11 +100,12 @@ export const projectData = {
       remaining: [15000, 11000, 6000],
     },
 
-    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Convocatoria abierta", status: "done" },
       { name: "Revisión de proyectos", status: "in-progress" },
       { name: "Aprobación final", status: "pending" },
+      { name: "Entrega de fondos", status: "pending" },
+      { name: "Informe final de resultados", status: "pending" }
     ],
 
     notes: [
