@@ -257,19 +257,20 @@ li::marker {
 /*     CLON ESPECIAL PARA PDF (versión final)   */
 /* -------------------------------------------- */
 
+/* CLON DESKTOP PARA PDF */
 #dashboard-clone {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: 1400px !important;
   height: auto !important;
-  opacity: 0 !important;
+  /* 👇 IMPORTANTE: SIN opacity: 0 */
   pointer-events: none !important;
   z-index: -1 !important;
   background: white !important;
 }
 
-/* Forzar diseño desktop dentro del clon */
+/* Grids forzados sólo dentro del clon */
 #dashboard-clone .md\:grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
@@ -277,4 +278,3 @@ li::marker {
 #dashboard-clone .lg\:grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
-
