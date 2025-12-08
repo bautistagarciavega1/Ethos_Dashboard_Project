@@ -27,46 +27,43 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     if (!original) return;
 
     // ================================
-    // 1) Crear CLON oculto
+    // 1) Crear CLON oculto con layout desktop
     // ================================
     const clone = original.cloneNode(true) as HTMLElement;
     clone.id = "dashboard-clone";
-    clone.style.position = "fixed";
-    clone.style.top = "0";
-    clone.style.left = "0";
-    clone.style.width = "1400px"; // Fuerza modo desktop
-    clone.style.background = "white";
-    clone.style.opacity = "0";
-    clone.style.pointerEvents = "none";
-    clone.style.zIndex = "-1";
-
-    document.body.appendChild(clone);
-
-    // Esperamos un poco para permitir que el clon se inserte bien
-    await new Promise((res) => setTimeout(res, 150));
 
     // ================================
-    // 2) COPIAR CANVAS DE LOS GRÁFICOS
+    // 1-B) Reemplazar cada canvas por un PNG real
     // ================================
-    const originalCanvas = original.querySelectorAll("canvas");
-    const cloneCanvas = clone.querySelectorAll("canvas");
+    const originalCanvases = original.querySelectorAll("canvas");
+    const cloneCanvases = clone.querySelectorAll("canvas");
 
-    originalCanvas.forEach((canvas, i) => {
-      const cloneCtx = cloneCanvas[i]?.getContext("2d");
-      if (cloneCtx) {
-        cloneCtx.drawImage(canvas, 0, 0);
+    originalCanvases.forEach((canvas, i) => {
+      const img = document.createElement("img");
+      img.src = canvas.toDataURL("image/png");
+      img.style.width = canvas.style.width || "100%";
+      img.style.height = canvas.style.height || "auto";
+
+      const cloneCanvas = cloneCanvases[i];
+      if (cloneCanvas?.parentNode) {
+        cloneCanvas.parentNode.replaceChild(img, cloneCanvas);
       }
     });
 
+    document.body.appendChild(clone);
+
+    // 🕐 esperar un poco para asegurar carga visual
+    await new Promise((res) => setTimeout(res, 300));
+
     // ================================
-    // 3) Capturar SOLO el clon
+    // 2) Capturar SOLO el clon
     // ================================
     const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       scrollY: 0,
       scrollX: 0,
-      windowWidth: 1400, // Fuerza layout desktop para PDF
+      windowWidth: 1400, // fuerza layout desktop
     });
 
     document.body.removeChild(clone);
@@ -103,6 +100,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     // TÍTULO
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(20);
+
     pdf.text(
       programName || (lang === "es" ? "Proyecto" : "Project"),
       pageWidth / 2,
@@ -116,9 +114,10 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     // DASHBOARD ESCALADO COMPLETO
     pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
-    // FOOTER
+    // FOOTER ETHOS
     pdf.setFontSize(10);
     pdf.setTextColor(120);
+
     pdf.text(
       "© 2025 Ethos — Trust the Journey. Track the Impact.",
       pageWidth / 2,
@@ -155,12 +154,15 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
 
         {/* GRÁFICOS SUPERIORES */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+
           <div className="card">
             <ProjectProgressChart data={data} lang={lang} />
           </div>
+
           <div className="card">
             <BudgetChart data={data} lang={lang} />
           </div>
+
           <div className="card">
             <RiskIssuesChart
               milestones={Array.isArray(data.milestones) ? data.milestones : []}
@@ -171,6 +173,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
 
         {/* TIMELINE + NOTES */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
           <div className="card">
             <Timeline
               steps={steps}
@@ -179,9 +182,11 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
               months={t.months}
             />
           </div>
+
           <div className="card">
             <Notes items={data.notes} lang={lang} translations={t.notes} />
           </div>
+
         </div>
 
       </div>
