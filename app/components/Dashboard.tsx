@@ -27,38 +27,46 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     if (!original) return;
 
     // ================================
-    // 1) Crear CLON oculto con layout desktop
+    // 1) Crear CLON oculto
     // ================================
     const clone = original.cloneNode(true) as HTMLElement;
     clone.id = "dashboard-clone";
-
-// ================================
-// 1-B) Copiar contenido de los canvas al clon
-// ================================
-const originalCanvas = original.querySelectorAll("canvas");
-const cloneCanvas = clone.querySelectorAll("canvas");
-
-originalCanvas.forEach((canvas, index) => {
-  const cloneCtx = cloneCanvas[index]?.getContext("2d");
-  if (cloneCtx) {
-    cloneCtx.drawImage(canvas, 0, 0);
-  }
-});
+    clone.style.position = "fixed";
+    clone.style.top = "0";
+    clone.style.left = "0";
+    clone.style.width = "1400px"; // Fuerza modo desktop
+    clone.style.background = "white";
+    clone.style.opacity = "0";
+    clone.style.pointerEvents = "none";
+    clone.style.zIndex = "-1";
 
     document.body.appendChild(clone);
 
-    // Debemos esperar a que Chart.js renderice dentro del clon
-    await new Promise((res) => setTimeout(res, 300));
+    // Esperamos un poco para permitir que el clon se inserte bien
+    await new Promise((res) => setTimeout(res, 150));
 
     // ================================
-    // 2) Capturar SOLO el clon
+    // 2) COPIAR CANVAS DE LOS GRÁFICOS
+    // ================================
+    const originalCanvas = original.querySelectorAll("canvas");
+    const cloneCanvas = clone.querySelectorAll("canvas");
+
+    originalCanvas.forEach((canvas, i) => {
+      const cloneCtx = cloneCanvas[i]?.getContext("2d");
+      if (cloneCtx) {
+        cloneCtx.drawImage(canvas, 0, 0);
+      }
+    });
+
+    // ================================
+    // 3) Capturar SOLO el clon
     // ================================
     const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       scrollY: 0,
       scrollX: 0,
-      windowWidth: 1400, // Fuerza layout desktop
+      windowWidth: 1400, // Fuerza layout desktop para PDF
     });
 
     document.body.removeChild(clone);
@@ -73,7 +81,6 @@ originalCanvas.forEach((canvas, index) => {
     const bottomMargin = 20;
     const maxImageHeight = pageHeight - topMargin - bottomMargin;
 
-    // ratio correcto
     const imgRatio = canvas.height / canvas.width;
 
     let renderWidth = pageWidth;
@@ -96,7 +103,6 @@ originalCanvas.forEach((canvas, index) => {
     // TÍTULO
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(20);
-
     pdf.text(
       programName || (lang === "es" ? "Proyecto" : "Project"),
       pageWidth / 2,
@@ -110,10 +116,9 @@ originalCanvas.forEach((canvas, index) => {
     // DASHBOARD ESCALADO COMPLETO
     pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
-    // FOOTER ETHOS
+    // FOOTER
     pdf.setFontSize(10);
     pdf.setTextColor(120);
-
     pdf.text(
       "© 2025 Ethos — Trust the Journey. Track the Impact.",
       pageWidth / 2,
@@ -124,7 +129,9 @@ originalCanvas.forEach((canvas, index) => {
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
+  // -----------------------------
   // TIMELINE NORMALIZADO
+  // -----------------------------
   const steps = data.timeline.map((item: any) => ({
     label: item.label || item.title || Object.keys(item)[0],
     months: item.months || item.value || item[Object.keys(item)[0]],
@@ -148,15 +155,12 @@ originalCanvas.forEach((canvas, index) => {
 
         {/* GRÁFICOS SUPERIORES */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-
           <div className="card">
             <ProjectProgressChart data={data} lang={lang} />
           </div>
-
           <div className="card">
             <BudgetChart data={data} lang={lang} />
           </div>
-
           <div className="card">
             <RiskIssuesChart
               milestones={Array.isArray(data.milestones) ? data.milestones : []}
@@ -167,7 +171,6 @@ originalCanvas.forEach((canvas, index) => {
 
         {/* TIMELINE + NOTES */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
           <div className="card">
             <Timeline
               steps={steps}
@@ -176,11 +179,9 @@ originalCanvas.forEach((canvas, index) => {
               months={t.months}
             />
           </div>
-
           <div className="card">
             <Notes items={data.notes} lang={lang} translations={t.notes} />
           </div>
-
         </div>
 
       </div>
