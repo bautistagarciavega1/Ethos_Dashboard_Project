@@ -15,10 +15,16 @@ interface DashboardProps {
 export default function Dashboard({ data, lang }: DashboardProps) {
   const t = translations[lang];
 
+  // 🔵 CONVERTIR TIMELINE A FORMATO COMPATIBLE
+  const steps = data.timeline.map((item: any) => ({
+    label: item.label || item.title || Object.keys(item)[0],
+    months: item.months || item.value || item[Object.keys(item)[0]]
+  }));
+
   return (
     <div className="grid grid-cols-1 gap-8">
 
-      {/* 🔵 FILA SUPERIOR: 3 GRÁFICOS HORIZONTALES */}
+      {/* GRÁFICOS HORIZONTALES */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <div className="card">
@@ -35,12 +41,12 @@ export default function Dashboard({ data, lang }: DashboardProps) {
 
       </div>
 
-      {/* 🔵 FILA INFERIOR: TIMELINE + NOTES EN 2 COLUMNAS */}
+      {/* TIMELINE + NOTES */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         <div className="card">
           <Timeline
-            steps={data.timeline}
+            steps={steps}
             lang={lang}
             translations={t.timeline}
             months={t.months}
