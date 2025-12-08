@@ -13,7 +13,7 @@ import jsPDF from "jspdf";
 interface DashboardProps {
   data: any;
   lang: "es" | "en";
-  programName?: string; // ← nombre del programa para mostrar en PDF
+  programName?: string;
 }
 
 export default function Dashboard({ data, lang, programName }: DashboardProps) {
@@ -24,7 +24,6 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
   // -----------------------------
   const handleDownloadPDF = async () => {
     const element = document.getElementById("dashboard-content");
-
     if (!element) return;
 
     const canvas = await html2canvas(element, {
@@ -38,11 +37,51 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-    pdf.setFontSize(18);
-    pdf.text(programName || "Proyecto", 10, 15);
+    // -------------------------------
+    // 1) LOGO ETHOS CENTRADO
+    // -------------------------------
+    const logoWidth = 140;
+    const logoHeight = 40;
+    const logoX = (pdfWidth - logoWidth) / 2;
 
-    pdf.addImage(imgData, "PNG", 0, 25, pdfWidth, imgHeight);
+    pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
 
+    // -------------------------------
+    // 2) TÍTULO DEL REPORTE
+    // -------------------------------
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(20);
+
+    pdf.text(
+      programName || (lang === "es" ? "Proyecto" : "Project"),
+      pdfWidth / 2,
+      60,
+      { align: "center" }
+    );
+
+    // Línea elegante
+    pdf.setLineWidth(0.5);
+    pdf.line(20, 68, pdfWidth - 20, 68);
+
+    // -------------------------------
+    // 3) INSERTAR DASHBOARD
+    // -------------------------------
+    pdf.addImage(imgData, "PNG", 0, 75, pdfWidth, imgHeight);
+
+    // -------------------------------
+    // 4) FOOTER CORPORATIVO ETHOS
+    // -------------------------------
+    pdf.setFontSize(10);
+    pdf.setTextColor(120);
+
+    pdf.text(
+      "© 2025 Ethos — Trust the Journey. Track the Impact.",
+      pdfWidth / 2,
+      pdf.internal.pageSize.getHeight() - 10,
+      { align: "center" }
+    );
+
+    // Guardar
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
@@ -56,15 +95,15 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
 
   return (
     <div className="w-full">
-      
+
       {/* ---------------- BOTÓN PDF ---------------- */}
       <div className="flex justify-end mb-4">
         <button
-  onClick={handleDownloadPDF}
-  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
->
-  📄 {t.pdfButton}
-</button>
+          onClick={handleDownloadPDF}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
+        >
+          📄 {t.pdfButton}
+        </button>
       </div>
 
       {/* ---------------- CONTENIDO A CAPTURAR ---------------- */}
@@ -107,6 +146,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
           </div>
 
         </div>
+
       </div>
     </div>
   );
