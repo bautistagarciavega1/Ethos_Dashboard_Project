@@ -5,48 +5,42 @@ interface Milestone {
   status: "done" | "in-progress" | "pending";
 }
 
-interface RiskIssuesChartProps {
+interface RiskProjectChartProps {
   milestones: Milestone[];
   lang: "es" | "en";
 }
 
-const statusIcons = {
-  done: "✔️",
-  "in-progress": "🟡",
-  pending: "⏳",
-};
-
-const labels = {
-  es: {
-    title: "Hitos del Proyecto",
-    done: "Completado",
-    "in-progress": "En progreso",
-    pending: "Pendiente",
-  },
-  en: {
-    title: "Project Milestones",
-    done: "Completed",
-    "in-progress": "In progress",
-    pending: "Pending",
-  },
-};
-
-export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartProps) {
-  const t = labels[lang];
-
+export default function RiskProjectChart({ milestones, lang }: RiskProjectChartProps) {
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">{t.title}</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        {lang === "es" ? "Hitos del Proyecto" : "Project Milestones"}
+      </h2>
 
-      <ul className="space-y-4">
+      <ul className="space-y-3">
         {milestones.map((m, i) => (
           <li key={i} className="flex items-center gap-3">
-            <span className="text-2xl">{statusIcons[m.status]}</span>
+            <span
+              className={
+                m.status === "done"
+                  ? "text-green-600"
+                  : m.status === "in-progress"
+                  ? "text-yellow-500"
+                  : "text-gray-400"
+              }
+            >
+              ●
+            </span>
 
-            <div>
-              <div className="font-semibold">{m.name}</div>
-              <div className="text-gray-600 text-sm">{t[m.status]}</div>
-            </div>
+            <span className="font-medium">{m.name}</span>
+
+            <span className="text-sm text-gray-500">
+              {m.status === "done"
+                ? lang === "es" ? "Completado" : "Completed"
+                : m.status === "in-progress"
+                ? lang === "es" ? "En progreso" : "In progress"
+                : lang === "es" ? "Pendiente" : "Pending"}
+            </span>
           </li>
         ))}
       </ul>
