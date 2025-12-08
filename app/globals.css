@@ -52,7 +52,6 @@ body {
                     TIMELINE — COLORES CORRECTOS
    ============================================================ */
 
-/* Etiquetas */
 .timeline-label {
   padding: 0.5rem 1.5rem;
   color: white;
@@ -62,18 +61,17 @@ body {
   display: inline-block;
 }
 
-/* Colores de etiqueta por paso */
 .timeline-step-0 .timeline-label {
-  background: #3b82f6 !important; /* azul */
+  background: #3b82f6 !important;
 }
 .timeline-step-1 .timeline-label {
-  background: #10b981 !important; /* verde */
+  background: #10b981 !important;
 }
 .timeline-step-2 .timeline-label {
-  background: #f59e0b !important; /* naranja */
+  background: #f59e0b !important;
 }
 .timeline-step-3 .timeline-label {
-  background: #6366f1 !important; /* violeta */
+  background: #6366f1 !important;
 }
 
 /* Barra */
@@ -83,18 +81,18 @@ body {
   margin-top: 6px;
 }
 
-/* Colores de barra por paso */
+/* Colores de barra */
 .timeline-step-0 .timeline-bar {
-  background: #93c5fd !important; /* azul claro */
+  background: #93c5fd !important;
 }
 .timeline-step-1 .timeline-bar {
-  background: #6ee7b7 !important; /* verde claro */
+  background: #6ee7b7 !important;
 }
 .timeline-step-2 .timeline-bar {
-  background: #fcd34d !important; /* amarillo claro */
+  background: #fcd34d !important;
 }
 .timeline-step-3 .timeline-bar {
-  background: #c7d2fe !important; /* violeta claro */
+  background: #c7d2fe !important;
 }
 
 /* Notes */
@@ -106,7 +104,6 @@ body {
   margin-bottom: 0.4rem;
 }
 
-/* Bullet corporativo */
 ul {
   list-style-type: square;
   padding-left: 1.2rem;
@@ -197,7 +194,6 @@ li::marker {
   box-shadow: 0 4px 18px rgba(0,0,0,0.10);
 }
 
-/* BOTÓN VOLVER (Azul) */
 .program-button-back {
   background: transparent !important;
   color: #2563eb !important;
@@ -211,7 +207,6 @@ li::marker {
   gap: 6px;
 }
 
-/* BOTÓN AYUDAR */
 .program-button-help {
   background: #ef4444 !important;
   color: white !important;
@@ -225,13 +220,12 @@ li::marker {
   gap: 6px;
 }
 
-/* Animación */
 @keyframes fade-down {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* BOTÓN VOLVER FIJO (ETHOS) */
+/* BOTÓN VOLVER FIJO */
 .back-button {
   position: fixed;
   top: 20px;
@@ -253,43 +247,29 @@ li::marker {
   transform: scale(1.03);
 }
 
-/* Optimizado para móviles: expande solo lo necesario sin deformar layout */
+/* SOLO PARA MOVIL CUANDO SE CAPTURA EL ORIGINAL */
 .capture-expand {
   height: auto !important;
-  min-height: unset !important;
   overflow: visible !important;
 }
 
-.force-desktop * {
-  font-size: 16px !important;
-}
+/* -------------------------------------------- */
+/*     CLON ESPECIAL PARA PDF (versión final)   */
+/* -------------------------------------------- */
 
-.force-desktop .grid {
-  display: grid !important;
-}
-
-.force-desktop .md\:grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-}
-
-.force-desktop .lg\:grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-}
-
-/* CLON DESKTOP PARA PDF — VERSIÓN FINAL */
 #dashboard-clone {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: 1400px !important;
   height: auto !important;
-  opacity: 0 !important; /* invisible pero renderizable */
+  opacity: 0 !important;
   pointer-events: none !important;
   z-index: -1 !important;
   background: white !important;
 }
 
-/* Ajustes específicos solo para grids dentro del clon */
+/* Forzar diseño desktop dentro del clon */
 #dashboard-clone .md\:grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
@@ -298,13 +278,7 @@ li::marker {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
 
-/* NO tocar tipografía porque rompe chart.js */
+/* Muy importante: no alterar tamaño de fuente real ni de Chart.js */
 #dashboard-clone * {
   font-size: inherit !important;
-}
-
-/* Para móviles cuando se captura el original (fallback) */
-.capture-expand {
-  height: auto !important;
-  overflow: visible !important;
 }
