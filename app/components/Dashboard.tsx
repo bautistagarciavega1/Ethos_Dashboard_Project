@@ -19,17 +19,16 @@ interface DashboardProps {
 export default function Dashboard({ data, lang, programName }: DashboardProps) {
   const t = translations[lang];
 
-  // --------------------------------------------------
-  // 📄 DESCARGAR PDF — COMPATIBLE CON CELULAR + PC
-  // --------------------------------------------------
+  // -----------------------------
+  // 📄 DESCARGAR PDF DEL DASHBOARD
+  // -----------------------------
   const handleDownloadPDF = async () => {
     const element = document.getElementById("dashboard-content");
     if (!element) return;
 
-    // Detectar si es móvil
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    // ⭐ Expandir solo en móviles para capturar todo
+    // En móvil: expandimos el contenido para que html2canvas vea TODO
     if (isMobile) {
       element.classList.add("capture-expand");
       await new Promise((resolve) => setTimeout(resolve, 200));
@@ -43,7 +42,6 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       windowHeight: isMobile ? element.scrollHeight : undefined,
     });
 
-    // Restaurar tamaño normal en móviles
     if (isMobile) {
       element.classList.remove("capture-expand");
     }
@@ -51,58 +49,80 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const imgData = canvas.toDataURL("image/png");
 
     const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // --------------------------------------------------
-    // 1) LOGO ETHOS
-    // --------------------------------------------------
+    // márgenes para que entren logo, título y footer
+    const topMargin = 75;
+    const bottomMargin = 20;
+    const maxImageHeight = pageHeight - topMargin - bottomMargin;
+
+    // relación de aspecto del canvas
+    const imgRatio = canvas.height / canvas.width;
+
+    // calculamos ancho y alto para que:
+    // - use TODO el ancho posible
+    // - pero NO se pase de la altura disponible
+    let renderWidth = pageWidth;
+    let renderHeight = renderWidth * imgRatio;
+
+    if (renderHeight > maxImageHeight) {
+      renderHeight = maxImageHeight;
+      renderWidth = renderHeight / imgRatio;
+    }
+
+    const imgX = (pageWidth - renderWidth) / 2; // centrado
+
+    // -------------------------------
+    // 1) LOGO ETHOS CENTRADO
+    // -------------------------------
     const logoWidth = 140;
     const logoHeight = 40;
-    const logoX = (pdfWidth - logoWidth) / 2;
+    const logoX = (pageWidth - logoWidth) / 2;
 
     pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
 
-    // --------------------------------------------------
+    // -------------------------------
     // 2) TÍTULO DEL REPORTE
-    // --------------------------------------------------
+    // -------------------------------
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(20);
 
     pdf.text(
       programName || (lang === "es" ? "Proyecto" : "Project"),
-      pdfWidth / 2,
+      pageWidth / 2,
       60,
       { align: "center" }
     );
 
+    // Línea elegante
     pdf.setLineWidth(0.5);
-    pdf.line(20, 68, pdfWidth - 20, 68);
+    pdf.line(20, 68, pageWidth - 20, 68);
 
-    // --------------------------------------------------
-    // 3) DASHBOARD COMPLETO
-    // --------------------------------------------------
-    pdf.addImage(imgData, "PNG", 0, 75, pdfWidth, imgHeight);
+    // -------------------------------
+    // 3) INSERTAR DASHBOARD ESCALADO COMPLETO
+    // -------------------------------
+    pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
-    // --------------------------------------------------
-    // 4) FOOTER ETHOS
-    // --------------------------------------------------
+    // -------------------------------
+    // 4) FOOTER CORPORATIVO ETHOS
+    // -------------------------------
     pdf.setFontSize(10);
     pdf.setTextColor(120);
 
     pdf.text(
       "© 2025 Ethos — Trust the Journey. Track the Impact.",
-      pdfWidth / 2,
-      pdf.internal.pageSize.getHeight() - 10,
+      pageWidth / 2,
+      pageHeight - 10,
       { align: "center" }
     );
 
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
-  // --------------------------------------------------
+  // -----------------------------
   // TIMELINE NORMALIZADO
-  // --------------------------------------------------
+  // -----------------------------
   const steps = data.timeline.map((item: any) => ({
     label: item.label || item.title || Object.keys(item)[0],
     months: item.months || item.value || item[Object.keys(item)[0]],
@@ -111,7 +131,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
   return (
     <div className="w-full">
 
-      {/* BOTÓN PDF */}
+      {/* ---------------- BOTÓN PDF ---------------- */}
       <div className="flex justify-end mb-4">
         <button
           onClick={handleDownloadPDF}
@@ -121,7 +141,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
-      {/* CONTENIDO A CAPTURAR */}
+      {/* ---------------- CONTENIDO A CAPTURAR ---------------- */}
       <div id="dashboard-content">
 
         {/* GRÁFICOS SUPERIORES */}
