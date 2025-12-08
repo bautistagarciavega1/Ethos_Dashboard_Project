@@ -1,36 +1,62 @@
 "use client";
 
-interface RiskChartProps {
+interface RiskIssuesChartProps {
+  data: { high: number; medium: number; low: number };
   lang: "es" | "en";
 }
 
-export default function RiskIssuesChart({ lang }: RiskChartProps) {
-  const t = {
+export default function RiskIssuesChart({ data, lang }: RiskIssuesChartProps) {
+  const labels = {
     es: { title: "Riesgos e Incidencias", high: "Alto", medium: "Medio", low: "Bajo" },
-    en: { title: "Risks & Issues", high: "High", medium: "Medium", low: "Low" }
-  }[lang];
+    en: { title: "Risks & Issues", high: "High", medium: "Medium", low: "Low" },
+  };
 
-  const risks = { high: 1, medium: 4, low: 2 };
+  const t = labels[lang];
+
+  // Valores para las barras
+  const max = Math.max(data.high, data.medium, data.low, 1);
+
+  const barHeight = (value: number) => `${(value / max) * 140}px`;
 
   return (
     <div className="card">
       <h2 className="text-xl font-semibold mb-4">{t.title}</h2>
 
-      <div className="space-y-4">
-        <div>
-          <p>{t.high}: {risks.high}</p>
-          <div className="h-3 bg-red-400 rounded" style={{ width: risks.high * 35 }}></div>
+      <div className="flex items-end justify-around h-40 mt-4">
+
+        {/* HIGH */}
+        <div className="flex flex-col items-center">
+          <div
+            className="w-10 bg-red-400 rounded-t transition-all"
+            style={{ height: barHeight(data.high) }}
+          />
+          <span className="mt-2 text-sm font-medium">
+            {t.high}: {data.high}
+          </span>
         </div>
 
-        <div>
-          <p>{t.medium}: {risks.medium}</p>
-          <div className="h-3 bg-yellow-400 rounded" style={{ width: risks.medium * 35 }}></div>
+        {/* MEDIUM */}
+        <div className="flex flex-col items-center">
+          <div
+            className="w-10 bg-yellow-400 rounded-t transition-all"
+            style={{ height: barHeight(data.medium) }}
+          />
+          <span className="mt-2 text-sm font-medium">
+            {t.medium}: {data.medium}
+          </span>
         </div>
 
-        <div>
-          <p>{t.low}: {risks.low}</p>
-          <div className="h-3 bg-blue-400 rounded" style={{ width: risks.low * 35 }}></div>
+        {/* LOW */}
+        <div className="flex flex-col items-center">
+          <div
+            className="w-10 bg-blue-400 rounded-t transition-all"
+            style={{ height: barHeight(data.low) }}
+          />
+          <span className="mt-2 text-sm font-medium">
+            {t.low}: {data.low}
+          </span>
         </div>
+
       </div>
     </div>
   );
