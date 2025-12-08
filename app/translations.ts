@@ -26,7 +26,24 @@ export const translations = {
       "Planificación edilicia": "Planificación edilicia",
     },
 
-    // 🔵 NUEVO → Texto del botón PDF
+    // 🔵 NUEVO → Traducciones de hitos (names)
+    milestones: {
+      "Convocatoria abierta": "Convocatoria abierta",
+      "Evaluación socioeconómica": "Evaluación socioeconómica",
+      "Asignación de becas": "Asignación de becas",
+
+      "Renovación edilicia": "Renovación edilicia",
+      "Compra de libros": "Compra de libros",
+      "Implementación digital": "Implementación digital",
+
+      "Compra aprobada": "Compra aprobada",
+      "Instalación de equipos": "Instalación de equipos",
+      "Capacitación docente": "Capacitación docente",
+
+      "Revisión de proyectos": "Revisión de proyectos",
+      "Aprobación final": "Aprobación final",
+    },
+
     pdfButton: "Descargar PDF",
   },
 
@@ -57,7 +74,24 @@ export const translations = {
       "Planificación edilicia": "Infrastructure planning",
     },
 
-    // 🔵 NEW → PDF button text
+    // 🔵 NEW → Translations for milestone names
+    milestones: {
+      "Convocatoria abierta": "Open call",
+      "Evaluación socioeconómica": "Socioeconomic evaluation",
+      "Asignación de becas": "Scholarship allocation",
+
+      "Renovación edilicia": "Infrastructure renovation",
+      "Compra de libros": "Book purchasing",
+      "Implementación digital": "Digital implementation",
+
+      "Compra aprobada": "Purchase approved",
+      "Instalación de equipos": "Equipment installation",
+      "Capacitación docente": "Teacher training",
+
+      "Revisión de proyectos": "Project review",
+      "Aprobación final": "Final approval",
+    },
+
     pdfButton: "Download PDF",
   },
 };
