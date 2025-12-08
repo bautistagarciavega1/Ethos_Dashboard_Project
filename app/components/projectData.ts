@@ -7,7 +7,7 @@ export const projectData = {
       remaining: [4000, 4000, 3000],
     },
 
-    // 🔵 NUEVOS HITOS
+    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Convocatoria abierta", status: "done" },
       { name: "Evaluación socioeconómica", status: "in-progress" },
@@ -37,7 +37,7 @@ export const projectData = {
       remaining: [7000, 6000, 3000],
     },
 
-    // 🔵 NUEVOS HITOS
+    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Renovación edilicia", status: "done" },
       { name: "Compra de libros", status: "in-progress" },
@@ -67,7 +67,7 @@ export const projectData = {
       remaining: [4000, 3000, 2000],
     },
 
-    // 🔵 NUEVOS HITOS
+    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Compra aprobada", status: "done" },
       { name: "Instalación de equipos", status: "in-progress" },
@@ -97,7 +97,7 @@ export const projectData = {
       remaining: [15000, 11000, 6000],
     },
 
-    // 🔵 NUEVOS HITOS
+    // 🔵 HITOS DEL PROYECTO
     milestones: [
       { name: "Convocatoria abierta", status: "done" },
       { name: "Revisión de proyectos", status: "in-progress" },
