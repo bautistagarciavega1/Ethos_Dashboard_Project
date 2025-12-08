@@ -32,8 +32,17 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const clone = original.cloneNode(true) as HTMLElement;
     clone.id = "dashboard-clone";
 
-    clone.style.position = "absolute";
-    clone.style.top = "-99999px";  // fuera de pantalla
+#dashboard-clone {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 1400px !important;
+  height: auto !important;
+  opacity: 0 !important;  /* invisible pero renderizado */
+  pointer-events: none !important;
+  z-index: -1 !important; /* detrás de todo */
+  background: white !important;
+}
     clone.style.left = "0";
     clone.style.width = "1400px";  // forzamos desktop
     clone.classList.add("force-desktop");
