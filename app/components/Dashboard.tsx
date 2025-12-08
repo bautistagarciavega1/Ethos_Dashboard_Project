@@ -60,11 +60,11 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       {/* ---------------- BOTÓN PDF ---------------- */}
       <div className="flex justify-end mb-4">
         <button
-          onClick={handleDownloadPDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
-        >
-          📄 Descargar PDF
-        </button>
+  onClick={handleDownloadPDF}
+  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
+>
+  📄 {t.pdfButton}
+</button>
       </div>
 
       {/* ---------------- CONTENIDO A CAPTURAR ---------------- */}
