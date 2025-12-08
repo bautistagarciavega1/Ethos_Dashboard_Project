@@ -278,7 +278,3 @@ li::marker {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
 
-/* Muy importante: no alterar tamaño de fuente real ni de Chart.js */
-#dashboard-clone * {
-  font-size: inherit !important;
-}
