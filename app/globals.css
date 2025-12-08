@@ -2,22 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset */
+/* Global reset */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   background: #f3f4f6;
 }
 
-/* Layout */
+/* Main layout */
 .main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+}
+
+.main h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Grids */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
 }
 
 /* Cards */
@@ -28,25 +48,56 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* --- TIMELINE (ESTE BLOQUE ES EL IMPORTANTE) --- */
+/* ============================================================
+                    TIMELINE — COLORES CORRECTOS
+   ============================================================ */
 
+/* Etiquetas */
 .timeline-label {
-  padding: 8px 16px;
+  padding: 0.5rem 1.5rem;
   color: white;
-  border-radius: 8px;
+  border-radius: 999px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   display: inline-block;
-  margin-bottom: 6px;
 }
 
+/* Colores de etiqueta por paso */
+.timeline-step-0 .timeline-label {
+  background: #3b82f6 !important; /* azul */
+}
+.timeline-step-1 .timeline-label {
+  background: #10b981 !important; /* verde */
+}
+.timeline-step-2 .timeline-label {
+  background: #f59e0b !important; /* naranja */
+}
+.timeline-step-3 .timeline-label {
+  background: #6366f1 !important; /* violeta */
+}
+
+/* Barra */
 .timeline-bar {
-  height: 10px;
-  border-radius: 8px;
-  margin-top: 4px;
+  height: 10px !important;
+  border-radius: 10px !important;
+  margin-top: 6px;
 }
 
-/* --- NOTES --- */
+/* Colores de barra por paso */
+.timeline-step-0 .timeline-bar {
+  background: #93c5fd !important; /* azul claro */
+}
+.timeline-step-1 .timeline-bar {
+  background: #6ee7b7 !important; /* verde claro */
+}
+.timeline-step-2 .timeline-bar {
+  background: #fcd34d !important; /* amarillo claro */
+}
+.timeline-step-3 .timeline-bar {
+  background: #c7d2fe !important; /* violeta claro */
+}
+
+/* Notes */
 .notes-list {
   padding-left: 1.1rem;
 }
@@ -55,7 +106,7 @@ body {
   margin-bottom: 0.4rem;
 }
 
-/* Bullet */
+/* Bullet corporativo */
 ul {
   list-style-type: square;
   padding-left: 1.2rem;
@@ -66,22 +117,24 @@ li::marker {
   font-weight: bold;
 }
 
-/* --- HOME CARDS --- */
+/* ----------------------------------------- */
+/*             TARJETAS DEL HOME            */
+/* ----------------------------------------- */
+
 .program-card {
   background: #ffffff;
   border-radius: 16px;
   padding: 24px;
   text-align: center;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .program-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 8px 18px rgba(0,0,0,0.12);
 }
 
-/* Botones */
 .program-button-red {
   background: #ef4444;
   color: white;
@@ -102,14 +155,36 @@ li::marker {
   margin-top: 12px;
 }
 
-/* Grid */
+.program-img-placeholder {
+  width: 80px;
+  height: 80px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  margin: 0 auto 18px auto;
+}
+
+.program-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.program-desc {
+  color: #4b5563;
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+}
+
 .program-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 32px;
 }
 
-/* Banner */
+/* ----------------------------------------- */
+/*           BANNER SUPERIOR SELECTED        */
+/* ----------------------------------------- */
+
 .program-selected-banner {
   width: 100%;
   background: white;
@@ -118,10 +193,45 @@ li::marker {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  animation: fade-down 0.4s ease-out;
   box-shadow: 0 4px 18px rgba(0,0,0,0.10);
 }
 
-/* Back button */
+/* BOTÓN VOLVER (Azul) */
+.program-button-back {
+  background: transparent !important;
+  color: #2563eb !important;
+  border: 2px solid #2563eb !important;
+  padding: 6px 18px !important;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* BOTÓN AYUDAR */
+.program-button-help {
+  background: #ef4444 !important;
+  color: white !important;
+  border: 2px solid #ef4444 !important;
+  padding: 6px 18px !important;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Animación */
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* BOTÓN VOLVER FIJO (ETHOS) */
 .back-button {
   position: fixed;
   top: 20px;
