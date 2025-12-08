@@ -16,7 +16,7 @@ const statusIcons = {
   pending: "⏳",
 };
 
-const statusLabels = {
+const labels = {
   es: {
     title: "Hitos del Proyecto",
     done: "Completado",
@@ -32,7 +32,7 @@ const statusLabels = {
 };
 
 export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartProps) {
-  const t = statusLabels[lang];
+  const t = labels[lang];
 
   return (
     <div>
