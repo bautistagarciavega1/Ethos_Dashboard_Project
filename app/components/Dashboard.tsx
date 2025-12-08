@@ -1,49 +1,37 @@
 "use client";
 
-import ProjectProgress from "./ProjectProgress";
-import BudgetChart from "./BudgetChart";
-import RiskIssuesChart from "./RiskIssuesChart";
+import { useState } from "react";
 import Timeline from "./Timeline";
+import texts from "../texts";
 import Notes from "./Notes";
 
-/**
- * lang es opcional, por defecto "es".
- * Así, si no le pasás nada desde page.tsx, sigue todo en español.
- */
-export default function Dashboard({
-  data,
-  lang = "es",
-}: {
+interface DashboardProps {
   data: any;
-  lang?: "es" | "en";
-}) {
+  lang: "es" | "en";
+}
+
+export default function Dashboard({ data, lang }: DashboardProps) {
   return (
-    <div className="space-y-10">
-      {/* TOP: progreso + presupuesto + riesgos */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="card">
-          <ProjectProgress value={data.progress} />
-        </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        <div className="card">
-          <BudgetChart budget={data.budget} />
-        </div>
-
-        <div className="card">
-          <RiskIssuesChart risks={data.risks} />
-        </div>
+      {/* TIMELINE */}
+      <div className="card">
+        <Timeline
+          points={data.timeline}                    // ✅ CORRECTO
+          lang={lang}                               // idioma
+          translations={texts[lang].timeline}       // traducciones
+        />
       </div>
 
-      {/* BOTTOM: timeline + notas */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card">
-          <Timeline steps={data.timeline} lang={lang} />
-        </div>
-
-        <div className="card">
-          <Notes items={data.notes} lang={lang} />
-        </div>
+      {/* NOTES */}
+      <div className="card">
+        <Notes
+          items={data.notes}
+          lang={lang}
+          translations={texts[lang].notes}
+        />
       </div>
+
     </div>
   );
 }
