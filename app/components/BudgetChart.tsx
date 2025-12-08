@@ -52,7 +52,18 @@ export default function BudgetChart({ budget }: any) {
 
   return (
     <div>
-      <h2>Budget</h2>
+      {/* TÍTULO ALINEADO Y CON SEPARACIÓN IGUAL AL DE PROJECT PROGRESS */}
+      <h2
+        style={{
+          marginTop: "-6px",     // ← sube un poco el título
+          marginBottom: "12px",  // ← da aire antes del gráfico
+          fontSize: "1.25rem",
+          fontWeight: 600
+        }}
+      >
+        Budget
+      </h2>
+
       <Bar data={data} />
     </div>
   );
