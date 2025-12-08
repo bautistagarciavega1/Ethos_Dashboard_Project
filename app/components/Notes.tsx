@@ -1,29 +1,21 @@
-"use client";
-
-import { translations } from "../texts";
-
-type Lang = "es" | "en";
+import { translations } from "@/app/texts";
 
 interface NotesProps {
-  items?: string[];
-  lang?: Lang;
+  items: string[];
+  lang: "es" | "en";
 }
 
-export default function Notes({ items = [], lang = "es" }: NotesProps) {
+export default function Notes({ items, lang }: NotesProps) {
   const t = translations[lang];
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">
-        {lang === "en" ? "Notes" : "Notas"}
-      </h2>
+    <ul className="notes-list">
+      {items.map((note, i) => {
+        // TypeScript safe lookup
+        const translated = t.notes[note as keyof typeof t.notes] ?? note;
 
-      <ul className="notes-list">
-        {items.map((note, i) => {
-          const translated = t.notes[note] ?? note;
-          return <li key={i}>{translated}</li>;
-        })}
-      </ul>
-    </div>
+        return <li key={i}>{translated}</li>;
+      })}
+    </ul>
   );
 }
