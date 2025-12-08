@@ -2,7 +2,7 @@
 
 import Timeline from "./Timeline";
 import Notes from "./Notes";
-import ProjectProgressChart from "./ProjectProgressChart";
+import ProjectProgressChart from "./ProjectProgress";
 import BudgetChart from "./BudgetChart";
 import RiskIssuesChart from "./RiskIssuesChart";
 import { translations } from "../translations";
