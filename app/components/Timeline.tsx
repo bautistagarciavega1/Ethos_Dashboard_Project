@@ -1,7 +1,14 @@
 "use client";
 
-export default function Timeline({ points }: any) {
-  // fallback si no vienen datos
+type Lang = "es" | "en";
+
+interface TimelineProps {
+  points?: { label: string; months: number }[];
+  lang?: Lang;
+}
+
+export default function Timeline({ points, lang = "es" }: TimelineProps) {
+  // Fallback si no vienen datos
   const timeline = Array.isArray(points) && points.length > 0
     ? points
     : [
@@ -11,19 +18,22 @@ export default function Timeline({ points }: any) {
         { label: "Entrega", months: 8 },
       ];
 
-  // colores armónicos
+  // Colores armónicos
   const colors = ["#3b82f6", "#10b981", "#f59e0b", "#6366f1", "#ec4899"];
+
+  // Palabras para mes/meses según idioma
+  const singular = lang === "en" ? "month" : "mes";
+  const plural = lang === "en" ? "months" : "meses";
 
   return (
     <div style={{ padding: "15px" }}>
-      {timeline.map((step: any, i: number) => {
+      {timeline.map((step, i) => {
         const color = colors[i % colors.length];
-        const width = step.months * 10; // 10% por mes
+        const width = step.months * 10; // 10% por mes aprox
 
         return (
           <div key={i} style={{ marginBottom: "22px" }}>
-            
-            {/* ETIQUETA */}
+            {/* Etiqueta */}
             <span
               style={{
                 backgroundColor: color,
@@ -34,10 +44,11 @@ export default function Timeline({ points }: any) {
                 fontSize: "15px",
               }}
             >
-              {step.label} — +{step.months} month{step.months !== 1 ? "s" : ""}
+              {step.label} — +{step.months}{" "}
+              {step.months === 1 ? singular : plural}
             </span>
 
-            {/* BARRA */}
+            {/* Barra */}
             <div
               style={{
                 height: "10px",
