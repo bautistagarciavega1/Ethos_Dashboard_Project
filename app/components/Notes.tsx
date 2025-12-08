@@ -1,19 +1,14 @@
-import { translations } from "@/app/texts";
-
 interface NotesProps {
   items: string[];
   lang: "es" | "en";
+  translations: Record<string, string>;
 }
 
-export default function Notes({ items, lang }: NotesProps) {
-  const t = translations[lang];
-
+export default function Notes({ items, translations }: NotesProps) {
   return (
     <ul className="notes-list">
       {items.map((note, i) => {
-        // TypeScript safe lookup
-        const translated = t.notes[note as keyof typeof t.notes] ?? note;
-
+        const translated = translations[note] ?? note;
         return <li key={i}>{translated}</li>;
       })}
     </ul>
