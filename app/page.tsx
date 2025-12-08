@@ -65,7 +65,7 @@ export default function HomePage() {
   };
 
   // -------------------------------
-  // DATA DEL DASHBOARD — AHORA CON HITOS
+  // DATA DEL DASHBOARD (YA CON HITOS)
   // -------------------------------
   const projectData: any = {
     becas: {
@@ -84,7 +84,6 @@ export default function HomePage() {
         { label: "Asignación", months: 6 },
         { label: "Entrega", months: 8 },
       ],
-
       notes: ["Fondos asignados", "Falta entrega final"],
     },
 
@@ -103,7 +102,6 @@ export default function HomePage() {
         { label: "Refacción", months: 5 },
         { label: "Digitalización", months: 7 },
       ],
-
       notes: ["En proceso de compra", "Planificación edilicia"],
     },
 
@@ -122,7 +120,6 @@ export default function HomePage() {
         { label: "Instalación", months: 5 },
         { label: "Capacitación", months: 7 },
       ],
-
       notes: ["Equipos comprados", "Capacitación pendiente"],
     },
 
@@ -141,7 +138,6 @@ export default function HomePage() {
         { label: "Evaluación", months: 3 },
         { label: "Aprobación", months: 5 },
       ],
-
       notes: ["Proyectos recibidos", "Falta evaluación final"],
     },
   };
@@ -150,90 +146,99 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
-
-      {/* SELECTOR DE IDIOMA */}
+      
+      {/* Selector de idioma */}
       <div className="flex justify-end gap-3 mb-6">
         <button onClick={() => setLang("es")}>🇪🇸</button>
         <button onClick={() => setLang("en")}>🇺🇸</button>
       </div>
 
-      {/* BOTÓN VOLVER */}
+      {/* Botón volver */}
       {!selected && (
-        <div className="mb-10 sm:mb-6">
-          <button onClick={() => window.history.back()} className="back-button">
-            {texts[lang].volver}
-          </button>
-        </div>
+        <button onClick={() => window.history.back()} className="back-button mb-6">
+          {texts[lang].volver}
+        </button>
       )}
 
-      {/* TITULOS */}
-      <h1 className="text-center text-3xl sm:text-4xl font-bold mb-3 text-blue-900">
+      {/* Títulos */}
+      <h1 className="text-center text-4xl font-bold text-blue-900 mb-3">
         {texts[lang].titulo}
       </h1>
-
       <p className="text-center text-gray-600 mb-10">{texts[lang].subtitulo}</p>
 
-      {/* CONTENIDO */}
-      <div className="w-full">
-        {selected && (
-          <div className="flex flex-col gap-6 animate-fade-in">
-            
-            <div className="program-selected-banner flex flex-col sm:flex-row items-center justify-between gap-4">
-              <button onClick={() => setSelected(null)} className="program-button-back">
-                {texts[lang].volver}
+      {/* Contenido */}
+      {selected ? (
+        <div className="flex flex-col gap-6">
+          
+          {/* Banner del programa */}
+          <div className="program-selected-banner flex flex-col sm:flex-row items-center justify-between gap-4">
+
+            <button onClick={() => setSelected(null)} className="program-button-back">
+              {texts[lang].volver}
+            </button>
+
+            {/* Título + descripción — FIX APLICADO AQUÍ */}
+            <div className="text-center flex-1 px-4">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                {
+                  texts[lang].programs[
+                    selected as keyof typeof texts["es"]["programs"]
+                  ].title
+                }
+              </h2>
+
+              <p className="text-gray-600 mt-1">
+                {
+                  texts[lang].programs[
+                    selected as keyof typeof texts["es"]["programs"]
+                  ].desc
+                }
+              </p>
+            </div>
+
+            <button className="program-button-help">{texts[lang].ayudar}</button>
+          </div>
+
+          {/* Dashboard */}
+          <div className="bg-white shadow-xl rounded-2xl p-6">
+            <Dashboard data={projectData[selected]} lang={lang} />
+          </div>
+
+        </div>
+      ) : (
+        /* Tarjetas */
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+
+          {programs.map((id) => (
+            <div key={id} className="program-card">
+
+              <button className="program-button-red">{texts[lang].ayudar}</button>
+
+              <img
+                src={`https://img.icons8.com/ios-filled/100/1A2A6C/${
+                  id === "becas"
+                    ? "graduation-cap"
+                    : id === "bibliotecas"
+                    ? "books"
+                    : id === "equipamiento"
+                    ? "laptop"
+                    : "microscope"
+                }.png`}
+                className="w-full h-32 object-contain my-4"
+                alt={texts[lang].programs[id].title}
+              />
+
+              <h3 className="program-title">{texts[lang].programs[id].title}</h3>
+              <p className="program-desc">{texts[lang].programs[id].desc}</p>
+
+              <button onClick={() => setSelected(id)} className="program-button-info">
+                {texts[lang].informacion}
               </button>
-
-              <div className="text-center flex-1 px-4">
-                <h2 className="text-2xl font-semibold text-gray-800">
-                  {texts[lang].programs[selected].title}
-                </h2>
-                <p className="text-gray-600 mt-1">
-                  {texts[lang].programs[selected].desc}
-                </p>
-              </div>
-
-              <button className="program-button-help">{texts[lang].ayudar}</button>
             </div>
+          ))}
 
-            {/* DASHBOARD */}
-            <div className="bg-white shadow-xl rounded-2xl p-6">
-              <Dashboard data={projectData[selected]} lang={lang} />
-            </div>
-          </div>
-        )}
-
-        {/* TARJETAS */}
-        {!selected && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-            {programs.map((id) => (
-              <div key={id} className="program-card">
-                <button className="program-button-red">{texts[lang].ayudar}</button>
-
-                <img
-                  src={`https://img.icons8.com/ios-filled/100/1A2A6C/${
-                    id === "becas"
-                      ? "graduation-cap"
-                      : id === "bibliotecas"
-                      ? "books"
-                      : id === "equipamiento"
-                      ? "laptop"
-                      : "microscope"
-                  }.png`}
-                  className="w-full h-32 object-contain my-4"
-                  alt={texts[lang].programs[id].title}
-                />
-
-                <h3 className="program-title">{texts[lang].programs[id].title}</h3>
-                <p className="program-desc">{texts[lang].programs[id].desc}</p>
-
-                <button onClick={() => setSelected(id)} className="program-button-info">
-                  {texts[lang].informacion}
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
