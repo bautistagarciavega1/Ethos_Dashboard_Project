@@ -29,13 +29,13 @@ export default function ProjectProgress({ value }: any) {
   };
 
   return (
-    <div style={{ marginTop: "-12px" }}>  {/* ← sube todo el bloque */}
-      
+    <div>
+      {/* SOLO SE AJUSTA EL TÍTULO */}
       <h2
         style={{
-          marginTop: "-20px",   // ← sube el título
-          marginBottom: "-10px", // ← lo pega más al gráfico
-          fontSize: "1.2rem",
+          marginTop: "-6px",     // ← lo sube un poco
+          marginBottom: "12px",  // ← separa más del gráfico
+          fontSize: "1.25rem",
           fontWeight: 600
         }}
       >
@@ -56,7 +56,6 @@ export default function ProjectProgress({ value }: any) {
       >
         {progressValue}%
       </p>
-
     </div>
   );
 }
