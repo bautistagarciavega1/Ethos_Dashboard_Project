@@ -204,7 +204,7 @@ export default function HomePage() {
             <Dashboard 
   data={projectData[selected]} 
   lang={lang}
-  programName={texts[lang].programs[selected].title}
+  programName={texts[lang].programs[selected as keyof typeof texts["es"]["programs"]].title}
 />
           </div>
 
