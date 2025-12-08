@@ -1,78 +1,182 @@
-const projectData: any = {
-  becas: {
-    progress: 70,
-    budget: { planned: 20000, spent: 14000, remaining: 6000 },
+"use client";
 
-    // ✅ HITOS AGREGADOS
-    milestones: [
-      { name: "Convocatoria abierta", status: "done" },
-      { name: "Evaluación socioeconómica", status: "in-progress" },
-      { name: "Asignación de becas", status: "pending" },
-    ],
+import { useState } from "react";
+import Dashboard from "./components/Dashboard";
 
-    timeline: [
-      { label: "Inicio", months: 2 },
-      { label: "Proceso", months: 4 },
-      { label: "Asignación", months: 6 },
-      { label: "Entrega", months: 8 },
-    ],
-    notes: ["Fondos asignados", "Falta entrega final"],
-  },
+export default function HomePage() {
 
-  bibliotecas: {
-    progress: 50,
-    budget: { planned: 30000, spent: 12000, remaining: 18000 },
+  const [selected, setSelected] = useState<string | null>(null);
+  const [lang, setLang] = useState<"es" | "en">("es");
 
-    // ✅ HITOS AGREGADOS
-    milestones: [
-      { name: "Renovación edilicia", status: "done" },
-      { name: "Compra de libros", status: "in-progress" },
-      { name: "Implementación digital", status: "pending" },
-    ],
+  // -------------------------------
+  // TEXTOS MULTI-IDIOMA
+  // -------------------------------
+  const texts = {
+    es: {
+      volver: "← Volver",
+      titulo: "Universidad de Buenos Aires",
+      subtitulo: "Programas y líneas de donación disponibles dentro de la UBA.",
+      ayudar: "Ayudar ▼",
+      informacion: "Información",
+      programs: {
+        becas: { title: "Becas para estudiantes", desc: "Apoyo económico para alumnos en situación de vulnerabilidad." },
+        bibliotecas: { title: "Bibliotecas y materiales", desc: "Compra de libros, renovación de espacios y acceso a recursos." },
+        equipamiento: { title: "Equipamiento tecnológico", desc: "Computadoras, software y aulas digitales para mejorar el aprendizaje." },
+        investigacion: { title: "Fondo de investigación", desc: "Apoyo a proyectos científicos en diversas facultades." },
+      },
+    },
 
-    timeline: [
-      { label: "Compra libros", months: 3 },
-      { label: "Refacción", months: 5 },
-      { label: "Digitalización", months: 7 },
-    ],
-    notes: ["En proceso de compra", "Planificación edilicia"],
-  },
+    en: {
+      volver: "← Back",
+      titulo: "University of Buenos Aires",
+      subtitulo: "Donation programs and funding opportunities inside UBA.",
+      ayudar: "Donate ▼",
+      informacion: "Information",
+      programs: {
+        becas: { title: "Student Scholarships", desc: "Financial support for vulnerable students." },
+        bibliotecas: { title: "Libraries & Materials", desc: "Books, space renewal and access to learning resources." },
+        equipamiento: { title: "Technological Equipment", desc: "Computers, software and digital classrooms." },
+        investigacion: { title: "Research Fund", desc: "Support for scientific research across faculties." },
+      },
+    },
+  };
 
-  equipamiento: {
-    progress: 80,
-    budget: { planned: 50000, spent: 42000, remaining: 8000 },
+  // -------------------------------
+  // DATA DEL DASHBOARD
+  // -------------------------------
+  const projectData: any = {
+    becas: {
+      progress: 70,
+      budget: { planned: 20000, spent: 14000, remaining: 6000 },
 
-    // ✅ HITOS AGREGADOS
-    milestones: [
-      { name: "Compra aprobada", status: "done" },
-      { name: "Instalación de equipos", status: "in-progress" },
-      { name: "Capacitación docente", status: "pending" },
-    ],
+      milestones: [
+        { name: "Convocatoria abierta", status: "done" },
+        { name: "Evaluación socioeconómica", status: "in-progress" },
+        { name: "Asignación de becas", status: "pending" },
+      ],
 
-    timeline: [
-      { label: "Compra", months: 3 },
-      { label: "Instalación", months: 5 },
-      { label: "Capacitación", months: 7 },
-    ],
-    notes: ["Equipos comprados", "Capacitación pendiente"],
-  },
+      timeline: [
+        { label: "Inicio", months: 2 },
+        { label: "Proceso", months: 4 },
+        { label: "Asignación", months: 6 },
+        { label: "Entrega", months: 8 },
+      ],
 
-  investigacion: {
-    progress: 40,
-    budget: { planned: 60000, spent: 20000, remaining: 40000 },
+      notes: ["Fondos asignados", "Falta entrega final"],
+    },
 
-    // ✅ HITOS AGREGADOS
-    milestones: [
-      { name: "Convocatoria abierta", status: "done" },
-      { name: "Revisión de proyectos", status: "in-progress" },
-      { name: "Aprobación final", status: "pending" },
-    ],
+    bibliotecas: {
+      progress: 50,
+      budget: { planned: 30000, spent: 12000, remaining: 18000 },
 
-    timeline: [
-      { label: "Convocatoria", months: 1 },
-      { label: "Evaluación", months: 3 },
-      { label: "Aprobación", months: 5 },
-    ],
-    notes: ["Proyectos recibidos", "Falta evaluación final"],
-  },
-};
+      milestones: [
+        { name: "Renovación edilicia", status: "done" },
+        { name: "Compra de libros", status: "in-progress" },
+        { name: "Implementación digital", status: "pending" },
+      ],
+
+      timeline: [
+        { label: "Compra libros", months: 3 },
+        { label: "Refacción", months: 5 },
+        { label: "Digitalización", months: 7 },
+      ],
+
+      notes: ["En proceso de compra", "Planificación edilicia"],
+    },
+
+    equipamiento: {
+      progress: 80,
+      budget: { planned: 50000, spent: 42000, remaining: 8000 },
+
+      milestones: [
+        { name: "Compra aprobada", status: "done" },
+        { name: "Instalación de equipos", status: "in-progress" },
+        { name: "Capacitación docente", status: "pending" },
+      ],
+
+      timeline: [
+        { label: "Compra", months: 3 },
+        { label: "Instalación", months: 5 },
+        { label: "Capacitación", months: 7 },
+      ],
+
+      notes: ["Equipos comprados", "Capacitación pendiente"],
+    },
+
+    investigacion: {
+      progress: 40,
+      budget: { planned: 60000, spent: 20000, remaining: 40000 },
+
+      milestones: [
+        { name: "Convocatoria abierta", status: "done" },
+        { name: "Revisión de proyectos", status: "in-progress" },
+        { name: "Aprobación final", status: "pending" },
+      ],
+
+      timeline: [
+        { label: "Convocatoria", months: 1 },
+        { label: "Evaluación", months: 3 },
+        { label: "Aprobación", months: 5 },
+      ],
+
+      notes: ["Proyectos recibidos", "Falta evaluación final"],
+    },
+  };
+
+  const programs = ["becas", "bibliotecas", "equipamiento", "investigacion"] as const;
+
+  // -------------------------------
+  // RENDER
+  // -------------------------------
+  return (
+    <div className="min-h-screen p-6 bg-gray-50">
+
+      {/* Selector idioma */}
+      <div className="flex justify-end gap-3 mb-6">
+        <button onClick={() => setLang("es")}>🇪🇸</button>
+        <button onClick={() => setLang("en")}>🇺🇸</button>
+      </div>
+
+      {!selected && (
+        <div>
+          <h1 className="text-center text-4xl font-bold mb-3 text-blue-900">
+            {texts[lang].titulo}
+          </h1>
+          <p className="text-center text-gray-600 mb-10">
+            {texts[lang].subtitulo}
+          </p>
+        </div>
+      )}
+
+      {/* Si hay programa seleccionado */}
+      {selected && (
+        <div className="bg-white shadow-xl rounded-2xl p-6">
+          <Dashboard data={projectData[selected]} lang={lang} />
+        </div>
+      )}
+
+      {/* Si NO hay programa seleccionado → tarjetas */}
+      {!selected && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+
+          {programs.map((id) => (
+            <div key={id} className="program-card">
+              <h3 className="program-title">
+                {texts[lang].programs[id].title}
+              </h3>
+              <p className="program-desc">
+                {texts[lang].programs[id].desc}
+              </p>
+
+              <button onClick={() => setSelected(id)} className="program-button-info">
+                {texts[lang].informacion}
+              </button>
+            </div>
+          ))}
+
+        </div>
+      )}
+
+    </div>
+  );
+}
