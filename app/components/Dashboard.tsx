@@ -19,21 +19,34 @@ interface DashboardProps {
 export default function Dashboard({ data, lang, programName }: DashboardProps) {
   const t = translations[lang];
 
-  // -----------------------------
-  // 📄 DESCARGAR PDF DEL DASHBOARD
-  // -----------------------------
+  // --------------------------------------------------
+  // 📄 DESCARGAR PDF — COMPATIBLE CON CELULAR + PC
+  // --------------------------------------------------
   const handleDownloadPDF = async () => {
     const element = document.getElementById("dashboard-content");
     if (!element) return;
 
-    // 👇 NUEVO: captura correcta tanto en PC como celular
+    // Detectar si es móvil
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // ⭐ Expandir solo en móviles para capturar todo
+    if (isMobile) {
+      element.classList.add("capture-expand");
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    }
+
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
-      scrollY: -window.scrollY,
-      height: element.scrollHeight,
-      windowHeight: element.scrollHeight,
+      scrollY: 0,
+      height: isMobile ? element.scrollHeight : undefined,
+      windowHeight: isMobile ? element.scrollHeight : undefined,
     });
+
+    // Restaurar tamaño normal en móviles
+    if (isMobile) {
+      element.classList.remove("capture-expand");
+    }
 
     const imgData = canvas.toDataURL("image/png");
 
@@ -41,18 +54,18 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-    // -------------------------------
-    // 1) LOGO ETHOS CENTRADO
-    // -------------------------------
+    // --------------------------------------------------
+    // 1) LOGO ETHOS
+    // --------------------------------------------------
     const logoWidth = 140;
     const logoHeight = 40;
     const logoX = (pdfWidth - logoWidth) / 2;
 
     pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
 
-    // -------------------------------
+    // --------------------------------------------------
     // 2) TÍTULO DEL REPORTE
-    // -------------------------------
+    // --------------------------------------------------
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(20);
 
@@ -63,18 +76,17 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
-    // Línea elegante
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pdfWidth - 20, 68);
 
-    // -------------------------------
-    // 3) INSERTAR DASHBOARD COMPLETO
-    // -------------------------------
+    // --------------------------------------------------
+    // 3) DASHBOARD COMPLETO
+    // --------------------------------------------------
     pdf.addImage(imgData, "PNG", 0, 75, pdfWidth, imgHeight);
 
-    // -------------------------------
-    // 4) FOOTER CORPORATIVO ETHOS
-    // -------------------------------
+    // --------------------------------------------------
+    // 4) FOOTER ETHOS
+    // --------------------------------------------------
     pdf.setFontSize(10);
     pdf.setTextColor(120);
 
@@ -85,13 +97,12 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
-    // Guardar
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
-  // -----------------------------
+  // --------------------------------------------------
   // TIMELINE NORMALIZADO
-  // -----------------------------
+  // --------------------------------------------------
   const steps = data.timeline.map((item: any) => ({
     label: item.label || item.title || Object.keys(item)[0],
     months: item.months || item.value || item[Object.keys(item)[0]],
@@ -100,7 +111,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
   return (
     <div className="w-full">
 
-      {/* ---------------- BOTÓN PDF ---------------- */}
+      {/* BOTÓN PDF */}
       <div className="flex justify-end mb-4">
         <button
           onClick={handleDownloadPDF}
@@ -110,7 +121,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
-      {/* ---------------- CONTENIDO A CAPTURAR ---------------- */}
+      {/* CONTENIDO A CAPTURAR */}
       <div id="dashboard-content">
 
         {/* GRÁFICOS SUPERIORES */}
