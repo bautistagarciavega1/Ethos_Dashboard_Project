@@ -23,30 +23,37 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
   // 📄 DESCARGAR PDF DEL DASHBOARD
   // -----------------------------
   const handleDownloadPDF = async () => {
-    const wrapper = document.getElementById("dashboard-wrapper");
-    const element = document.getElementById("dashboard-content");
+    const original = document.getElementById("dashboard-content");
+    if (!original) return;
 
-    if (!element || !wrapper) return;
+    // ================================
+    // 1) Crear CLON oculto en escritorio
+    // ================================
+    const clone = original.cloneNode(true) as HTMLElement;
+    clone.id = "dashboard-clone";
 
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    clone.style.position = "absolute";
+    clone.style.top = "-99999px";  // fuera de pantalla
+    clone.style.left = "0";
+    clone.style.width = "1400px";  // forzamos desktop
+    clone.classList.add("force-desktop");
 
-    // 🟦 En móvil: forzamos layout desktop temporalmente
-    if (isMobile) {
-      wrapper.classList.add("force-desktop");
-      await new Promise((resolve) => setTimeout(resolve, 150));
-    }
+    document.body.appendChild(clone);
 
-    const canvas = await html2canvas(element, {
+    await new Promise((res) => setTimeout(res, 150));
+
+    // ================================
+    // 2) Capturar el CLON, no el real
+    // ================================
+    const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       scrollY: 0,
       scrollX: 0,
-      windowWidth: isMobile ? 1400 : undefined,
+      windowWidth: 1400,
     });
 
-    if (isMobile) {
-      wrapper.classList.remove("force-desktop");
-    }
+    document.body.removeChild(clone);
 
     const imgData = canvas.toDataURL("image/png");
 
@@ -88,14 +95,13 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
-    // Línea
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pageWidth - 20, 68);
 
-    // DASHBOARD COMPLETO
+    // DASHBOARD ESCALADO
     pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
-    // FOOTER ETHOS
+    // FOOTER
     pdf.setFontSize(10);
     pdf.setTextColor(120);
 
@@ -128,7 +134,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
-      {/* CONTENIDO A CAPTURAR */}
+      {/* CONTENIDO REAL (NO SE TOCA) */}
       <div id="dashboard-content">
 
         {/* GRÁFICOS SUPERIORES */}
@@ -167,6 +173,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
           </div>
 
         </div>
+
       </div>
     </div>
   );
