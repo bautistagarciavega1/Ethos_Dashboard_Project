@@ -35,9 +35,12 @@ export default function Dashboard({ data, lang }: DashboardProps) {
           <BudgetChart data={data} />
         </div>
 
-        <div className="card">
-          <RiskIssuesChart milestones={data.milestones} lang={lang} />
-        </div>
+       <div className="card">
+  <RiskIssuesChart 
+    milestones={Array.isArray(data.milestones) ? data.milestones : []}
+    lang={lang}
+  />
+</div>
 
       </div>
 
