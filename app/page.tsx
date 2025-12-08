@@ -5,7 +5,64 @@ import Dashboard from "./components/Dashboard";
 
 export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
+  const [lang, setLang] = useState<"es" | "en">("es"); // 🌍 idioma seleccionado
 
+  // 🌍 TEXTOS EN ESPAÑOL E INGLÉS
+  const texts = {
+    es: {
+      title: "Universidad de Buenos Aires",
+      subtitle: "Programas y líneas de donación disponibles dentro de la UBA.",
+      back: "← Volver",
+      info: "Información",
+      help: "Ayudar ▼",
+      programs: {
+        becas: {
+          title: "Becas para estudiantes",
+          desc: "Apoyo económico para alumnos en situación de vulnerabilidad.",
+        },
+        bibliotecas: {
+          title: "Bibliotecas y materiales",
+          desc: "Compra de libros, renovación de espacios y acceso a recursos.",
+        },
+        equipamiento: {
+          title: "Equipamiento tecnológico",
+          desc: "Computadoras, software y aulas digitales para mejorar el aprendizaje.",
+        },
+        investigacion: {
+          title: "Fondo de investigación",
+          desc: "Apoyo a proyectos científicos en diversas facultades.",
+        },
+      },
+    },
+
+    en: {
+      title: "University of Buenos Aires",
+      subtitle: "Donation programs and funding opportunities within UBA.",
+      back: "← Back",
+      info: "More Info",
+      help: "Donate ▼",
+      programs: {
+        becas: {
+          title: "Student Scholarships",
+          desc: "Financial aid for students in vulnerable situations.",
+        },
+        bibliotecas: {
+          title: "Libraries and Materials",
+          desc: "Book purchases, space renovations and access to resources.",
+        },
+        equipamiento: {
+          title: "Technology Equipment",
+          desc: "Computers, software and digital classrooms for better learning.",
+        },
+        investigacion: {
+          title: "Research Fund",
+          desc: "Support for scientific projects across faculties.",
+        },
+      },
+    },
+  };
+
+  // DATOS DE LOS PROGRAMAS (estos no cambian por idioma)
   const projectData: any = {
     becas: {
       progress: 70,
@@ -19,7 +76,6 @@ export default function HomePage() {
       ],
       notes: ["Fondos asignados", "Falta entrega final"],
     },
-
     bibliotecas: {
       progress: 50,
       budget: { planned: 30000, spent: 12000, remaining: 18000 },
@@ -31,7 +87,6 @@ export default function HomePage() {
       ],
       notes: ["En proceso de compra", "Planificación edilicia"],
     },
-
     equipamiento: {
       progress: 80,
       budget: { planned: 50000, spent: 42000, remaining: 8000 },
@@ -43,7 +98,6 @@ export default function HomePage() {
       ],
       notes: ["Equipos comprados", "Capacitación pendiente"],
     },
-
     investigacion: {
       progress: 40,
       budget: { planned: 60000, spent: 20000, remaining: 40000 },
@@ -57,132 +111,89 @@ export default function HomePage() {
     },
   };
 
+  // PROGRAMAS
   const programs = [
-    {
-      id: "becas",
-      title: "Becas para estudiantes",
-      desc: "Apoyo económico para alumnos en situación de vulnerabilidad.",
-      img: "https://img.icons8.com/ios-filled/100/1A2A6C/graduation-cap.png",
-    },
-    {
-      id: "bibliotecas",
-      title: "Bibliotecas y materiales",
-      desc: "Compra de libros, renovación de espacios y acceso a recursos.",
-      img: "https://img.icons8.com/ios-filled/100/1A2A6C/books.png",
-    },
-    {
-      id: "equipamiento",
-      title: "Equipamiento tecnológico",
-      desc: "Computadoras, software y aulas digitales para mejorar el aprendizaje.",
-      img: "https://img.icons8.com/ios-filled/100/1A2A6C/laptop.png",
-    },
-    {
-      id: "investigacion",
-      title: "Fondo de investigación",
-      desc: "Apoyo a proyectos científicos en diversas facultades.",
-      img: "https://img.icons8.com/ios-filled/100/1A2A6C/microscope.png",
-    },
+    { id: "becas", img: "https://img.icons8.com/ios-filled/100/1A2A6C/graduation-cap.png" },
+    { id: "bibliotecas", img: "https://img.icons8.com/ios-filled/100/1A2A6C/books.png" },
+    { id: "equipamiento", img: "https://img.icons8.com/ios-filled/100/1A2A6C/laptop.png" },
+    { id: "investigacion", img: "https://img.icons8.com/ios-filled/100/1A2A6C/microscope.png" },
   ];
 
-  const selectedProgram = programs.find((p) => p.id === selected);
+  const selectedProgram = selected ? programs.find((p) => p.id === selected) : null;
 
   return (
-    <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
+    <div className="min-h-screen p-10 bg-gray-50">
 
-      {/* ← BOTÓN VOLVER — FIX MOBILE */}
-{!selected && (
-  <div className="mb-10 sm:mb-6">
-    <button
-      onClick={() => window.history.back()}
-      className="back-button"
-    >
-      ← Volver
-    </button>
-  </div>
-)}
+      {/* 🌍 SELECTOR DE IDIOMA */}
+      <div className="flex justify-end gap-3 mb-6">
+        <button onClick={() => setLang("es")}>
+          <img src="https://flagsapi.com/ES/flat/32.png" className="w-8" alt="ES" />
+        </button>
+        <button onClick={() => setLang("en")}>
+          <img src="https://flagsapi.com/US/flat/32.png" className="w-8" alt="EN" />
+        </button>
+      </div>
 
-      {/* TITULAR */}
-      <h1 className="text-center text-3xl sm:text-4xl font-bold mb-3 text-blue-900">
-        Universidad de Buenos Aires
+      {/* BOTÓN VOLVER */}
+      {!selected && (
+        <button onClick={() => window.history.back()} className="back-button mb-4">
+          {texts[lang].back}
+        </button>
+      )}
+
+      {/* TITULOS */}
+      <h1 className="text-center text-4xl font-bold mb-2 text-blue-900">
+        {texts[lang].title}
       </h1>
 
-      <p className="text-center text-gray-600 mb-10">
-        Programas y líneas de donación disponibles dentro de la UBA.
-      </p>
+      <p className="text-center text-gray-600 mb-10">{texts[lang].subtitle}</p>
 
-      <div className="w-full">
+      {/* SI HAY PROGRAMA SELECCIONADO */}
+      {selected && (
+        <div className="flex flex-col gap-6 animate-fade-in">
 
-        {/* SI HAY UN PROGRAMA SELECCIONADO */}
-        {selected && (
-          <div className="flex flex-col gap-6 animate-fade-in">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-xl shadow">
+            <button onClick={() => setSelected(null)} className="program-button-back">
+              {texts[lang].back}
+            </button>
 
-            {/* 🔥 BANNER RESPONSIVE PERFECTO */}
-            <div className="program-selected-banner flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-center flex-1 px-6">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                {texts[lang].programs[selected].title}
+              </h2>
+              <p className="text-gray-600 mt-1">{texts[lang].programs[selected].desc}</p>
+            </div>
 
-              {/* Botón Volver */}
-              <button
-                onClick={() => setSelected(null)}
-                className="program-button-back"
-              >
-                ← Volver
-              </button>
+            <button className="program-button-help">{texts[lang].help}</button>
+          </div>
 
-              {/* Título */}
-              <div className="text-center flex-1 px-4">
-                <h2 className="text-2xl font-semibold text-gray-800">
-                  {selectedProgram?.title}
-                </h2>
-                <p className="text-gray-600 mt-1">{selectedProgram?.desc}</p>
+          <div className="bg-white shadow-xl rounded-2xl p-6">
+            <Dashboard data={projectData[selected]} />
+          </div>
+        </div>
+      )}
+
+      {/* TARJETAS DE PROGRAMAS */}
+      {!selected && (
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {programs.map((p) => (
+              <div key={p.id} className="program-card">
+                <button className="program-button-red">{texts[lang].help}</button>
+
+                <img src={p.img} className="w-full h-32 object-contain mb-4 mt-2" />
+
+                <h3 className="program-title">{texts[lang].programs[p.id].title}</h3>
+                <p className="program-desc">{texts[lang].programs[p.id].desc}</p>
+
+                <button onClick={() => setSelected(p.id)} className="program-button-info">
+                  {texts[lang].info}
+                </button>
               </div>
-
-              {/* Botón Ayudar */}
-              <button className="program-button-help self-center sm:self-auto">
-                Ayudar ▼
-              </button>
-            </div>
-
-            {/* DASHBOARD */}
-            <div className="bg-white shadow-xl rounded-2xl p-6">
-              <Dashboard data={projectData[selected]} />
-            </div>
-
+            ))}
           </div>
-        )}
-
-        {/* SI NO HAY SELECCIÓN → TARJETAS */}
-        {!selected && (
-          <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-              {programs.map((p) => (
-                <div key={p.id} className="program-card">
-
-                  <button className="program-button-red">Ayudar ▼</button>
-
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    className="w-full h-32 object-contain my-4"
-                  />
-
-                  <h3 className="program-title">{p.title}</h3>
-                  <p className="program-desc">{p.desc}</p>
-
-                  <button
-                    onClick={() => setSelected(p.id)}
-                    className="program-button-info"
-                  >
-                    Información
-                  </button>
-
-                </div>
-              ))}
-
-            </div>
-          </div>
-        )}
-
-      </div>
+        </div>
+      )}
     </div>
   );
 }
