@@ -6,6 +6,13 @@ export const translations = {
       Proceso: "Proceso",
       Asignación: "Asignación",
       Entrega: "Entrega",
+
+      // Equipamiento tecnológico
+      Compra: "Compra",
+      Instalación: "Instalación",
+      Capacitación: "Capacitación",
+
+      // Otros
       "Compra libros": "Compra libros",
       Refacción: "Refacción",
       Digitalización: "Digitalización",
@@ -25,6 +32,13 @@ export const translations = {
       Proceso: "Process",
       Asignación: "Assignment",
       Entrega: "Delivery",
+
+      // Equipamiento tecnológico
+      Compra: "Purchase",
+      Instalación: "Installation",
+      Capacitación: "Training",
+
+      // Otros
       "Compra libros": "Buy books",
       Refacción: "Refurbishment",
       Digitalización: "Digitization",
