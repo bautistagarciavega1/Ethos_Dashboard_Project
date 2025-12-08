@@ -260,8 +260,15 @@ li::marker {
   overflow: visible !important;
 }
 
-/* Fuerza layout de escritorio solo para la captura del PDF */
-.force-desktop .grid-cols-1 {
+.force-desktop * {
+  font-size: 16px !important;
+}
+
+.force-desktop .grid {
+  display: grid !important;
+}
+
+.force-desktop .md\:grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 
@@ -269,6 +276,7 @@ li::marker {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
 
-.force-desktop .md\:grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+#dashboard-clone {
+  transform: scale(1);
+  opacity: 1 !important;
 }
