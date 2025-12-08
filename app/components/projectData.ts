@@ -6,16 +6,20 @@ export const projectData = {
       spent: [6000, 4000, 2000],
       remaining: [4000, 4000, 3000],
     },
-    risks: {
-      high: 2,
-      medium: 4,
-      low: 6,
-    },
+
+    // 🔵 NUEVOS HITOS
+    milestones: [
+      { name: "Convocatoria abierta", status: "done" },
+      { name: "Evaluación socioeconómica", status: "in-progress" },
+      { name: "Asignación de becas", status: "pending" },
+    ],
+
     notes: [
       "Proceso de inscripción avanzado",
       "Evaluación socioeconómica en curso",
       "Aprobación final estimada en 3 semanas",
     ],
+
     timeline: [
       { label: "Inicio", months: 2 },
       { label: "Evaluación", months: 4 },
@@ -32,16 +36,20 @@ export const projectData = {
       spent: [8000, 6000, 3000],
       remaining: [7000, 6000, 3000],
     },
-    risks: {
-      high: 1,
-      medium: 5,
-      low: 7,
-    },
+
+    // 🔵 NUEVOS HITOS
+    milestones: [
+      { name: "Renovación edilicia", status: "done" },
+      { name: "Compra de libros", status: "in-progress" },
+      { name: "Implementación digital", status: "pending" },
+    ],
+
     notes: [
       "Renovación del edificio completada",
       "Compra de libros en proceso",
       "Nuevo sistema digital implementado",
     ],
+
     timeline: [
       { label: "Planificación", months: 1 },
       { label: "Renovación", months: 3 },
@@ -58,16 +66,20 @@ export const projectData = {
       spent: [16000, 12000, 6000],
       remaining: [4000, 3000, 2000],
     },
-    risks: {
-      high: 3,
-      medium: 4,
-      low: 3,
-    },
+
+    // 🔵 NUEVOS HITOS
+    milestones: [
+      { name: "Compra aprobada", status: "done" },
+      { name: "Instalación de equipos", status: "in-progress" },
+      { name: "Capacitación docente", status: "pending" },
+    ],
+
     notes: [
       "Computadoras entregadas a Facultades",
       "Instalación de software completada",
       "Capacitación docente en curso",
     ],
+
     timeline: [
       { label: "Compra", months: 3 },
       { label: "Instalación", months: 5 },
@@ -84,16 +96,20 @@ export const projectData = {
       spent: [10000, 7000, 3000],
       remaining: [15000, 11000, 6000],
     },
-    risks: {
-      high: 4,
-      medium: 6,
-      low: 5,
-    },
+
+    // 🔵 NUEVOS HITOS
+    milestones: [
+      { name: "Convocatoria abierta", status: "done" },
+      { name: "Revisión de proyectos", status: "in-progress" },
+      { name: "Aprobación final", status: "pending" },
+    ],
+
     notes: [
       "Se financiaron 12 proyectos",
       "Laboratorios actualizando instrumental",
       "Convocatoria nueva abre en junio",
     ],
+
     timeline: [
       { label: "Convocatoria", months: 1 },
       { label: "Revisión", months: 2 },
