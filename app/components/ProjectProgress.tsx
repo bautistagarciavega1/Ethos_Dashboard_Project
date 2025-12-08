@@ -29,13 +29,23 @@ export default function ProjectProgress({ value }: any) {
   };
 
   return (
-    <div>
-      <h2 style={{ marginTop: "-10px", marginBottom: "10px" }}>
-  Project Progress & Task Status
-</h2>
+    <div style={{ marginTop: "-12px" }}>  {/* ← sube todo el bloque */}
+      
+      <h2
+        style={{
+          marginTop: "-20px",   // ← sube el título
+          marginBottom: "-10px", // ← lo pega más al gráfico
+          fontSize: "1.2rem",
+          fontWeight: 600
+        }}
+      >
+        Project Progress & Task Status
+      </h2>
+
       <div style={{ maxWidth: 230, margin: '0 auto' }}>
         <Doughnut data={data} options={options} />
       </div>
+
       <p
         style={{
           textAlign: 'center',
@@ -46,7 +56,7 @@ export default function ProjectProgress({ value }: any) {
       >
         {progressValue}%
       </p>
+
     </div>
   );
 }
-
