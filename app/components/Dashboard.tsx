@@ -16,43 +16,45 @@ export default function Dashboard({ data, lang }: DashboardProps) {
   const t = translations[lang];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 gap-8">
 
-      {/* TIMELINE + CHARTS */}
-      <div className="card">
+      {/* 🔵 FILA SUPERIOR: 3 GRÁFICOS HORIZONTALES */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        {/* TIMELINE */}
-        <Timeline
-          steps={data.timeline}
-          lang={lang}
-          translations={t.timeline}
-          months={t.months}
-        />
-
-        {/* PROJECT PROGRESS */}
-        <div className="mt-10">
+        <div className="card">
           <ProjectProgressChart data={data} />
         </div>
 
-        {/* BUDGET */}
-        <div className="mt-10">
+        <div className="card">
           <BudgetChart data={data} />
         </div>
 
-        {/* RISK ISSUES */}
-        <div className="mt-10 mb-4">
+        <div className="card">
           <RiskIssuesChart data={data} />
         </div>
 
       </div>
 
-      {/* NOTAS */}
-      <div className="card">
-        <Notes
-          items={data.notes}
-          lang={lang}
-          translations={t.notes}
-        />
+      {/* 🔵 FILA INFERIOR: TIMELINE + NOTES EN 2 COLUMNAS */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <div className="card">
+          <Timeline
+            steps={data.timeline}
+            lang={lang}
+            translations={t.timeline}
+            months={t.months}
+          />
+        </div>
+
+        <div className="card">
+          <Notes
+            items={data.notes}
+            lang={lang}
+            translations={t.notes}
+          />
+        </div>
+
       </div>
 
     </div>
