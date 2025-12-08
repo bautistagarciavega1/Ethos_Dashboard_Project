@@ -147,11 +147,13 @@ export default function HomePage() {
   return (
     <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
       
-      {/* Selector de idioma */}
-      <div className="lang-switch">
-      <button onClick={() => setLang("es")} className="flag-icon">🇪🇸</button>
-      <button onClick={() => setLang("en")} className="flag-icon">🇺🇸</button>
-      </div>
+{/* Selector de idioma SOLO alineado a la derecha */}
+<div className="w-full flex justify-end mb-4">
+  <div className="flex gap-3">
+    <button onClick={() => setLang("es")} className="flag-icon">🇪🇸</button>
+    <button onClick={() => setLang("en")} className="flag-icon">🇺🇸</button>
+  </div>
+</div>
 
       {/* Botón volver */}
       {!selected && (
