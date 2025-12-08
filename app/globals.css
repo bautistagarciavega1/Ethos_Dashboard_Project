@@ -252,3 +252,8 @@ li::marker {
   background: #f0f0f0;
   transform: scale(1.03);
 }
+
+/* Padding extra SOLO para el PDF */
+.pdf-export-padding {
+  padding-top: 70px !important;
+}
