@@ -1,63 +1,55 @@
 "use client";
 
+interface Milestone {
+  name: string;
+  status: "done" | "in-progress" | "pending";
+}
+
 interface RiskIssuesChartProps {
-  data: { high: number; medium: number; low: number };
+  milestones: Milestone[];
   lang: "es" | "en";
 }
 
-export default function RiskIssuesChart({ data, lang }: RiskIssuesChartProps) {
-  const labels = {
-    es: { title: "Riesgos e Incidencias", high: "Alto", medium: "Medio", low: "Bajo" },
-    en: { title: "Risks & Issues", high: "High", medium: "Medium", low: "Low" },
-  };
+const statusIcons = {
+  done: "✔️",
+  "in-progress": "🟡",
+  pending: "⏳",
+};
 
-  const t = labels[lang];
+const statusLabels = {
+  es: {
+    title: "Hitos del Proyecto",
+    done: "Completado",
+    "in-progress": "En progreso",
+    pending: "Pendiente",
+  },
+  en: {
+    title: "Project Milestones",
+    done: "Completed",
+    "in-progress": "In progress",
+    pending: "Pending",
+  },
+};
 
-  // Valores para las barras
-  const max = Math.max(data.high, data.medium, data.low, 1);
-
-  const barHeight = (value: number) => `${(value / max) * 140}px`;
+export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartProps) {
+  const t = statusLabels[lang];
 
   return (
-    <div className="card">
+    <div>
       <h2 className="text-xl font-semibold mb-4">{t.title}</h2>
 
-      <div className="flex items-end justify-around h-40 mt-4">
+      <ul className="space-y-4">
+        {milestones.map((m, i) => (
+          <li key={i} className="flex items-center gap-3">
+            <span className="text-2xl">{statusIcons[m.status]}</span>
 
-        {/* HIGH */}
-        <div className="flex flex-col items-center">
-          <div
-            className="w-10 bg-red-400 rounded-t transition-all"
-            style={{ height: barHeight(data.high) }}
-          />
-          <span className="mt-2 text-sm font-medium">
-            {t.high}: {data.high}
-          </span>
-        </div>
-
-        {/* MEDIUM */}
-        <div className="flex flex-col items-center">
-          <div
-            className="w-10 bg-yellow-400 rounded-t transition-all"
-            style={{ height: barHeight(data.medium) }}
-          />
-          <span className="mt-2 text-sm font-medium">
-            {t.medium}: {data.medium}
-          </span>
-        </div>
-
-        {/* LOW */}
-        <div className="flex flex-col items-center">
-          <div
-            className="w-10 bg-blue-400 rounded-t transition-all"
-            style={{ height: barHeight(data.low) }}
-          />
-          <span className="mt-2 text-sm font-medium">
-            {t.low}: {data.low}
-          </span>
-        </div>
-
-      </div>
+            <div>
+              <div className="font-semibold">{m.name}</div>
+              <div className="text-gray-600 text-sm">{t[m.status]}</div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
