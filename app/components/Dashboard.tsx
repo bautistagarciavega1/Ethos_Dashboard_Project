@@ -26,10 +26,19 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const element = document.getElementById("dashboard-content");
     if (!element) return;
 
+    // ⭐ Añadir padding solo para la exportación
+    element.classList.add("pdf-export-padding");
+
+    // Esperar a que el DOM actualice el padding
+    await new Promise((resolve) => setTimeout(resolve, 120));
+
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
     });
+
+    // Quitar el padding al terminar
+    element.classList.remove("pdf-export-padding");
 
     const imgData = canvas.toDataURL("image/png");
 
@@ -44,7 +53,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const logoHeight = 40;
     const logoX = (pdfWidth - logoWidth) / 2;
 
-    pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
+    pdf.addImage("/Ethos v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
 
     // -------------------------------
     // 2) TÍTULO DEL REPORTE
@@ -59,7 +68,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
-    // Línea elegante
+    // Línea separadora
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pdfWidth - 20, 68);
 
@@ -81,7 +90,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
-    // Guardar
+    // Guardar PDF
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
