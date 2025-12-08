@@ -32,15 +32,18 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const clone = original.cloneNode(true) as HTMLElement;
     clone.id = "dashboard-clone";
 
-    // Estilos aplicados desde JS (NO CSS AQUÍ)
-    clone.style.position = "fixed";
-    clone.style.top = "0";
-    clone.style.left = "0";
-    clone.style.width = "1400px";
-    clone.style.opacity = "0";
-    clone.style.pointerEvents = "none";
-    clone.style.zIndex = "-1";
-    clone.style.background = "white";
+// ================================
+// 1-B) Copiar contenido de los canvas al clon
+// ================================
+const originalCanvas = original.querySelectorAll("canvas");
+const cloneCanvas = clone.querySelectorAll("canvas");
+
+originalCanvas.forEach((canvas, index) => {
+  const cloneCtx = cloneCanvas[index]?.getContext("2d");
+  if (cloneCtx) {
+    cloneCtx.drawImage(canvas, 0, 0);
+  }
+});
 
     document.body.appendChild(clone);
 
