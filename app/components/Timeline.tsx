@@ -39,7 +39,16 @@ export default function Timeline({ steps, lang }: TimelineProps) {
         const width = step.months * 10;
 
         // 🔥 TRADUCIR LABEL (si existe)
-        const translatedLabel = t[step.label] ?? step.label;
+        // Tabla de traducción segura
+const translationMap: Record<string, string> = {
+  Inicio: lang === "es" ? "Inicio" : "Start",
+  Proceso: lang === "es" ? "Proceso" : "Process",
+  Asignación: lang === "es" ? "Asignación" : "Assignment",
+  Entrega: lang === "es" ? "Entrega" : "Delivery",
+};
+
+// Si existe traducción → úsala, si no, deja el texto original
+const translatedLabel = translationMap[step.label] || step.label;
 
         return (
           <div key={i} style={{ marginBottom: "22px" }}>
@@ -73,3 +82,4 @@ export default function Timeline({ steps, lang }: TimelineProps) {
     </div>
   );
 }
+
