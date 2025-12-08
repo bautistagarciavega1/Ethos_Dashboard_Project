@@ -36,7 +36,7 @@ export default function Dashboard({ data, lang }: DashboardProps) {
         </div>
 
         <div className="card">
-          <RiskIssuesChart data={data.risks} lang={lang} />
+          <RiskIssuesChart milestones={data.milestones} lang={lang} />
         </div>
 
       </div>
