@@ -19,66 +19,53 @@ interface DashboardProps {
 export default function Dashboard({ data, lang, programName }: DashboardProps) {
   const t = translations[lang];
 
-  // =====================================================
-  // 📄 DESCARGAR PDF CON GRÁFICOS FUNCIONANDO EN SAFARI
-  // =====================================================
+  // -----------------------------
+  // 📄 DESCARGAR PDF DEL DASHBOARD
+  // -----------------------------
   const handleDownloadPDF = async () => {
     const original = document.getElementById("dashboard-content");
     if (!original) return;
 
-    // 1) Clonar el contenido
+    // 1) Crear clon
     const clone = original.cloneNode(true) as HTMLElement;
     clone.id = "dashboard-clone";
-
     document.body.appendChild(clone);
 
-    // -----------------------------------------------
-    // 🔥 FIX DEFINITIVO PARA SAFARI: rasterizar canvas
-    // -----------------------------------------------
-    const originalCanvases = original.querySelectorAll("canvas");
-    const cloneCanvases = clone.querySelectorAll("canvas");
+    // 2) Copiar el contenido de los canvas (gráficos) al clon
+    const originalCanvas = original.querySelectorAll("canvas");
+    const cloneCanvas = clone.querySelectorAll("canvas");
 
-    originalCanvases.forEach((canvas, i) => {
-      const rect = canvas.getBoundingClientRect();
+    originalCanvas.forEach((canvas, index) => {
+      const src = canvas as HTMLCanvasElement;
+      const target = cloneCanvas[index] as HTMLCanvasElement | undefined;
+      if (!src || !target) return;
 
-      // Canvas visible -> dimensiones reales
-      const tempCanvas = document.createElement("canvas");
-      tempCanvas.width = rect.width * 2;   // para alta resolución
-      tempCanvas.height = rect.height * 2;
+      // igualamos tamaño
+      target.width = src.width;
+      target.height = src.height;
 
-      const ctx = tempCanvas.getContext("2d");
+      const ctx = target.getContext("2d");
       if (ctx) {
-        ctx.scale(2, 2);
-        ctx.drawImage(canvas, 0, 0, rect.width, rect.height);
-      }
-
-      const image = document.createElement("img");
-      image.src = tempCanvas.toDataURL("image/png");
-      image.style.width = rect.width + "px";
-      image.style.height = rect.height + "px";
-
-      // Reemplazar canvas del clon
-      const cloneCanvas = cloneCanvases[i];
-      if (cloneCanvas?.parentNode) {
-        cloneCanvas.parentNode.replaceChild(image, cloneCanvas);
+        ctx.drawImage(src, 0, 0);
       }
     });
 
-    // Esperar pequeña pausa
+    // pequeño delay para asegurarnos que el DOM del clon está listo
     await new Promise((res) => setTimeout(res, 150));
 
-    // 2) Generar imagen del clon
+    // 3) Capturar SOLO el clon con layout de escritorio
     const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       scrollY: 0,
-      windowWidth: 1400
+      scrollX: 0,
+      windowWidth: 1400,
     });
 
     document.body.removeChild(clone);
 
-    // 3) Crear PDF
     const imgData = canvas.toDataURL("image/png");
+
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
@@ -99,10 +86,11 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
 
     const imgX = (pageWidth - renderWidth) / 2;
 
-    // LOGO
+    // LOGO ETHOS
     const logoWidth = 140;
     const logoHeight = 40;
     const logoX = (pageWidth - logoWidth) / 2;
+
     pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
 
     // TÍTULO
@@ -115,10 +103,11 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
+    // línea separadora
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pageWidth - 20, 68);
 
-    // INSERTAR CONTENIDO
+    // DASHBOARD COMPLETO
     pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
     // FOOTER
@@ -141,8 +130,8 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
   }));
 
   return (
-    <div className="w-full">
-
+    <div id="dashboard-wrapper" className="w-full">
+      {/* BOTÓN PDF */}
       <div className="flex justify-end mb-4">
         <button
           onClick={handleDownloadPDF}
@@ -152,9 +141,10 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
+      {/* CONTENIDO REAL */}
       <div id="dashboard-content">
+        {/* GRÁFICOS SUPERIORES */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-
           <div className="card">
             <ProjectProgressChart data={data} lang={lang} />
           </div>
@@ -169,9 +159,9 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
               lang={lang}
             />
           </div>
-
         </div>
 
+        {/* TIMELINE + NOTES */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="card">
             <Timeline
@@ -186,7 +176,6 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
             <Notes items={data.notes} lang={lang} translations={t.notes} />
           </div>
         </div>
-
       </div>
     </div>
   );
