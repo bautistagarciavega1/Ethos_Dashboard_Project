@@ -5,7 +5,12 @@ import Dashboard from "./components/Dashboard";
 
 export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
-  const [lang, setLang] = useState<"es" | "en">("es");
+  const [lang, setLang] = useState<"es" | "en">(() => {
+  if (typeof window !== "undefined") {
+    return (localStorage.getItem("lang") as "es" | "en") || "en";
+  }
+  return "en";
+});
 
   // -------------------------------
   // TEXTOS MULTI-IDIOMA
