@@ -4,7 +4,6 @@ import { useState } from "react";
 import Dashboard from "./components/Dashboard";
 
 export default function HomePage() {
-
   const [selected, setSelected] = useState<string | null>(null);
   const [lang, setLang] = useState<"es" | "en">("es");
 
@@ -19,10 +18,22 @@ export default function HomePage() {
       ayudar: "Ayudar ▼",
       informacion: "Información",
       programs: {
-        becas: { title: "Becas para estudiantes", desc: "Apoyo económico para alumnos en situación de vulnerabilidad." },
-        bibliotecas: { title: "Bibliotecas y materiales", desc: "Compra de libros, renovación de espacios y acceso a recursos." },
-        equipamiento: { title: "Equipamiento tecnológico", desc: "Computadoras, software y aulas digitales para mejorar el aprendizaje." },
-        investigacion: { title: "Fondo de investigación", desc: "Apoyo a proyectos científicos en diversas facultades." },
+        becas: {
+          title: "Becas para estudiantes",
+          desc: "Apoyo económico para alumnos en situación de vulnerabilidad.",
+        },
+        bibliotecas: {
+          title: "Bibliotecas y materiales",
+          desc: "Compra de libros, renovación de espacios y acceso a recursos.",
+        },
+        equipamiento: {
+          title: "Equipamiento tecnológico",
+          desc: "Computadoras, software y aulas digitales para mejorar el aprendizaje.",
+        },
+        investigacion: {
+          title: "Fondo de investigación",
+          desc: "Apoyo a proyectos científicos en diversas facultades.",
+        },
       },
     },
 
@@ -33,16 +44,28 @@ export default function HomePage() {
       ayudar: "Donate ▼",
       informacion: "Information",
       programs: {
-        becas: { title: "Student Scholarships", desc: "Financial support for vulnerable students." },
-        bibliotecas: { title: "Libraries & Materials", desc: "Books, space renewal and access to learning resources." },
-        equipamiento: { title: "Technological Equipment", desc: "Computers, software and digital classrooms." },
-        investigacion: { title: "Research Fund", desc: "Support for scientific research across faculties." },
+        becas: {
+          title: "Student Scholarships",
+          desc: "Financial support for students in vulnerable situations.",
+        },
+        bibliotecas: {
+          title: "Libraries & Materials",
+          desc: "Book purchasing, space renewal, and resource access.",
+        },
+        equipamiento: {
+          title: "Technological Equipment",
+          desc: "Computers, software, and digital classrooms.",
+        },
+        investigacion: {
+          title: "Research Fund",
+          desc: "Support for scientific research at various faculties.",
+        },
       },
     },
   };
 
   // -------------------------------
-  // DATA DEL DASHBOARD
+  // DATA DEL DASHBOARD — AHORA CON HITOS
   // -------------------------------
   const projectData: any = {
     becas: {
@@ -125,58 +148,92 @@ export default function HomePage() {
 
   const programs = ["becas", "bibliotecas", "equipamiento", "investigacion"] as const;
 
-  // -------------------------------
-  // RENDER
-  // -------------------------------
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
 
-      {/* Selector idioma */}
+      {/* SELECTOR DE IDIOMA */}
       <div className="flex justify-end gap-3 mb-6">
         <button onClick={() => setLang("es")}>🇪🇸</button>
         <button onClick={() => setLang("en")}>🇺🇸</button>
       </div>
 
+      {/* BOTÓN VOLVER */}
       {!selected && (
-        <div>
-          <h1 className="text-center text-4xl font-bold mb-3 text-blue-900">
-            {texts[lang].titulo}
-          </h1>
-          <p className="text-center text-gray-600 mb-10">
-            {texts[lang].subtitulo}
-          </p>
+        <div className="mb-10 sm:mb-6">
+          <button onClick={() => window.history.back()} className="back-button">
+            {texts[lang].volver}
+          </button>
         </div>
       )}
 
-      {/* Si hay programa seleccionado */}
-      {selected && (
-        <div className="bg-white shadow-xl rounded-2xl p-6">
-          <Dashboard data={projectData[selected]} lang={lang} />
-        </div>
-      )}
+      {/* TITULOS */}
+      <h1 className="text-center text-3xl sm:text-4xl font-bold mb-3 text-blue-900">
+        {texts[lang].titulo}
+      </h1>
 
-      {/* Si NO hay programa seleccionado → tarjetas */}
-      {!selected && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+      <p className="text-center text-gray-600 mb-10">{texts[lang].subtitulo}</p>
 
-          {programs.map((id) => (
-            <div key={id} className="program-card">
-              <h3 className="program-title">
-                {texts[lang].programs[id].title}
-              </h3>
-              <p className="program-desc">
-                {texts[lang].programs[id].desc}
-              </p>
-
-              <button onClick={() => setSelected(id)} className="program-button-info">
-                {texts[lang].informacion}
+      {/* CONTENIDO */}
+      <div className="w-full">
+        {selected && (
+          <div className="flex flex-col gap-6 animate-fade-in">
+            
+            <div className="program-selected-banner flex flex-col sm:flex-row items-center justify-between gap-4">
+              <button onClick={() => setSelected(null)} className="program-button-back">
+                {texts[lang].volver}
               </button>
+
+              <div className="text-center flex-1 px-4">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  {texts[lang].programs[selected].title}
+                </h2>
+                <p className="text-gray-600 mt-1">
+                  {texts[lang].programs[selected].desc}
+                </p>
+              </div>
+
+              <button className="program-button-help">{texts[lang].ayudar}</button>
             </div>
-          ))}
 
-        </div>
-      )}
+            {/* DASHBOARD */}
+            <div className="bg-white shadow-xl rounded-2xl p-6">
+              <Dashboard data={projectData[selected]} lang={lang} />
+            </div>
+          </div>
+        )}
 
+        {/* TARJETAS */}
+        {!selected && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+            {programs.map((id) => (
+              <div key={id} className="program-card">
+                <button className="program-button-red">{texts[lang].ayudar}</button>
+
+                <img
+                  src={`https://img.icons8.com/ios-filled/100/1A2A6C/${
+                    id === "becas"
+                      ? "graduation-cap"
+                      : id === "bibliotecas"
+                      ? "books"
+                      : id === "equipamiento"
+                      ? "laptop"
+                      : "microscope"
+                  }.png`}
+                  className="w-full h-32 object-contain my-4"
+                  alt={texts[lang].programs[id].title}
+                />
+
+                <h3 className="program-title">{texts[lang].programs[id].title}</h3>
+                <p className="program-desc">{texts[lang].programs[id].desc}</p>
+
+                <button onClick={() => setSelected(id)} className="program-button-info">
+                  {texts[lang].informacion}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
