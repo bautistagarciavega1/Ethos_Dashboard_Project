@@ -5,12 +5,12 @@ interface Milestone {
   status: "done" | "in-progress" | "pending";
 }
 
-interface RiskProjectChartProps {
+interface RiskIssuesChartProps {
   milestones: Milestone[];
   lang: "es" | "en";
 }
 
-export default function RiskProjectChart({ milestones, lang }: RiskProjectChartProps) {
+export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartProps) {
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4">
