@@ -300,6 +300,6 @@ li::marker {
   top: 14px;
   right: 16px;
   display: flex;
-  gap: 8px;
+  gap: 7px;
   z-index: 3000;
 }
