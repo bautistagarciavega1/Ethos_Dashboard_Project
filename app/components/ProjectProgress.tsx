@@ -30,7 +30,9 @@ export default function ProjectProgress({ value }: any) {
 
   return (
     <div>
-      <h2>Project Progress &amp; Task Status</h2>
+      <h2 style={{ marginTop: "-10px", marginBottom: "10px" }}>
+  Project Progress & Task Status
+</h2>
       <div style={{ maxWidth: 230, margin: '0 auto' }}>
         <Doughnut data={data} options={options} />
       </div>
@@ -47,3 +49,4 @@ export default function ProjectProgress({ value }: any) {
     </div>
   );
 }
+
