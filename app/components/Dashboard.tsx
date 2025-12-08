@@ -19,57 +19,66 @@ interface DashboardProps {
 export default function Dashboard({ data, lang, programName }: DashboardProps) {
   const t = translations[lang];
 
-  // -----------------------------
-  // 📄 DESCARGAR PDF DEL DASHBOARD
-  // -----------------------------
+  // =====================================================
+  // 📄 DESCARGAR PDF CON GRÁFICOS FUNCIONANDO EN SAFARI
+  // =====================================================
   const handleDownloadPDF = async () => {
     const original = document.getElementById("dashboard-content");
     if (!original) return;
 
-    // ================================
-    // 1) Crear CLON oculto con layout desktop
-    // ================================
+    // 1) Clonar el contenido
     const clone = original.cloneNode(true) as HTMLElement;
     clone.id = "dashboard-clone";
 
-    // ================================
-    // 1-B) Reemplazar cada canvas por un PNG real
-    // ================================
+    document.body.appendChild(clone);
+
+    // -----------------------------------------------
+    // 🔥 FIX DEFINITIVO PARA SAFARI: rasterizar canvas
+    // -----------------------------------------------
     const originalCanvases = original.querySelectorAll("canvas");
     const cloneCanvases = clone.querySelectorAll("canvas");
 
     originalCanvases.forEach((canvas, i) => {
-      const img = document.createElement("img");
-      img.src = canvas.toDataURL("image/png");
-      img.style.width = canvas.style.width || "100%";
-      img.style.height = canvas.style.height || "auto";
+      const rect = canvas.getBoundingClientRect();
 
+      // Canvas visible -> dimensiones reales
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = rect.width * 2;   // para alta resolución
+      tempCanvas.height = rect.height * 2;
+
+      const ctx = tempCanvas.getContext("2d");
+      if (ctx) {
+        ctx.scale(2, 2);
+        ctx.drawImage(canvas, 0, 0, rect.width, rect.height);
+      }
+
+      const image = document.createElement("img");
+      image.src = tempCanvas.toDataURL("image/png");
+      image.style.width = rect.width + "px";
+      image.style.height = rect.height + "px";
+
+      // Reemplazar canvas del clon
       const cloneCanvas = cloneCanvases[i];
       if (cloneCanvas?.parentNode) {
-        cloneCanvas.parentNode.replaceChild(img, cloneCanvas);
+        cloneCanvas.parentNode.replaceChild(image, cloneCanvas);
       }
     });
 
-    document.body.appendChild(clone);
+    // Esperar pequeña pausa
+    await new Promise((res) => setTimeout(res, 150));
 
-    // 🕐 esperar un poco para asegurar carga visual
-    await new Promise((res) => setTimeout(res, 300));
-
-    // ================================
-    // 2) Capturar SOLO el clon
-    // ================================
+    // 2) Generar imagen del clon
     const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       scrollY: 0,
-      scrollX: 0,
-      windowWidth: 1400, // fuerza layout desktop
+      windowWidth: 1400
     });
 
     document.body.removeChild(clone);
 
+    // 3) Crear PDF
     const imgData = canvas.toDataURL("image/png");
-
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
@@ -90,17 +99,15 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
 
     const imgX = (pageWidth - renderWidth) / 2;
 
-    // LOGO ETHOS
+    // LOGO
     const logoWidth = 140;
     const logoHeight = 40;
     const logoX = (pageWidth - logoWidth) / 2;
-
     pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
 
     // TÍTULO
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(20);
-
     pdf.text(
       programName || (lang === "es" ? "Proyecto" : "Project"),
       pageWidth / 2,
@@ -111,13 +118,12 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pageWidth - 20, 68);
 
-    // DASHBOARD ESCALADO COMPLETO
+    // INSERTAR CONTENIDO
     pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
-    // FOOTER ETHOS
+    // FOOTER
     pdf.setFontSize(10);
     pdf.setTextColor(120);
-
     pdf.text(
       "© 2025 Ethos — Trust the Journey. Track the Impact.",
       pageWidth / 2,
@@ -128,18 +134,15 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
-  // -----------------------------
   // TIMELINE NORMALIZADO
-  // -----------------------------
   const steps = data.timeline.map((item: any) => ({
     label: item.label || item.title || Object.keys(item)[0],
     months: item.months || item.value || item[Object.keys(item)[0]],
   }));
 
   return (
-    <div id="dashboard-wrapper" className="w-full">
+    <div className="w-full">
 
-      {/* BOTÓN PDF */}
       <div className="flex justify-end mb-4">
         <button
           onClick={handleDownloadPDF}
@@ -149,10 +152,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
-      {/* CONTENIDO REAL */}
       <div id="dashboard-content">
-
-        {/* GRÁFICOS SUPERIORES */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
 
           <div className="card">
@@ -169,11 +169,10 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
               lang={lang}
             />
           </div>
+
         </div>
 
-        {/* TIMELINE + NOTES */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
           <div className="card">
             <Timeline
               steps={steps}
@@ -186,7 +185,6 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
           <div className="card">
             <Notes items={data.notes} lang={lang} translations={t.notes} />
           </div>
-
         </div>
 
       </div>
