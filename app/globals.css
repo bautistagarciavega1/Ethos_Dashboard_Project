@@ -253,8 +253,9 @@ li::marker {
   transform: scale(1.03);
 }
 
+/* Optimizado para móviles: expande solo lo necesario sin deformar layout */
 .capture-expand {
   height: auto !important;
-  min-height: 1800px !important;
+  min-height: unset !important;
   overflow: visible !important;
 }
