@@ -15,7 +15,9 @@ export default function Timeline({ steps, lang, translations, months }: Timeline
         const monthWord = step.months === 1 ? months.one : months.many;
 
         return (
-          <div key={i} style={{ marginBottom: "22px" }}>
+          <div key={i} className={`timeline-step-${i}`} style={{ marginBottom: "22px" }}>
+            
+            {/* ETIQUETA */}
             <div className="timeline-label">
               {translatedLabel} — +{step.months} {monthWord}
             </div>
@@ -24,9 +26,10 @@ export default function Timeline({ steps, lang, translations, months }: Timeline
             <div
               className="timeline-bar"
               style={{
-                width: `${step.months * 40}px`, // ← esto repara lo que se veía mal
+                width: `${step.months * 40}px`,
               }}
             ></div>
+
           </div>
         );
       })}
