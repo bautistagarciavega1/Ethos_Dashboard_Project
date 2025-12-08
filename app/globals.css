@@ -280,3 +280,15 @@ li::marker {
   transform: scale(1);
   opacity: 1 !important;
 }
+
+#dashboard-clone {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 1400px !important;
+  height: auto !important;
+  opacity: 0 !important;  /* invisible pero renderizado */
+  pointer-events: none !important;
+  z-index: -1 !important; /* detrás de todo */
+  background: white !important;
+}
