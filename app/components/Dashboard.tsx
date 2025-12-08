@@ -19,25 +19,25 @@ interface DashboardProps {
 export default function Dashboard({ data, lang, programName }: DashboardProps) {
   const t = translations[lang];
 
-  // -----------------------------
-  // 📄 DESCARGAR PDF DEL DASHBOARD
-  // -----------------------------
   const handleDownloadPDF = async () => {
     const element = document.getElementById("dashboard-content");
     if (!element) return;
 
-    // ⭐ Añadir padding solo para la exportación
+    // 1) Añadir padding solo para PDF
     element.classList.add("pdf-export-padding");
 
-    // Esperar a que el DOM actualice el padding
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    // Esperar que el DOM lo procese
+    await new Promise((resolve) => setTimeout(resolve, 150));
 
+    // 2) Captura segura
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
+      allowTaint: true,
+      logging: false,
     });
 
-    // Quitar el padding al terminar
+    // Quitar padding
     element.classList.remove("pdf-export-padding");
 
     const imgData = canvas.toDataURL("image/png");
@@ -46,18 +46,18 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-    // -------------------------------
-    // 1) LOGO ETHOS CENTRADO
-    // -------------------------------
+    // LOGO — asegurarse que existe el archivo correcto
     const logoWidth = 140;
     const logoHeight = 40;
     const logoX = (pdfWidth - logoWidth) / 2;
 
-    pdf.addImage("/Ethos v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
+    try {
+      pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
+    } catch (e) {
+      console.warn("⚠ No se pudo cargar el logo:", e);
+    }
 
-    // -------------------------------
-    // 2) TÍTULO DEL REPORTE
-    // -------------------------------
+    // TÍTULO
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(20);
 
@@ -72,17 +72,12 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pdfWidth - 20, 68);
 
-    // -------------------------------
-    // 3) INSERTAR DASHBOARD
-    // -------------------------------
+    // DASHBOARD
     pdf.addImage(imgData, "PNG", 0, 75, pdfWidth, imgHeight);
 
-    // -------------------------------
-    // 4) FOOTER CORPORATIVO ETHOS
-    // -------------------------------
+    // FOOTER
     pdf.setFontSize(10);
     pdf.setTextColor(120);
-
     pdf.text(
       "© 2025 Ethos — Trust the Journey. Track the Impact.",
       pdfWidth / 2,
@@ -90,13 +85,10 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
-    // Guardar PDF
+    // GUARDAR
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
-  // -----------------------------
-  // TIMELINE NORMALIZADO
-  // -----------------------------
   const steps = data.timeline.map((item: any) => ({
     label: item.label || item.title || Object.keys(item)[0],
     months: item.months || item.value || item[Object.keys(item)[0]],
@@ -104,8 +96,6 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
 
   return (
     <div className="w-full">
-
-      {/* ---------------- BOTÓN PDF ---------------- */}
       <div className="flex justify-end mb-4">
         <button
           onClick={handleDownloadPDF}
@@ -115,12 +105,8 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
-      {/* ---------------- CONTENIDO A CAPTURAR ---------------- */}
       <div id="dashboard-content">
-
-        {/* GRÁFICOS SUPERIORES */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-
           <div className="card">
             <ProjectProgressChart data={data} lang={lang} />
           </div>
@@ -135,12 +121,9 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
               lang={lang}
             />
           </div>
-
         </div>
 
-        {/* TIMELINE + NOTES */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
           <div className="card">
             <Timeline
               steps={steps}
@@ -153,9 +136,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
           <div className="card">
             <Notes items={data.notes} lang={lang} translations={t.notes} />
           </div>
-
         </div>
-
       </div>
     </div>
   );
