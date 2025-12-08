@@ -149,8 +149,8 @@ export default function HomePage() {
       
       {/* Selector de idioma */}
       <div className="flex justify-end gap-3 mb-6">
-        <button onClick={() => setLang("es")}>🇪🇸</button>
-        <button onClick={() => setLang("en")}>🇺🇸</button>
+      <button onClick={() => setLang("es")} className="flag-icon">🇪🇸</button>
+      <button onClick={() => setLang("en")} className="flag-icon">🇺🇸</button>
       </div>
 
       {/* Botón volver */}
