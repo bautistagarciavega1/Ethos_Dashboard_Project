@@ -23,27 +23,29 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
   // 📄 DESCARGAR PDF DEL DASHBOARD
   // -----------------------------
   const handleDownloadPDF = async () => {
+    const wrapper = document.getElementById("dashboard-wrapper");
     const element = document.getElementById("dashboard-content");
-    if (!element) return;
+
+    if (!element || !wrapper) return;
 
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    // En móvil: expandimos el contenido para que html2canvas vea TODO
+    // 🟦 En móvil: forzamos layout desktop temporalmente
     if (isMobile) {
-      element.classList.add("capture-expand");
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      wrapper.classList.add("force-desktop");
+      await new Promise((resolve) => setTimeout(resolve, 150));
     }
 
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
       scrollY: 0,
-      height: isMobile ? element.scrollHeight : undefined,
-      windowHeight: isMobile ? element.scrollHeight : undefined,
+      scrollX: 0,
+      windowWidth: isMobile ? 1400 : undefined,
     });
 
     if (isMobile) {
-      element.classList.remove("capture-expand");
+      wrapper.classList.remove("force-desktop");
     }
 
     const imgData = canvas.toDataURL("image/png");
@@ -52,17 +54,12 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // márgenes para que entren logo, título y footer
     const topMargin = 75;
     const bottomMargin = 20;
     const maxImageHeight = pageHeight - topMargin - bottomMargin;
 
-    // relación de aspecto del canvas
     const imgRatio = canvas.height / canvas.width;
 
-    // calculamos ancho y alto para que:
-    // - use TODO el ancho posible
-    // - pero NO se pase de la altura disponible
     let renderWidth = pageWidth;
     let renderHeight = renderWidth * imgRatio;
 
@@ -71,20 +68,16 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       renderWidth = renderHeight / imgRatio;
     }
 
-    const imgX = (pageWidth - renderWidth) / 2; // centrado
+    const imgX = (pageWidth - renderWidth) / 2;
 
-    // -------------------------------
-    // 1) LOGO ETHOS CENTRADO
-    // -------------------------------
+    // LOGO ETHOS
     const logoWidth = 140;
     const logoHeight = 40;
     const logoX = (pageWidth - logoWidth) / 2;
 
     pdf.addImage("/Ethos_v2.png", "PNG", logoX, 10, logoWidth, logoHeight);
 
-    // -------------------------------
-    // 2) TÍTULO DEL REPORTE
-    // -------------------------------
+    // TÍTULO
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(20);
 
@@ -95,18 +88,14 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
       { align: "center" }
     );
 
-    // Línea elegante
+    // Línea
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pageWidth - 20, 68);
 
-    // -------------------------------
-    // 3) INSERTAR DASHBOARD ESCALADO COMPLETO
-    // -------------------------------
+    // DASHBOARD COMPLETO
     pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
-    // -------------------------------
-    // 4) FOOTER CORPORATIVO ETHOS
-    // -------------------------------
+    // FOOTER ETHOS
     pdf.setFontSize(10);
     pdf.setTextColor(120);
 
@@ -120,18 +109,16 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     pdf.save(`${programName || "dashboard"}.pdf`);
   };
 
-  // -----------------------------
   // TIMELINE NORMALIZADO
-  // -----------------------------
   const steps = data.timeline.map((item: any) => ({
     label: item.label || item.title || Object.keys(item)[0],
     months: item.months || item.value || item[Object.keys(item)[0]],
   }));
 
   return (
-    <div className="w-full">
+    <div id="dashboard-wrapper" className="w-full">
 
-      {/* ---------------- BOTÓN PDF ---------------- */}
+      {/* BOTÓN PDF */}
       <div className="flex justify-end mb-4">
         <button
           onClick={handleDownloadPDF}
@@ -141,7 +128,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
-      {/* ---------------- CONTENIDO A CAPTURAR ---------------- */}
+      {/* CONTENIDO A CAPTURAR */}
       <div id="dashboard-content">
 
         {/* GRÁFICOS SUPERIORES */}
@@ -161,7 +148,6 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
               lang={lang}
             />
           </div>
-
         </div>
 
         {/* TIMELINE + NOTES */}
@@ -181,7 +167,6 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
           </div>
 
         </div>
-
       </div>
     </div>
   );
