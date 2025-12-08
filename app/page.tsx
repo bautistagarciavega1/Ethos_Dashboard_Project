@@ -191,7 +191,7 @@ export default function HomePage() {
 
             {/* DASHBOARD */}
             <div className="bg-white shadow-xl rounded-2xl p-6">
-              <Dashboard data={projectData[selected]} lang={lang} />
+              <Dashboard data={projectData[selected]} />
             </div>
 
           </div>
