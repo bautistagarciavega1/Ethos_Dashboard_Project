@@ -1,3 +1,5 @@
+"use client";
+
 interface TimelineProps {
   steps: { label: string; months: number }[];
   lang: "es" | "en";
@@ -18,9 +20,12 @@ export default function Timeline({ steps, lang, translations, months }: Timeline
               {translatedLabel} — +{step.months} {monthWord}
             </div>
 
+            {/* BARRA PROPORCIONAL REAL */}
             <div
               className="timeline-bar"
-              style={{ width: `${step.months * 12}%` }} // proporcional ×12
+              style={{
+                width: `${step.months * 40}px`, // ← esto repara lo que se veía mal
+              }}
             ></div>
           </div>
         );
