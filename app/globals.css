@@ -253,3 +253,8 @@ li::marker {
   transform: scale(1.03);
 }
 
+.capture-expand {
+  height: auto !important;
+  min-height: 1800px !important;
+  overflow: visible !important;
+}
