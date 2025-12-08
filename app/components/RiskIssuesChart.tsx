@@ -6,11 +6,28 @@ interface Milestone {
 }
 
 interface RiskIssuesChartProps {
-  milestones: Milestone[];
+  milestones?: Milestone[];    // <-- OPCIONAL
   lang: "es" | "en";
 }
 
-export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartProps) {
+export default function RiskIssuesChart({ milestones = [], lang }: RiskIssuesChartProps) {
+  // Si milestones está vacío o undefined → no crashea
+  if (!milestones || milestones.length === 0) {
+    return (
+      <div>
+        <h2 className="text-xl font-semibold mb-4">
+          {lang === "es" ? "Hitos del proyecto" : "Project milestones"}
+        </h2>
+
+        <p className="text-gray-500 text-sm">
+          {lang === "es"
+            ? "No hay hitos definidos para este proyecto."
+            : "No milestones defined for this project."}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4">
