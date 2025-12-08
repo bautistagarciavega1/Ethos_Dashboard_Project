@@ -12,8 +12,13 @@ interface RiskIssuesChartProps {
   lang: "es" | "en";
 }
 
-export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartProps) {
-  const t = translations[lang];
+export default function RiskIssuesChart({
+  milestones,
+  lang,
+}: RiskIssuesChartProps) {
+  // Mapa de traducciones para los nombres de hitos
+  const milestoneMap =
+    ((translations as any)[lang]?.milestones as Record<string, string>) || {};
 
   return (
     <div>
@@ -31,11 +36,10 @@ export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartPro
 
       <ul className="space-y-4">
         {milestones.map((m, i) => {
-          const translatedName = t.milestones[m.name] ?? m.name;
+          const translatedName = milestoneMap[m.name] ?? m.name;
 
           return (
             <li key={i} className="flex items-center gap-3">
-
               {/* Indicador de color */}
               <span
                 className={
@@ -49,7 +53,7 @@ export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartPro
                 ●
               </span>
 
-              {/* Nombre traducido */}
+              {/* Nombre del hito traducido */}
               <span className="font-medium">{translatedName}</span>
 
               {/* Estado traducido */}
@@ -66,7 +70,6 @@ export default function RiskIssuesChart({ milestones, lang }: RiskIssuesChartPro
                     ? "Pendiente"
                     : "Pending"}
               </span>
-
             </li>
           );
         })}
