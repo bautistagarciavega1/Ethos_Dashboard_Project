@@ -1,54 +1,55 @@
 "use client";
 
-import { Bar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
   Tooltip,
   Legend,
-} from "chart.js";
+  ResponsiveContainer,
+} from "recharts";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+interface RiskIssuesChartProps {
+  data: {
+    high: number;
+    medium: number;
+    low: number;
+  };
+  lang: "es" | "en";
+}
 
-export default function RiskIssuesChart({ risks }: any) {
-  
-  // Si vienen números → convertir automáticamente a arrays
-  const r = risks ?? {};
-
-  const riskData = {
-    labels: ["Risks / Issues"],
-    high: Array.isArray(r.high) ? r.high : [r.high ?? Math.floor(Math.random() * 5 + 1)],
-    medium: Array.isArray(r.medium) ? r.medium : [r.medium ?? Math.floor(Math.random() * 5 + 1)],
-    low: Array.isArray(r.low) ? r.low : [r.low ?? Math.floor(Math.random() * 5 + 1)],
+export default function RiskIssuesChart({ data, lang }: RiskIssuesChartProps) {
+  // Traducciones visibles SOLO para labels (NO para keys)
+  const labels = {
+    es: { high: "Alto", medium: "Medio", low: "Bajo", title: "Riesgos" },
+    en: { high: "High", medium: "Medium", low: "Low", title: "Risks & Issues" },
   };
 
-  const data = {
-    labels: riskData.labels,
-    datasets: [
-      {
-        label: "High",
-        data: riskData.high,
-        backgroundColor: "#ef4444",
-      },
-      {
-        label: "Medium",
-        data: riskData.medium,
-        backgroundColor: "#f59e0b",
-      },
-      {
-        label: "Low",
-        data: riskData.low,
-        backgroundColor: "#3b82f6",
-      },
-    ],
-  };
+  // Datos internos que NO cambian nunca
+  const chartData = [
+    { type: labels[lang].high, value: data.high, key: "high" },
+    { type: labels[lang].medium, value: data.medium, key: "medium" },
+    { type: labels[lang].low, value: data.low, key: "low" },
+  ];
 
   return (
-    <div>
-      <h2>Risks & Issues</h2>
-      <Bar data={data} />
+    <div style={{ width: "100%", height: 300 }}>
+      <h2 className="font-semibold mb-4">{labels[lang].title}</h2>
+
+      <ResponsiveContainer>
+        <BarChart data={chartData}>
+          <XAxis dataKey="type" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+
+          {/* Colores fijos */}
+          <Bar dataKey="value" name="" fill="#ef4444" /* high */ />
+          <Bar dataKey="value" name="" fill="#f59e0b" /* medium */ />
+          <Bar dataKey="value" name="" fill="#3b82f6" /* low */ />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
