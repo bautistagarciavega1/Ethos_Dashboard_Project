@@ -1,27 +1,26 @@
 "use client";
 
-export default function Notes({ items }: any) {
-  const notes = items ?? [
-    "Revisión del estado del proyecto.",
-    "Se requiere evaluación de presupuesto.",
-    "Analizar riesgos antes del siguiente hito.",
-  ];
+type Lang = "es" | "en";
+
+interface NotesProps {
+  items?: string[];
+  lang?: Lang;
+}
+
+export default function Notes({ items, lang = "es" }: NotesProps) {
+  const notes = Array.isArray(items) ? items : [];
+
+  const title = lang === "en" ? "Notes" : "Notas";
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">Notas</h2>
+    <div>
+      <h2 className="text-xl font-semibold mb-4">{title}</h2>
 
-      <ul className="space-y-2 text-gray-700 text-sm leading-relaxed">
-        {notes.map((note: string, i: number) => (
-          <li
-            key={i}
-            className="pl-4 border-l-2 border-blue-600"
-          >
-            {note}
-          </li>
+      <ul className="notes-list">
+        {notes.map((note, i) => (
+          <li key={i}>{note}</li>
         ))}
       </ul>
     </div>
   );
 }
-
