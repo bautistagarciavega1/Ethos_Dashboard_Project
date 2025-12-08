@@ -27,39 +27,35 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     if (!original) return;
 
     // ================================
-    // 1) Crear CLON oculto en escritorio
+    // 1) Crear CLON oculto con layout desktop
     // ================================
     const clone = original.cloneNode(true) as HTMLElement;
     clone.id = "dashboard-clone";
 
-#dashboard-clone {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 1400px !important;
-  height: auto !important;
-  opacity: 0 !important;  /* invisible pero renderizado */
-  pointer-events: none !important;
-  z-index: -1 !important; /* detrás de todo */
-  background: white !important;
-}
+    // Estilos aplicados desde JS (NO CSS AQUÍ)
+    clone.style.position = "fixed";
+    clone.style.top = "0";
     clone.style.left = "0";
-    clone.style.width = "1400px";  // forzamos desktop
-    clone.classList.add("force-desktop");
+    clone.style.width = "1400px";
+    clone.style.opacity = "0";
+    clone.style.pointerEvents = "none";
+    clone.style.zIndex = "-1";
+    clone.style.background = "white";
 
     document.body.appendChild(clone);
 
-    await new Promise((res) => setTimeout(res, 150));
+    // Debemos esperar a que Chart.js renderice dentro del clon
+    await new Promise((res) => setTimeout(res, 300));
 
     // ================================
-    // 2) Capturar el CLON, no el real
+    // 2) Capturar SOLO el clon
     // ================================
     const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       scrollY: 0,
       scrollX: 0,
-      windowWidth: 1400,
+      windowWidth: 1400, // Fuerza layout desktop
     });
 
     document.body.removeChild(clone);
@@ -74,6 +70,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const bottomMargin = 20;
     const maxImageHeight = pageHeight - topMargin - bottomMargin;
 
+    // ratio correcto
     const imgRatio = canvas.height / canvas.width;
 
     let renderWidth = pageWidth;
@@ -107,10 +104,10 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     pdf.setLineWidth(0.5);
     pdf.line(20, 68, pageWidth - 20, 68);
 
-    // DASHBOARD ESCALADO
+    // DASHBOARD ESCALADO COMPLETO
     pdf.addImage(imgData, "PNG", imgX, topMargin, renderWidth, renderHeight);
 
-    // FOOTER
+    // FOOTER ETHOS
     pdf.setFontSize(10);
     pdf.setTextColor(120);
 
@@ -143,7 +140,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
         </button>
       </div>
 
-      {/* CONTENIDO REAL (NO SE TOCA) */}
+      {/* CONTENIDO REAL */}
       <div id="dashboard-content">
 
         {/* GRÁFICOS SUPERIORES */}
