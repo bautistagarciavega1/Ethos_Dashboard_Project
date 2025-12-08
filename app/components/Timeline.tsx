@@ -1,50 +1,72 @@
-import { translations } from "@/app/texts";
+"use client";
+
+interface Step {
+  label: string;
+  months: number;
+}
 
 interface TimelineProps {
-  steps: { label: string; months: number }[];
+  steps: Step[];
   lang: "es" | "en";
 }
+
+const translations = {
+  es: {
+    Inicio: "Inicio",
+    Proceso: "Proceso",
+    Asignación: "Asignación",
+    Entrega: "Entrega",
+  },
+  en: {
+    Inicio: "Start",
+    Proceso: "Process",
+    Asignación: "Assignment",
+    Entrega: "Delivery",
+  },
+};
 
 export default function Timeline({ steps, lang }: TimelineProps) {
   const t = translations[lang];
 
+  const colors = ["#3b82f6", "#10b981", "#f59e0b", "#6366f1", "#ec4899"];
+
   return (
-    <div className="timeline-container">
+    <div style={{ padding: "15px" }}>
       {steps.map((step, i) => {
-        // Traducción segura del label
-        const translatedLabel =
-          t.timeline[step.label as keyof typeof t.timeline] ?? step.label;
+        const color = colors[i % colors.length];
+
+        // 🔥 RESTAURA EL ANCHO PROPORCIONAL POR MESES
+        const width = step.months * 10;
+
+        // 🔥 TRADUCIR LABEL (si existe)
+        const translatedLabel = t[step.label] ?? step.label;
 
         return (
           <div key={i} style={{ marginBottom: "22px" }}>
-            <div
-              className="timeline-label"
+            {/* LABEL */}
+            <span
               style={{
-                backgroundColor:
-                  i % 3 === 0
-                    ? "#3b82f6"
-                    : i % 3 === 1
-                    ? "#10b981"
-                    : "#f59e0b",
+                backgroundColor: color,
+                padding: "8px 16px",
+                borderRadius: "6px",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "15px",
               }}
             >
               {translatedLabel} — +{step.months} months
-            </div>
+            </span>
 
+            {/* BARRA PROPORCIONAL */}
             <div
-              className="timeline-bar"
               style={{
-                width: `${step.months * 40}px`,
-                height: "8px",
+                height: "10px",
+                width: `${width}%`,
+                backgroundColor: color,
+                marginTop: "8px",
                 borderRadius: "4px",
-                backgroundColor:
-                  i % 3 === 0
-                    ? "#3b82f6"
-                    : i % 3 === 1
-                    ? "#10b981"
-                    : "#f59e0b",
               }}
-            ></div>
+            />
           </div>
         );
       })}
