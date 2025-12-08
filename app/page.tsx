@@ -5,16 +5,18 @@ import Dashboard from "./components/Dashboard";
 
 export default function HomePage() {
   const [selected, setSelected] = useState<string | null>(null);
-  const [lang, setLang] = useState<"es" | "en">("es"); // 🌍 idioma seleccionado
+  const [lang, setLang] = useState<"es" | "en">("es");
 
-  // 🌍 TEXTOS EN ESPAÑOL E INGLÉS
+  // -------------------------------
+  // TEXTOS MULTI-IDIOMA
+  // -------------------------------
   const texts = {
     es: {
-      title: "Universidad de Buenos Aires",
-      subtitle: "Programas y líneas de donación disponibles dentro de la UBA.",
-      back: "← Volver",
-      info: "Información",
-      help: "Ayudar ▼",
+      volver: "← Volver",
+      titulo: "Universidad de Buenos Aires",
+      subtitulo: "Programas y líneas de donación disponibles dentro de la UBA.",
+      ayudar: "Ayudar ▼",
+      informacion: "Información",
       programs: {
         becas: {
           title: "Becas para estudiantes",
@@ -36,33 +38,35 @@ export default function HomePage() {
     },
 
     en: {
-      title: "University of Buenos Aires",
-      subtitle: "Donation programs and funding opportunities within UBA.",
-      back: "← Back",
-      info: "More Info",
-      help: "Donate ▼",
+      volver: "← Back",
+      titulo: "University of Buenos Aires",
+      subtitulo: "Donation programs and funding opportunities inside UBA.",
+      ayudar: "Donate ▼",
+      informacion: "Information",
       programs: {
         becas: {
           title: "Student Scholarships",
-          desc: "Financial aid for students in vulnerable situations.",
+          desc: "Financial support for students in vulnerable situations.",
         },
         bibliotecas: {
-          title: "Libraries and Materials",
-          desc: "Book purchases, space renovations and access to resources.",
+          title: "Libraries & Materials",
+          desc: "Book purchasing, space renewal, and resource access.",
         },
         equipamiento: {
-          title: "Technology Equipment",
-          desc: "Computers, software and digital classrooms for better learning.",
+          title: "Technological Equipment",
+          desc: "Computers, software, and digital classrooms.",
         },
         investigacion: {
           title: "Research Fund",
-          desc: "Support for scientific projects across faculties.",
+          desc: "Support for scientific research at various faculties.",
         },
       },
     },
   };
 
-  // DATOS DE LOS PROGRAMAS (estos no cambian por idioma)
+  // -------------------------------
+  // DATA DEL DASHBOARD (sin traducir)
+  // -------------------------------
   const projectData: any = {
     becas: {
       progress: 70,
@@ -76,6 +80,7 @@ export default function HomePage() {
       ],
       notes: ["Fondos asignados", "Falta entrega final"],
     },
+
     bibliotecas: {
       progress: 50,
       budget: { planned: 30000, spent: 12000, remaining: 18000 },
@@ -87,6 +92,7 @@ export default function HomePage() {
       ],
       notes: ["En proceso de compra", "Planificación edilicia"],
     },
+
     equipamiento: {
       progress: 80,
       budget: { planned: 50000, spent: 42000, remaining: 8000 },
@@ -98,6 +104,7 @@ export default function HomePage() {
       ],
       notes: ["Equipos comprados", "Capacitación pendiente"],
     },
+
     investigacion: {
       progress: 40,
       budget: { planned: 60000, spent: 20000, remaining: 40000 },
@@ -111,89 +118,131 @@ export default function HomePage() {
     },
   };
 
-  // PROGRAMAS
-  const programs = [
-    { id: "becas", img: "https://img.icons8.com/ios-filled/100/1A2A6C/graduation-cap.png" },
-    { id: "bibliotecas", img: "https://img.icons8.com/ios-filled/100/1A2A6C/books.png" },
-    { id: "equipamiento", img: "https://img.icons8.com/ios-filled/100/1A2A6C/laptop.png" },
-    { id: "investigacion", img: "https://img.icons8.com/ios-filled/100/1A2A6C/microscope.png" },
-  ];
-
-  const selectedProgram = selected ? programs.find((p) => p.id === selected) : null;
+  // Programas para mostrar tarjetas
+  const programs = ["becas", "bibliotecas", "equipamiento", "investigacion"] as const;
 
   return (
-    <div className="min-h-screen p-10 bg-gray-50">
+    <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
 
-      {/* 🌍 SELECTOR DE IDIOMA */}
+      {/* ------------------- SELECTOR DE IDIOMA ------------------- */}
       <div className="flex justify-end gap-3 mb-6">
         <button onClick={() => setLang("es")}>
-          <img src="https://flagsapi.com/ES/flat/32.png" className="w-8" alt="ES" />
+          🇪🇸
         </button>
         <button onClick={() => setLang("en")}>
-          <img src="https://flagsapi.com/US/flat/32.png" className="w-8" alt="EN" />
+          🇺🇸
         </button>
       </div>
 
-      {/* BOTÓN VOLVER */}
+      {/* ---------------- BOTÓN VOLVER ---------------- */}
       {!selected && (
-        <button onClick={() => window.history.back()} className="back-button mb-4">
-          {texts[lang].back}
-        </button>
+        <div className="mb-10 sm:mb-6">
+          <button
+            onClick={() => window.history.back()}
+            className="back-button"
+          >
+            {texts[lang].volver}
+          </button>
+        </div>
       )}
 
-      {/* TITULOS */}
-      <h1 className="text-center text-4xl font-bold mb-2 text-blue-900">
-        {texts[lang].title}
+      {/* ---------------- TITULOS ---------------- */}
+      <h1 className="text-center text-3xl sm:text-4xl font-bold mb-3 text-blue-900">
+        {texts[lang].titulo}
       </h1>
 
-      <p className="text-center text-gray-600 mb-10">{texts[lang].subtitle}</p>
+      <p className="text-center text-gray-600 mb-10">
+        {texts[lang].subtitulo}
+      </p>
 
-      {/* SI HAY PROGRAMA SELECCIONADO */}
-      {selected && (
-        <div className="flex flex-col gap-6 animate-fade-in">
+      {/* ---------------- CONTENIDO ---------------- */}
+      <div className="w-full">
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-xl shadow">
-            <button onClick={() => setSelected(null)} className="program-button-back">
-              {texts[lang].back}
-            </button>
+        {/* ====== SI HAY UN PROGRAMA SELECCIONADO ====== */}
+        {selected && (
+          <div className="flex flex-col gap-6 animate-fade-in">
 
-            <div className="text-center flex-1 px-6">
-              <h2 className="text-2xl font-semibold text-gray-800">
-                {texts[lang].programs[selected].title}
-              </h2>
-              <p className="text-gray-600 mt-1">{texts[lang].programs[selected].desc}</p>
+            <div className="program-selected-banner flex flex-col sm:flex-row items-center justify-between gap-4">
+
+              {/* volver */}
+              <button
+                onClick={() => setSelected(null)}
+                className="program-button-back"
+              >
+                {texts[lang].volver}
+              </button>
+
+              {/* titulo del programa */}
+              <div className="text-center flex-1 px-4">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  {texts[lang].programs[selected as keyof typeof texts["es"]["programs"]].title}
+                </h2>
+
+                <p className="text-gray-600 mt-1">
+                  {texts[lang].programs[selected as keyof typeof texts["es"]["programs"]].desc}
+                </p>
+              </div>
+
+              {/* Ayudar */}
+              <button className="program-button-help">
+                {texts[lang].ayudar}
+              </button>
             </div>
 
-            <button className="program-button-help">{texts[lang].help}</button>
+            {/* DASHBOARD */}
+            <div className="bg-white shadow-xl rounded-2xl p-6">
+              <Dashboard data={projectData[selected]} />
+            </div>
+
           </div>
+        )}
 
-          <div className="bg-white shadow-xl rounded-2xl p-6">
-            <Dashboard data={projectData[selected]} />
-          </div>
-        </div>
-      )}
+        {/* ====== SI NO HAY SELECCIÓN: TARJETAS ====== */}
+        {!selected && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
 
-      {/* TARJETAS DE PROGRAMAS */}
-      {!selected && (
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {programs.map((p) => (
-              <div key={p.id} className="program-card">
-                <button className="program-button-red">{texts[lang].help}</button>
+            {programs.map((id) => (
+              <div key={id} className="program-card">
 
-                <img src={p.img} className="w-full h-32 object-contain mb-4 mt-2" />
-
-                <h3 className="program-title">{texts[lang].programs[p.id].title}</h3>
-                <p className="program-desc">{texts[lang].programs[p.id].desc}</p>
-
-                <button onClick={() => setSelected(p.id)} className="program-button-info">
-                  {texts[lang].info}
+                <button className="program-button-red">
+                  {texts[lang].ayudar}
                 </button>
+
+                <img
+                  src={`https://img.icons8.com/ios-filled/100/1A2A6C/${id === "becas"
+                    ? "graduation-cap"
+                    : id === "bibliotecas"
+                    ? "books"
+                    : id === "equipamiento"
+                    ? "laptop"
+                    : "microscope"
+                  }.png`}
+                  className="w-full h-32 object-contain my-4"
+                  alt={texts[lang].programs[id].title}
+                />
+
+                <h3 className="program-title">
+                  {texts[lang].programs[id].title}
+                </h3>
+
+                <p className="program-desc">
+                  {texts[lang].programs[id].desc}
+                </p>
+
+                <button
+                  onClick={() => setSelected(id)}
+                  className="program-button-info"
+                >
+                  {texts[lang].informacion}
+                </button>
+
               </div>
             ))}
+
           </div>
-        </div>
-      )}
+        )}
+
+      </div>
     </div>
   );
 }
