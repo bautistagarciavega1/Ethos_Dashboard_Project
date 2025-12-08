@@ -1,56 +1,50 @@
-"use client";
-
-import { translations } from "../texts";
-
-type Lang = "es" | "en";
+import { translations } from "@/app/texts";
 
 interface TimelineProps {
-  points?: { label: string; months: number }[];
-  lang?: Lang;
+  steps: { label: string; months: number }[];
+  lang: "es" | "en";
 }
 
-export default function Timeline({ points, lang = "es" }: TimelineProps) {
+export default function Timeline({ steps, lang }: TimelineProps) {
   const t = translations[lang];
 
-  const timeline = Array.isArray(points) && points.length > 0 ? points : [];
-
-  const colors = ["#3b82f6", "#10b981", "#f59e0b", "#6366f1", "#ec4899"];
-
   return (
-    <div style={{ padding: "15px" }}>
-      {timeline.map((step, i) => {
-        const color = colors[i % colors.length];
-        const width = step.months * 10;
-
-        // Traducción de label
+    <div className="timeline-container">
+      {steps.map((step, i) => {
+        // Traducción segura del label
         const translatedLabel =
-          t.timeline[step.label] ?? step.label;
+          t.timeline[step.label as keyof typeof t.timeline] ?? step.label;
 
         return (
           <div key={i} style={{ marginBottom: "22px" }}>
-            <span
+            <div
+              className="timeline-label"
               style={{
-                backgroundColor: color,
-                padding: "8px 16px",
-                borderRadius: "6px",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "15px",
+                backgroundColor:
+                  i % 3 === 0
+                    ? "#3b82f6"
+                    : i % 3 === 1
+                    ? "#10b981"
+                    : "#f59e0b",
               }}
             >
-              {translatedLabel} — +{step.months}{" "}
-              {step.months === 1 ? t.months.one : t.months.many}
-            </span>
+              {translatedLabel} — +{step.months} months
+            </div>
 
             <div
+              className="timeline-bar"
               style={{
-                height: "10px",
-                width: `${width}%`,
-                backgroundColor: color,
-                marginTop: "8px",
+                width: `${step.months * 40}px`,
+                height: "8px",
                 borderRadius: "4px",
+                backgroundColor:
+                  i % 3 === 0
+                    ? "#3b82f6"
+                    : i % 3 === 1
+                    ? "#10b981"
+                    : "#f59e0b",
               }}
-            />
+            ></div>
           </div>
         );
       })}
