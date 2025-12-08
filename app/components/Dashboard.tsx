@@ -26,9 +26,13 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     const element = document.getElementById("dashboard-content");
     if (!element) return;
 
+    // 👇 NUEVO: captura correcta tanto en PC como celular
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
+      scrollY: -window.scrollY,
+      height: element.scrollHeight,
+      windowHeight: element.scrollHeight,
     });
 
     const imgData = canvas.toDataURL("image/png");
@@ -64,7 +68,7 @@ export default function Dashboard({ data, lang, programName }: DashboardProps) {
     pdf.line(20, 68, pdfWidth - 20, 68);
 
     // -------------------------------
-    // 3) INSERTAR DASHBOARD
+    // 3) INSERTAR DASHBOARD COMPLETO
     // -------------------------------
     pdf.addImage(imgData, "PNG", 0, 75, pdfWidth, imgHeight);
 
