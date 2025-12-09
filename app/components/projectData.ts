@@ -1,4 +1,4 @@
-export const projectData = {
+export const getProjectData = (lang: "es" | "en") => ({
   becas: {
     progress: 40,
     budget: {
@@ -8,25 +8,31 @@ export const projectData = {
     },
 
     milestones: [
-      { name: "Convocatoria abierta", status: "done" },
-      { name: "Evaluación socioeconómica", status: "in-progress" },
-      { name: "Asignación de becas", status: "pending" },
-      { name: "Notificación a candidatos", status: "pending" },
-      { name: "Entrega de becas", status: "pending" }
+      { name: lang === "es" ? "Convocatoria abierta" : "Open call", status: "done" },
+      { name: lang === "es" ? "Evaluación socioeconómica" : "Socioeconomic assessment", status: "in-progress" },
+      { name: lang === "es" ? "Asignación de becas" : "Scholarship allocation", status: "pending" },
+      { name: lang === "es" ? "Notificación a candidatos" : "Candidate notification", status: "pending" },
+      { name: lang === "es" ? "Entrega de becas" : "Scholarship delivery", status: "pending" },
     ],
 
-    notes: [
-      "Proceso de inscripción avanzado",
-      "Evaluación socioeconómica en curso",
-      "Aprobación final estimada en 3 semanas",
-    ],
+    notes: lang === "es"
+      ? [
+          "Proceso de inscripción avanzado",
+          "Evaluación socioeconómica en curso",
+          "Aprobación final estimada en 3 semanas",
+        ]
+      : [
+          "Enrollment process advanced",
+          "Socioeconomic assessment in progress",
+          "Final approval expected in 3 weeks",
+        ],
 
     timeline: [
-      { label: "Inicio", months: 2 },
-      { label: "Evaluación", months: 4 },
-      { label: "Asignación", months: 6 },
-      { label: "Entrega", months: 8 },
-      { label: "Cierre", months: 10 },
+      { label: lang === "es" ? "Inicio" : "Start", months: 2 },
+      { label: lang === "es" ? "Evaluación" : "Evaluation", months: 4 },
+      { label: lang === "es" ? "Asignación" : "Allocation", months: 6 },
+      { label: lang === "es" ? "Entrega" : "Delivery", months: 8 },
+      { label: lang === "es" ? "Cierre" : "Closure", months: 10 },
     ],
   },
 
@@ -39,25 +45,31 @@ export const projectData = {
     },
 
     milestones: [
-      { name: "Renovación edilicia", status: "done" },
-      { name: "Compra de libros", status: "in-progress" },
-      { name: "Implementación digital", status: "pending" },
-      { name: "Capacitación en nuevo sistema", status: "pending" },
-      { name: "Apertura al público", status: "pending" }
+      { name: lang === "es" ? "Renovación edilicia" : "Building renovation", status: "done" },
+      { name: lang === "es" ? "Compra de libros" : "Book acquisition", status: "in-progress" },
+      { name: lang === "es" ? "Implementación digital" : "Digital implementation", status: "pending" },
+      { name: lang === "es" ? "Capacitación en nuevo sistema" : "Training on new system", status: "pending" },
+      { name: lang === "es" ? "Apertura al público" : "Public opening", status: "pending" },
     ],
 
-    notes: [
-      "Renovación del edificio completada",
-      "Compra de libros en proceso",
-      "Nuevo sistema digital implementado",
-    ],
+    notes: lang === "es"
+      ? [
+          "Renovación del edificio completada",
+          "Compra de libros en proceso",
+          "Nuevo sistema digital implementado",
+        ]
+      : [
+          "Building renovation completed",
+          "Book purchasing in progress",
+          "New digital system implemented",
+        ],
 
     timeline: [
-      { label: "Planificación", months: 1 },
-      { label: "Renovación", months: 3 },
-      { label: "Compra libros", months: 7 },
-      { label: "Implementación digital", months: 9 },
-      { label: "Cierre", months: 11 },
+      { label: lang === "es" ? "Planificación" : "Planning", months: 1 },
+      { label: lang === "es" ? "Renovación" : "Renovation", months: 3 },
+      { label: lang === "es" ? "Compra libros" : "Book purchase", months: 7 },
+      { label: lang === "es" ? "Implementación digital" : "Digital implementation", months: 9 },
+      { label: lang === "es" ? "Cierre" : "Closure", months: 11 },
     ],
   },
 
@@ -70,25 +82,31 @@ export const projectData = {
     },
 
     milestones: [
-      { name: "Compra aprobada", status: "done" },
-      { name: "Instalación de equipos", status: "in-progress" },
-      { name: "Capacitación docente", status: "pending" },
-      { name: "Pruebas de funcionamiento", status: "pending" },
-      { name: "Despliegue final", status: "pending" }
+      { name: lang === "es" ? "Compra aprobada" : "Purchase approved", status: "done" },
+      { name: lang === "es" ? "Instalación de equipos" : "Equipment installation", status: "in-progress" },
+      { name: lang === "es" ? "Capacitación docente" : "Teacher training", status: "pending" },
+      { name: lang === "es" ? "Pruebas de funcionamiento" : "Functionality tests", status: "pending" },
+      { name: lang === "es" ? "Despliegue final" : "Final rollout", status: "pending" },
     ],
 
-    notes: [
-      "Computadoras entregadas a Facultades",
-      "Instalación de software completada",
-      "Capacitación docente en curso",
-    ],
+    notes: lang === "es"
+      ? [
+          "Computadoras entregadas a Facultades",
+          "Instalación de software completada",
+          "Capacitación docente en curso",
+        ]
+      : [
+          "Computers delivered to faculties",
+          "Software installation completed",
+          "Teacher training in progress",
+        ],
 
     timeline: [
-      { label: "Compra", months: 3 },
-      { label: "Instalación", months: 5 },
-      { label: "Capacitación", months: 6 },
-      { label: "Despliegue", months: 9 },
-      { label: "Cierre", months: 12 },
+      { label: lang === "es" ? "Compra" : "Purchase", months: 3 },
+      { label: lang === "es" ? "Instalación" : "Installation", months: 5 },
+      { label: lang === "es" ? "Capacitación" : "Training", months: 6 },
+      { label: lang === "es" ? "Despliegue" : "Deployment", months: 9 },
+      { label: lang === "es" ? "Cierre" : "Closure", months: 12 },
     ],
   },
 
@@ -101,25 +119,31 @@ export const projectData = {
     },
 
     milestones: [
-      { name: "Convocatoria abierta", status: "done" },
-      { name: "Revisión de proyectos", status: "in-progress" },
-      { name: "Aprobación final", status: "pending" },
-      { name: "Entrega de fondos", status: "pending" },
-      { name: "Informe final de resultados", status: "pending" }
+      { name: lang === "es" ? "Convocatoria abierta" : "Open call", status: "done" },
+      { name: lang === "es" ? "Revisión de proyectos" : "Project review", status: "in-progress" },
+      { name: lang === "es" ? "Aprobación final" : "Final approval", status: "pending" },
+      { name: lang === "es" ? "Entrega de fondos" : "Funds delivery", status: "pending" },
+      { name: lang === "es" ? "Informe final de resultados" : "Final results report", status: "pending" },
     ],
 
-    notes: [
-      "Se financiaron 12 proyectos",
-      "Laboratorios actualizando instrumental",
-      "Convocatoria nueva abre en junio",
-    ],
+    notes: lang === "es"
+      ? [
+          "Se financiaron 12 proyectos",
+          "Laboratorios actualizando instrumental",
+          "Convocatoria nueva abre en junio",
+        ]
+      : [
+          "12 projects funded",
+          "Laboratories updating equipment",
+          "New call opens in June",
+        ],
 
     timeline: [
-      { label: "Convocatoria", months: 1 },
-      { label: "Revisión", months: 2 },
-      { label: "Evaluación", months: 5 },
-      { label: "Ejecución", months: 7 },
-      { label: "Informe final", months: 10 },
+      { label: lang === "es" ? "Convocatoria" : "Call", months: 1 },
+      { label: lang === "es" ? "Revisión" : "Review", months: 2 },
+      { label: lang === "es" ? "Evaluación" : "Evaluation", months: 5 },
+      { label: lang === "es" ? "Ejecución" : "Execution", months: 7 },
+      { label: lang === "es" ? "Informe final" : "Final report", months: 10 },
     ],
   },
-};
+});
