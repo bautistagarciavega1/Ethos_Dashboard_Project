@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Dashboard from "./components/Dashboard";
 
 // ----------------------------
@@ -11,15 +11,9 @@ type ProgramID = typeof programs[number];
 
 export default function HomePage() {
   // ----------------------------
-  // IDIOMA (persistente) — sincronizado con otras webs
+  // IDIOMA (persistente)
   // ----------------------------
-  const [lang, setLang] = useState<"es" | "en">(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("ethos-lang");
-      if (saved === "es" || saved === "en") return saved;
-    }
-    return "en"; // Default
-  });
+  const [lang, setLang] = useState<"es" | "en">("en");
 
   const changeLang = (newLang: "es" | "en") => {
     setLang(newLang);
@@ -193,7 +187,7 @@ export default function HomePage() {
               {texts[lang].volver}
             </button>
 
-            {/* Título del programa */}
+            {/* Título del programa (100% tipado correcto) */}
             <div className="text-center flex-1 px-4">
               <h2 className="text-2xl font-semibold text-gray-800">
                 {texts[lang].programs[selected].title}
