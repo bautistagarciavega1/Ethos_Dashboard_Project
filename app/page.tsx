@@ -4,26 +4,20 @@ import { useState, useEffect } from "react";
 import Dashboard from "./components/Dashboard";
 
 // ----------------------------
-// Definimos los programas
+// Definimos los programas como un array tipado
 // ----------------------------
 const programs = ["becas", "bibliotecas", "equipamiento", "investigacion"] as const;
 type ProgramID = typeof programs[number];
 
 export default function HomePage() {
   // ----------------------------
-  // IDIOMA (persistente entre sitios Ethos)
+  // IDIOMA (persistente)
   // ----------------------------
   const [lang, setLang] = useState<"es" | "en">("en");
 
   useEffect(() => {
     const saved = localStorage.getItem("ethos-lang") as "es" | "en" | null;
-
-    if (saved === "es" || saved === "en") {
-      setLang(saved);
-    } else {
-      localStorage.setItem("ethos-lang", "en");
-      setLang("en");
-    }
+    if (saved) setLang(saved);
   }, []);
 
   const changeLang = (newLang: "es" | "en") => {
@@ -79,7 +73,7 @@ export default function HomePage() {
         },
         bibliotecas: {
           title: "Libraries & Materials",
-          desc: "Books, renovated spaces, and resource access.",
+          desc: "Books, renovated spaces, and access to resources.",
         },
         equipamiento: {
           title: "Technological Equipment",
@@ -94,7 +88,7 @@ export default function HomePage() {
   };
 
   // ----------------------------
-  // DATA DEL DASHBOARD
+  // DATA DEL DASHBOARD 
   // ----------------------------
   const projectData: Record<ProgramID, any> = {
     becas: {
@@ -166,7 +160,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen p-6 sm:p-10 bg-gray-50">
 
-      {/* SELECTOR DE IDIOMA */}
+      {/* SELECTOR DE IDIOMA - alineado a la derecha, NO fijo */}
       <div className="w-full flex justify-end mb-4">
         <div className="flex gap-3">
           <button onClick={() => changeLang("es")} className="flag-icon">🇪🇸</button>
@@ -193,14 +187,17 @@ export default function HomePage() {
 
           {/* Banner superior */}
           <div className="program-selected-banner flex flex-col sm:flex-row items-center justify-between gap-4">
+
             <button onClick={() => setSelected(null)} className="program-button-back">
               {texts[lang].volver}
             </button>
 
+            {/* Título del programa (100% tipado correcto) */}
             <div className="text-center flex-1 px-4">
               <h2 className="text-2xl font-semibold text-gray-800">
                 {texts[lang].programs[selected].title}
               </h2>
+
               <p className="text-gray-600 mt-1">
                 {texts[lang].programs[selected].desc}
               </p>
@@ -220,6 +217,7 @@ export default function HomePage() {
 
         </div>
       ) : (
+        /* TARJETAS */
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
           {programs.map((id) => (
             <div key={id} className="program-card">
