@@ -15,6 +15,12 @@ export default function HomePage() {
   // ----------------------------
   const [lang, setLang] = useState<"es" | "en">("en");
 
+  // ❤️ AGREGAR ESTO
+  useEffect(() => {
+    const saved = localStorage.getItem("ethos-lang") as "es" | "en" | null;
+    if (saved) setLang(saved);
+  }, []);
+
 
   const changeLang = (newLang: "es" | "en") => {
     setLang(newLang);
