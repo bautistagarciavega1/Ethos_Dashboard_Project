@@ -18,7 +18,7 @@ export default function HomePage() {
   // ❤️ AGREGAR ESTO
   useEffect(() => {
     const saved = localStorage.getItem("ethos-lang") as "es" | "en" | null;
-    if (saved) setLang(saved);
+    if (saved && saved !== lang) setLang(saved);
   }, []);
 
 
